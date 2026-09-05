@@ -1,0 +1,12 @@
+{
+  "name": "sentinel-outfitters",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.mjs"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "stripe": "^22.6.0"
+  }
+}

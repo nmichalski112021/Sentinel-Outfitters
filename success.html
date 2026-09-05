@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order received — Sentinel Outfitters</title>
+  <meta name="theme-color" content="#17140F">
+  <link rel="icon" href="images/logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="nav-brand" href="index.html">
+        <img src="images/logo.jpg" alt="Sentinel Outfitters mark">
+        <span>Sentinel Outfitters</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="shop.html">Shop</a>
+        <a href="about.html">Craft</a>
+        <a href="cart.html">Cart <span class="nav-cart-count" data-cart-count hidden>0</span></a>
+        <a href="index.html#watch">Join</a>
+        <a href="shop.html" class="nav-cta nav-cta-mobile">Shop Now</a>
+      </nav>
+      <a href="shop.html" class="nav-cta">Shop Now</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="eyebrow">Dispatch received</div>
+        <h1>You’re on the list.</h1>
+        <p id="success-copy">If the payment went through, Stripe has the order. We confirm it from the checkout.session.completed webhook, then print, inspect, and ship.</p>
+        <div class="hero-ctas" style="margin-top:36px;justify-content:flex-start;">
+          <a class="btn btn-primary" href="shop.html">Back to shop</a>
+          <a class="btn btn-ghost" href="contact.html">Questions</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="js/stripe-config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    soClearCart();
+    (async function () {
+      const id = new URLSearchParams(location.search).get("session_id");
+      const copy = document.getElementById("success-copy");
+      if (!id || !copy) return;
+      try {
+        const base = typeof soApiBase === "function"
+          ? soApiBase()
+          : ((window.SO_STRIPE && window.SO_STRIPE.checkoutApiUrl) || location.origin);
+        const res = await fetch(base.replace(/\/$/, "") + "/session-status?session_id=" + encodeURIComponent(id));
+        const data = await res.json();
+        if (data.payment_status === "paid") {
+          copy.textContent = "Payment received" + (data.customer_email ? " for " + data.customer_email : "") + ". We print and inspect in-house, then ship in 1–2 business days.";
+        } else if (data.payment_status) {
+          copy.textContent = "Checkout status: " + data.payment_status + ". If this stays unpaid, the card was not charged.";
+        }
+      } catch (err) {
+        /* webhook is the source of truth */
+      }
+    })();
+  </script>
+</body>
+</html>

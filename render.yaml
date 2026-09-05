@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: sentinel-outfitters
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: SITE_URL
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
