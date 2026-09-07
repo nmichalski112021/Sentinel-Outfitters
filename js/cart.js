@@ -62,7 +62,8 @@ function soCheckoutEndpoint() {
 }
 
 function soPaymentLinkForItems(items) {
-  if (!items || !items.length) return "";
+  // Payment Links only support a single SKU here. Never fall back for multi-item carts.
+  if (!items || items.length !== 1) return "";
   const links = (window.SO_STRIPE && window.SO_STRIPE.paymentLinks) || {};
   const first = items[0];
   const key = first.variant ? first.id + ":" + first.variant : first.id;
@@ -104,10 +105,15 @@ async function soStartCheckout(items, statusEl) {
       /* fall through to Payment Links */
     }
   }
-  const href = soPaymentLinkForItems(items);
-  if (href) {
-    window.location.assign(href);
-    return;
+  if (items.length === 1) {
+    const href = soPaymentLinkForItems(items);
+    if (href) {
+      window.location.assign(href);
+      return;
+    }
+  } else if (items.length > 1) {
+    say("Checkout service unavailable. Multi-item carts need the shop API — please try again.");
+    throw new Error("checkout api unavailable for multi-item cart");
   }
   say("Could not open checkout. Please try again.");
   throw new Error("checkout failed");
