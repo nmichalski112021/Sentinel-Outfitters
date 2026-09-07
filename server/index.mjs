@@ -1,11 +1,12 @@
-import { readFileSync, appendFileSync, existsSync } from "node:fs";
+import { readFileSync, appendFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
 import Stripe from "stripe";
 import { lineItemFromCart } from "./catalog.mjs";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, "..");
 
 function loadEnv() {
   try {
@@ -15,8 +16,8 @@ function loadEnv() {
       if (!match || process.env[match[1]]) continue;
       process.env[match[1]] = match[2].replace(/^["']|["']$/g, "").trim();
     }
-  } catch (err) {
-    /* no .env */
+  } catch {
+    // optional local .env
   }
 }
 
@@ -36,7 +37,37 @@ const siteUrl = (
   "http://localhost:" + port
 ).replace(/\/$/, "");
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
-const ordersFile = resolve(root, "server", "orders.jsonl");
+
+// Keep order records outside the public static tree. On Render without a
+// persistent disk this still only lasts until redeploy — set ORDERS_PATH to a
+// mounted disk path for durable fulfillment.
+const ordersFile = resolve(
+  process.env.ORDERS_PATH || resolve(root, "data", "orders.jsonl")
+);
+mkdirSync(dirname(ordersFile), { recursive: true });
+
+const fulfilledSessions = new Set();
+
+function loadFulfilledSessions() {
+  if (!existsSync(ordersFile)) return;
+  try {
+    const text = readFileSync(ordersFile, "utf8");
+    for (const line of text.split(/\r?\n/)) {
+      if (!line.trim()) continue;
+      try {
+        const row = JSON.parse(line);
+        if (row.sessionId) fulfilledSessions.add(row.sessionId);
+        if (row.eventId) fulfilledSessions.add("event:" + row.eventId);
+      } catch {
+        // skip corrupt lines
+      }
+    }
+  } catch (err) {
+    console.error("Could not load existing orders log:", err.message);
+  }
+}
+
+loadFulfilledSessions();
 
 function integrationId() {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -45,17 +76,81 @@ function integrationId() {
   return "sentinel-web-" + suffix;
 }
 
-function fulfillOrder(session) {
-  const record = {
+function blockPrivatePaths(req, res, next) {
+  const path = req.path.toLowerCase();
+  if (
+    path === "/data" ||
+    path.startsWith("/data/") ||
+    path === "/server" ||
+    path.startsWith("/server/") ||
+    path === "/.env" ||
+    path.startsWith("/.env.") ||
+    path === "/package.json" ||
+    path === "/package-lock.json" ||
+    path === "/render.yaml" ||
+    path.startsWith("/node_modules/")
+  ) {
+    return res.status(404).end();
+  }
+  next();
+}
+
+async function buildOrderRecord(session, eventId) {
+  let lineItems = [];
+  try {
+    const full = await stripe.checkout.sessions.retrieve(session.id, {
+      expand: ["line_items.data.price.product"]
+    });
+    const items = (full.line_items && full.line_items.data) || [];
+    lineItems = items.map((li) => {
+      const product =
+        li.price && li.price.product && typeof li.price.product === "object"
+          ? li.price.product
+          : null;
+      const meta = (product && product.metadata) || {};
+      return {
+        quantity: li.quantity,
+        amountSubtotal: li.amount_subtotal,
+        amountTotal: li.amount_total,
+        currency: li.currency,
+        description: li.description,
+        sku: meta.sku || null,
+        variant: meta.variant || null
+      };
+    });
+  } catch (err) {
+    console.error("Could not expand line items for", session.id, err.message);
+  }
+
+  return {
     at: new Date().toISOString(),
+    eventId: eventId || null,
     sessionId: session.id,
     paymentStatus: session.payment_status,
     amountTotal: session.amount_total,
     currency: session.currency,
     customerEmail: session.customer_details && session.customer_details.email,
-    metadata: session.metadata || {}
+    customerName: session.customer_details && session.customer_details.name,
+    shipping: session.shipping_details || null,
+    metadata: session.metadata || {},
+    lineItems
   };
+}
+
+async function fulfillOrder(session, eventId) {
+  if (fulfilledSessions.has(session.id)) {
+    console.log("Skip duplicate fulfill for session", session.id);
+    return;
+  }
+  if (eventId && fulfilledSessions.has("event:" + eventId)) {
+    console.log("Skip duplicate fulfill for event", eventId);
+    return;
+  }
+
+  const record = await buildOrderRecord(session, eventId);
   appendFileSync(ordersFile, JSON.stringify(record) + "\n");
+  fulfilledSessions.add(session.id);
+  if (eventId) fulfilledSessions.add("event:" + eventId);
   console.log("Fulfilled checkout session", session.id, session.payment_status);
 }
 
@@ -69,26 +164,39 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
+app.post("/webhook", express.raw({ type: "application/json" }), async (req, res) => {
   if (!webhookSecret) {
-    console.error("STRIPE_WEBHOOK_SECRET is not set. Run: stripe listen --forward-to localhost:" + port + "/webhook");
+    console.error(
+      "STRIPE_WEBHOOK_SECRET is not set. Run: stripe listen --forward-to localhost:" +
+        port +
+        "/webhook"
+    );
     return res.status(500).send("Webhook secret missing");
   }
   const signature = req.headers["stripe-signature"];
   let event;
   try {
     event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
-  } catch (err) {
+  } catch {
     console.error("Webhook signature failed");
     return res.status(400).send("Webhook signature failed");
   }
 
-  if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
-    const session = event.data.object;
-    if (session.payment_status !== "unpaid") fulfillOrder(session);
+  try {
+    if (
+      event.type === "checkout.session.completed" ||
+      event.type === "checkout.session.async_payment_succeeded"
+    ) {
+      const session = event.data.object;
+      if (session.payment_status !== "unpaid") {
+        await fulfillOrder(session, event.id);
+      }
+    }
+    res.json({ received: true });
+  } catch (err) {
+    console.error("Webhook handler failed:", err.message);
+    res.status(500).json({ error: "fulfillment failed" });
   }
-
-  res.json({ received: true });
 });
 
 app.post("/webhook-self-test", express.json(), async (req, res) => {
@@ -132,6 +240,7 @@ app.post("/webhook-self-test", express.json(), async (req, res) => {
 });
 
 app.use(express.json());
+app.use(blockPrivatePaths);
 app.use(express.static(root));
 
 app.post("/create-checkout-session", async (req, res) => {
@@ -156,7 +265,12 @@ app.post("/create-checkout-session", async (req, res) => {
         }
       ],
       metadata: {
-        sku_list: items.map((item) => item.id + (item.variant ? ":" + item.variant : "")).join(",")
+        sku_list: items
+          .map((item) => {
+            const qty = Math.min(20, Math.max(1, Number(item.qty) || 1));
+            return item.id + (item.variant ? ":" + item.variant : "") + ":" + qty;
+          })
+          .join(",")
       },
       integration_identifier: integrationId()
     };
@@ -188,14 +302,19 @@ app.get("/session-status", async (req, res) => {
       payment_status: session.payment_status,
       customer_email: session.customer_details && session.customer_details.email
     });
-  } catch (err) {
+  } catch {
     res.status(400).json({ error: "Could not load session" });
   }
 });
 
 app.listen(port, "0.0.0.0", () => {
   console.log("Sentinel Outfitters checkout on " + siteUrl);
+  console.log("Orders log:", ordersFile);
   if (!webhookSecret) {
-    console.log("Webhook not armed. In another terminal: stripe listen --forward-to localhost:" + port + "/webhook");
+    console.log(
+      "Webhook not armed. In another terminal: stripe listen --forward-to localhost:" +
+        port +
+        "/webhook"
+    );
   }
 });
