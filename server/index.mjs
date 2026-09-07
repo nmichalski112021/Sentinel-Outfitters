@@ -79,6 +79,8 @@ function integrationId() {
 function blockPrivatePaths(req, res, next) {
   const path = req.path.toLowerCase();
   if (
+    path === "/.git" ||
+    path.startsWith("/.git/") ||
     path === "/data" ||
     path.startsWith("/data/") ||
     path === "/server" ||
@@ -189,6 +191,7 @@ function securityHeaders(req, res, next) {
 }
 
 app.use(securityHeaders);
+app.use(blockPrivatePaths);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -274,8 +277,7 @@ app.post("/webhook-self-test", express.json(), async (req, res) => {
 });
 
 app.use(express.json());
-app.use(blockPrivatePaths);
-app.use(express.static(root));
+app.use(express.static(root, { dotfiles: "deny", index: ["index.html"] }));
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
