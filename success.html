@@ -44,11 +44,10 @@
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
-    soClearCart();
     (async function () {
       const id = new URLSearchParams(location.search).get("session_id");
       const copy = document.getElementById("success-copy");
-      if (!id || !copy) return;
+      if (!id) return;
       try {
         const base = typeof soApiBase === "function"
           ? soApiBase()
@@ -56,12 +55,15 @@
         const res = await fetch(base.replace(/\/$/, "") + "/session-status?session_id=" + encodeURIComponent(id));
         const data = await res.json();
         if (data.payment_status === "paid") {
-          copy.textContent = "Payment received" + (data.customer_email ? " for " + data.customer_email : "") + ". We print and inspect in-house, then ship in 1–2 business days.";
-        } else if (data.payment_status) {
+          soClearCart();
+          if (copy) {
+            copy.textContent = "Payment received" + (data.customer_email ? " for " + data.customer_email : "") + ". We print and inspect in-house, then ship in 1–2 business days.";
+          }
+        } else if (copy && data.payment_status) {
           copy.textContent = "Checkout status: " + data.payment_status + ". If this stays unpaid, the card was not charged.";
         }
       } catch (err) {
-        /* webhook is the source of truth */
+        // Leave the cart intact unless payment is confirmed.
       }
     })();
   </script>
