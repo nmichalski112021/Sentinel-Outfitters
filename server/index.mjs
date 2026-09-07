@@ -182,7 +182,7 @@ function securityHeaders(req, res, next) {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       "img-src 'self' data:",
-      "connect-src 'self' https://sentinel-outfitters.onrender.com",
+      "connect-src 'self' https://sentinel-outfitters.com https://sentinel-outfitters.onrender.com",
       "form-action 'self' https://formsubmit.co",
       "upgrade-insecure-requests"
     ].join("; ")
@@ -191,6 +191,16 @@ function securityHeaders(req, res, next) {
 }
 
 app.use(securityHeaders);
+
+// Keep the Render service URL out of search results and make the custom domain canonical.
+app.use((req, res, next) => {
+  const host = String(req.get("host") || "").split(":")[0].toLowerCase();
+  if (host === "sentinel-outfitters.onrender.com" || host.endsWith(".onrender.com")) {
+    return res.redirect(301, "https://sentinel-outfitters.com" + req.url);
+  }
+  next();
+});
+
 app.use(blockPrivatePaths);
 
 app.use((req, res, next) => {
