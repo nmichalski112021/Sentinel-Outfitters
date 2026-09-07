@@ -1,5 +1,4 @@
 window.SO_STRIPE = {
-  publishableKey: "pk_live_51UCMeHD6H3BT3STWpXrbBkMwVrqBavbFFmp9XRwH1c4MFjknBbJNtm6b17UlGRZV6xf7XUbClCaHQ4iprJnG0qrA00lHUknHfph",
   checkoutApiUrl: "https://sentinel-outfitters.onrender.com",
   paymentLinks: {
   "diamondback-10x50-killflash:black": "https://buy.stripe.com/aFa6oG27M8x62TNb5h67S05",
