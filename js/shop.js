@@ -43,13 +43,50 @@ function renderProduct() {
     root.innerHTML = `<section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>That SKU isn’t posted.</h1><p><a class="btn btn-primary" href="shop.html">Back to shop</a></p></div></section>`;
     return;
   }
-  document.title = product.shortName + " — Sentinel Outfitters";
+  document.title = product.seoTitle || (product.shortName + " — Sentinel Outfitters");
+  const description = product.seoDescription || product.lead;
+  const canonicalUrl = "https://sentinel-outfitters.com/product.html?id=" + encodeURIComponent(product.id);
+  let descriptionMeta = document.head.querySelector("meta[name=description]");
+  if (!descriptionMeta) {
+    descriptionMeta = document.createElement("meta");
+    descriptionMeta.name = "description";
+    document.head.appendChild(descriptionMeta);
+  }
+  descriptionMeta.content = description;
+  let canonical = document.head.querySelector("link[rel=canonical]");
+  if (!canonical) {
+    canonical = document.createElement("link");
+    canonical.rel = "canonical";
+    document.head.appendChild(canonical);
+  }
+  canonical.href = canonicalUrl;
+  const oldSchema = document.head.querySelector("#product-jsonld");
+  if (oldSchema) oldSchema.remove();
+  const schema = document.createElement("script");
+  schema.id = "product-jsonld";
+  schema.type = "application/ld+json";
+  schema.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description,
+    brand: { "@type": "Organization", name: "Sentinel Outfitters" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: product.price / 100,
+      availability: "https://schema.org/InStock",
+      url: canonicalUrl
+    }
+  });
+  document.head.appendChild(schema);
   const variant = product.variants[0] ? product.variants[0].id : "";
   root.innerHTML = `
     <section class="page-hero">
       <div class="wrap">
         <div class="eyebrow">${product.postLabel} · ${product.tag}</div>
-        <h1>${product.name}</h1>
+        <h1>${product.buyerQuestion || product.name}</h1>
+        ${product.buyerQuestion ? `<h2 class="product-subtitle">${product.name}</h2>` : ""}
         <p>${product.lead}</p>
       </div>
     </section>
@@ -72,6 +109,7 @@ function renderProduct() {
           <p class="form-status" id="buy-status" hidden></p>
           <ul class="spec-list">${product.bullets.map((item) => `<li>${item}</li>`).join("")}</ul>
           ${product.description.map((p) => `<p class="copy">${p}</p>`).join("")}
+          ${product.brandNote ? `<p class="copy"><strong>Brand note.</strong> ${product.brandNote}</p>` : ""}
           <p class="copy"><strong>Fit.</strong> ${product.fit}</p>
         </div>
       </div>

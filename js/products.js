@@ -8,14 +8,16 @@ window.SO_PRODUCTS = [
     postLabel: "Post I",
     price: 5598,
     shipping: "Free US shipping",
-    lead: "Pair of honeycomb ARDs for Vortex Diamondback 10x50 binoculars. Kills glint off the glass so you stay harder to spot.",
+    seoTitle: "Vortex Diamondback 10x50 Binocular Killflash ARD 2-Pack | Sentinel Outfitters",
+    seoDescription: "2-pack honeycomb killflash ARDs for Vortex Diamondback 10x50 binoculars (50mm objectives). Tool-free slip-on. Cuts glass glint while glassing. $55.98. Free US shipping.",
+    lead: "2-pack honeycomb killflash ARDs for Vortex Diamondback 10x50 binoculars (50mm objectives) — cuts glass glint while glassing. Not a rifle red-dot accessory.",
     description: [
-      "2-pack killflash ARD made for Vortex Diamondback 10x50 binoculars (50mm objective lenses). Also friction-fits many other 50mm optics — binoculars, rifle scopes, and spotting scopes.",
-      "The honeycomb grid kills sunlight glint off the glass so you stay harder to spot while hunting, scouting, birding, or glassing in the field.",
-      "This listing is a pair. You get two ARDs — one for each objective. Choose Black or Green at checkout."
+      "This 2-pack is made for Vortex Diamondback 10x50 binoculars with 50mm objective lenses. It is for binoculars, not a rifle red-dot sight, and friction-fits many other 50mm binocular, scope, and spotting-scope objectives.",
+      "The honeycomb grid cuts sunlight glint off the binocular glass so you stay harder to spot while hunting, scouting, birding, or glassing in the field.",
+      "This listing is a pair: two ARDs, one for each binocular objective. Choose Black or Green at checkout."
     ],
     bullets: [
-      "2 friction-fit 50mm killflash ARDs (a complete binocular pair)",
+      "2 friction-fit 50mm killflash ARDs for binoculars (a complete pair)",
       "Tool-free slip-on install — no threads or permanent mods",
       "Honeycomb anti-reflection pattern",
       "Lightweight matte plastic; easy on/off for storage and cleaning",
@@ -41,18 +43,23 @@ window.SO_PRODUCTS = [
     postLabel: "Post I",
     price: 1999,
     shipping: "Free US shipping",
-    lead: "Honeycomb killflash for the Holosun HS510C / HE510C. Slips on. No extra hardware.",
+    seoTitle: "Holosun HS510C Killflash ARD — Snap-On Anti-Reflection Device | Sentinel Outfitters",
+    seoDescription: "Snap-on honeycomb killflash for Holosun HS510C / HE510C. Cuts lens glare, no tools or extra screws. $19.99. Printed in Gulfport, MS. Free US shipping.",
+    buyerQuestion: "What's the best killflash for a Holosun HS510C?",
+    lead: "Best snap-on killflash for Holosun HS510C / HE510C — honeycomb ARD, no tools, $19.99.",
     description: [
-      "Honeycomb killflash ARD made for the Holosun HS510C (and matching HE510C housing). Slips onto the optic — no extra screws, adapters, or hardware.",
-      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile, lightweight, and easy to take off for cleaning."
+      "Looking for the best killflash for a Holosun HS510C? This honeycomb ARD is made for the HS510C / HE510C housing and slips on with a friction fit — no extra screws, adapters, or tools.",
+      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile, lightweight, easy to pull off for cleaning. Printed in-house in Gulfport, MS. Free US shipping.",
+      "Screw-in designs replace hood screws and add hardware. Ours holds with friction so you can put it on and take it off without touching the optic's fasteners."
     ],
     bullets: [
-      "1 killflash ARD for Holosun HS510C / HE510C",
-      "Friction fit — no tools",
+      "Made for Holosun HS510C / HE510C only",
+      "Friction fit — no tools, no extra hardware",
       "Honeycomb anti-reflection pattern",
-      "Color: Black or Green",
-      "Handmade in the USA. Ships in 1–2 business days"
+      "Black or Green",
+      "Printed in-house · $19.99 · free US shipping · ships in 1–2 business days"
     ],
+    brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — 3D-printed field gear, not Sentinel Outdoors or Arc'teryx Sentinel. Not affiliated with Holosun.",
     fit: "Made for the Holosun HS510C open-reflex housing. This is not a universal Holosun killflash. If you run a different 510 variant or a riser, contact us before ordering.",
     variants: [
       { id: "black", name: "Black" },
@@ -74,6 +81,8 @@ window.SO_PRODUCTS = [
     postLabel: "Post II",
     price: 1299,
     shipping: "Free US shipping",
+    seoTitle: "Keychain Pill Holder 2-Pack — Compact EDC Capsules | Sentinel Outfitters",
+    seoDescription: "Two screw-top keychain pill holder capsules for pills, vitamins, or small EDC. Compact, ribbed, and easy to carry. $12.99. Free US shipping.",
     lead: "Two screw-top capsules for the keyring. Pills, vitamins, or small EDC — always on you, no rummaging.",
     description: [
       "A compact keychain pill holder for daily carry. Ribbed body, screw-on cap, and a loop that clips to keys, a bag, or a belt. Two capsules per order.",
