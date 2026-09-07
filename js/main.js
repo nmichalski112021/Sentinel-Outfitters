@@ -37,18 +37,12 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
-function bindForm(form, successText) {
-  if (!form) return;
-  const status = form.querySelector(".form-status") || form.parentElement.querySelector(".form-status");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (status) {
-      status.hidden = false;
-      status.textContent = successText;
-    }
-    form.reset();
-  });
-}
-
-bindForm(document.querySelector(".watch-form"), "You're on the watch. We'll be in touch.");
-bindForm(document.getElementById("contact-form"), "Dispatch received. We'll reply as soon as we can.");
+(function showSentStatus() {
+  if (!new URLSearchParams(location.search).has("sent")) return;
+  const status = document.querySelector(".form-status");
+  if (!status) return;
+  status.hidden = false;
+  status.textContent = location.pathname.includes("contact")
+    ? "Dispatch received. We'll reply as soon as we can."
+    : "You're on the watch. We'll be in touch.";
+})();
