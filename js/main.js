@@ -51,4 +51,3 @@ function bindForm(form, successText) {
 }
 
 bindForm(document.querySelector(".watch-form"), "You're on the watch. We'll be in touch.");
-bindForm(document.getElementById("contact-form"), "Dispatch received. We'll reply as soon as we can.");
