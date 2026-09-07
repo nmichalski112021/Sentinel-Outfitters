@@ -1,4 +1,4 @@
-# Sentinel Outfitters
+﻿# Sentinel Outfitters
 
 Website for **Sentinel Outfitters LLC**. Checkout uses Stripe Checkout Sessions. Paid orders are confirmed by the `checkout.session.completed` webhook.
 
@@ -25,7 +25,7 @@ Pay with test card `4242 4242 4242 4242`. Never put the Stripe secret key in HTM
 
 1. **Continue to checkout** (product or cart) calls `POST /create-checkout-session`.
 2. The server returns a Checkout Session URL. The browser opens it.
-3. After payment, Stripe sends `checkout.session.completed`. The server records the order in `server/orders.jsonl`.
+3. After payment, Stripe sends `checkout.session.completed`. The server records the order in `data/orders.jsonl` (blocked from public HTTP; override with `ORDERS_PATH` for a persistent disk).
 4. The success page is only a receipt. Fulfillment is the webhook.
 
 ## GitHub Pages
@@ -35,15 +35,15 @@ The shop HTML can live on GitHub Pages. Checkout Sessions and webhooks need this
 ## Public Node host (Render)
 
 1. Open [render.com](https://render.com) and sign in with GitHub.
-2. **New → Web Service** → this repo (`Sentinel-Outfitters`).
+2. **New â†’ Web Service** â†’ this repo (`Sentinel-Outfitters`).
 3. Build: `npm install`. Start: `npm start`.
 4. Add environment variables (do not commit them):
-   - `STRIPE_SECRET_KEY` — live secret or restricted key
-   - `STRIPE_PUBLISHABLE_KEY` — `pk_live_...`
-   - `SITE_URL` — `https://your-service.onrender.com` (or your GitHub Pages URL if the HTML stays there)
-   - `STRIPE_WEBHOOK_SECRET` — from Stripe after you create the webhook (add it on the second deploy)
+   - `STRIPE_SECRET_KEY` â€” live secret or restricted key
+   - `STRIPE_PUBLISHABLE_KEY` â€” `pk_live_...`
+   - `SITE_URL` â€” `https://your-service.onrender.com` (or your GitHub Pages URL if the HTML stays there)
+   - `STRIPE_WEBHOOK_SECRET` â€” from Stripe after you create the webhook (add it on the second deploy)
 5. Deploy. Copy the `https://....onrender.com` URL.
-6. In Stripe live mode: Developers → Webhooks → Add endpoint  
+6. In Stripe live mode: Developers â†’ Webhooks â†’ Add endpoint  
    `https://YOUR-SERVICE.onrender.com/webhook`  
    Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`.
 7. Paste the `whsec_...` signing secret into Render as `STRIPE_WEBHOOK_SECRET` and redeploy.
