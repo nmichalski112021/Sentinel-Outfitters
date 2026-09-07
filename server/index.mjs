@@ -156,6 +156,40 @@ async function fulfillOrder(session, eventId) {
 
 const app = express();
 
+
+function securityHeaders(req, res, next) {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+  res.setHeader(
+    "Permissions-Policy",
+    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+  );
+  // HSTS only helps on HTTPS (Render/live); harmless on local http.
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  // Allow self + Google Fonts + Stripe Checkout redirects/Payment Links + own API.
+  res.setHeader(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "object-src 'none'",
+      "frame-ancestors 'none'",
+      "script-src 'self' 'unsafe-inline'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com data:",
+      "img-src 'self' data:",
+      "connect-src 'self' https://sentinel-outfitters.onrender.com",
+      "form-action 'self' https://formsubmit.co",
+      "upgrade-insecure-requests"
+    ].join("; ")
+  );
+  next();
+}
+
+app.use(securityHeaders);
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
