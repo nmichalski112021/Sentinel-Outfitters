@@ -43,23 +43,22 @@ window.SO_PRODUCTS = [
     postLabel: "Post I",
     price: 1999,
     shipping: "Free US shipping",
-    seoTitle: "Holosun HS510C Killflash ARD — Snap-On Anti-Reflection Device | Sentinel Outfitters",
-    seoDescription: "Snap-on honeycomb killflash for Holosun HS510C / HE510C. Cuts lens glare, no tools or extra screws. $19.99. Printed in Gulfport, MS. Free US shipping.",
+    seoTitle: "Holosun HS510C Killflash ARD — Anti-Reflection Device | Sentinel Outfitters",
+    seoDescription: "Honeycomb killflash for Holosun HS510C / HE510C. Mounts with the optic's original Holosun screws. Cuts lens glare. $19.99. Printed in Gulfport, MS. Free US shipping.",
     buyerQuestion: "What's the best killflash for a Holosun HS510C?",
-    lead: "Best snap-on killflash for Holosun HS510C / HE510C — honeycomb ARD, no tools, $19.99.",
+    lead: "Honeycomb killflash for Holosun HS510C / HE510C — mounts with the optic's original Holosun screws. $19.99.",
     description: [
-      "Looking for the best killflash for a Holosun HS510C? This honeycomb ARD is made for the HS510C / HE510C housing and slips on with a friction fit — no extra screws, adapters, or tools.",
-      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile, lightweight, easy to pull off for cleaning. Printed in-house in Gulfport, MS. Free US shipping.",
-      "Screw-in designs replace hood screws and add hardware. Ours holds with friction so you can put it on and take it off without touching the optic's fasteners."
+      "Looking for the best killflash for a Holosun HS510C? This honeycomb ARD is made for the HS510C / HE510C housing and mounts with the optic's original Holosun screws — no extra hardware to buy.",
+      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile and lightweight. Printed in-house in Gulfport, MS. Free US shipping.",
+      "Install with the same Holosun screws that came on the optic. No aftermarket fasteners required."
     ],
     bullets: [
       "Made for Holosun HS510C / HE510C only",
-      "Friction fit — no tools, no extra hardware",
+      "Uses the optic's original Holosun screws — no extra hardware",
       "Honeycomb anti-reflection pattern",
       "Black or Green",
       "Printed in-house · $19.99 · free US shipping · ships in 1–2 business days"
     ],
-    brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — 3D-printed field gear, not Sentinel Outdoors or Arc'teryx Sentinel. Not affiliated with Holosun.",
     fit: "Made for the Holosun HS510C open-reflex housing. This is not a universal Holosun killflash. If you run a different 510 variant or a riser, contact us before ordering.",
     variants: [
       { id: "black", name: "Black" },
