@@ -287,6 +287,21 @@ app.post("/webhook-self-test", express.json(), async (req, res) => {
 });
 
 app.use(express.json());
+
+// Clean product URLs for all current + future SKUs: /products/:id
+app.get("/products/:id", (req, res) => {
+  res.sendFile(resolve(root, "product.html"));
+});
+
+// Legacy query URLs → path URLs
+app.get("/product.html", (req, res, next) => {
+  const id = req.query && req.query.id;
+  if (id) {
+    return res.redirect(301, "/products/" + encodeURIComponent(String(id)));
+  }
+  next();
+});
+
 app.use(express.static(root, { dotfiles: "deny", index: ["index.html"] }));
 
 app.post("/create-checkout-session", async (req, res) => {

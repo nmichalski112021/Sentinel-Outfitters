@@ -1,5 +1,11 @@
 function productUrl(id) {
-  return "product.html?id=" + encodeURIComponent(id);
+  return "/products/" + encodeURIComponent(id);
+}
+
+function productIdFromLocation() {
+  const pathMatch = location.pathname.match(/^\/products\/([^\/]+)\/?$/);
+  if (pathMatch) return decodeURIComponent(pathMatch[1]);
+  return new URLSearchParams(location.search).get("id");
 }
 
 function productCard(product) {
@@ -36,8 +42,13 @@ function renderHomeShop() {
 function renderProduct() {
   const root = document.getElementById("product-root");
   if (!root) return;
-  const id = new URLSearchParams(location.search).get("id");
+  const id = productIdFromLocation();
   if (!id) return;
+  // Old query URLs → clean path (server also 301s).
+  if (/\/product\.html$/i.test(location.pathname) && new URLSearchParams(location.search).get("id")) {
+    location.replace(productUrl(id));
+    return;
+  }
   const product = window.SO_getProduct(id);
   if (!product) {
     root.innerHTML = `<section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>That SKU isn’t posted.</h1><p><a class="btn btn-primary" href="shop.html">Back to shop</a></p></div></section>`;
@@ -45,7 +56,7 @@ function renderProduct() {
   }
   document.title = product.seoTitle || (product.shortName + " — Sentinel Outfitters");
   const description = product.seoDescription || product.lead;
-  const canonicalUrl = "https://sentinel-outfitters.com/product.html?id=" + encodeURIComponent(product.id);
+  const canonicalUrl = "https://sentinel-outfitters.com" + productUrl(product.id);
   let descriptionMeta = document.head.querySelector("meta[name=description]");
   if (!descriptionMeta) {
     descriptionMeta = document.createElement("meta");
