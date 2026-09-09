@@ -105,11 +105,12 @@ function renderProduct() {
       <div class="wrap product-layout">
         <div class="gallery">
           <img id="product-hero" src="${product.images[0]}" alt="${product.shortName}">
-          <div class="thumbs">${product.images.map((src, i) => `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${src}"><img src="${src}" alt=""></button>`).join("")}</div>
+          ${product.photosComingSoon || product.images.length < 2 ? "" : `<div class="thumbs">${product.images.map((src, i) => `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${src}"><img src="${src}" alt=""></button>`).join("")}</div>`}
         </div>
         <div class="buy-box">
           <p class="price">${window.SO_formatPrice(product.price)}</p>
           <p class="ship-note">${product.shipping}</p>
+          ${product.photosComingSoon ? `<p class="photos-note">Photos coming soon. Printed and shipping.</p>` : ""}
           ${product.variants.length ? `<div class="variant-label">Color</div><div class="variants" id="variants">${product.variants.map((item, i) => `<button type="button" class="variant${i === 0 ? " is-on" : ""}" data-variant="${item.id}">${item.name}</button>`).join("")}</div>` : ""}
           <label class="qty-label" for="qty">Qty</label>
           <input id="qty" class="qty" type="number" min="1" max="20" value="1">
