@@ -9,6 +9,16 @@ export const CATALOG = {
     price: 1999,
     variants: { black: "Black", green: "Green" }
   },
+  "sig-romeo5-gen1-killflash": {
+    name: "Sig Romeo5 Gen 1 Killflash ARD",
+    price: 1999,
+    variants: { black: "Black", green: "Green" }
+  },
+  "scope-56mm-killflash": {
+    name: "56mm Scope Killflash ARD",
+    price: 2499,
+    variants: { black: "Black", green: "Green" }
+  },
   "keychain-pill-holder": {
     name: "Keychain Pill Holder (2-Pack)",
     price: 1299,

@@ -72,6 +72,68 @@ window.SO_PRODUCTS = [
     ]
   },
   {
+    id: "sig-romeo5-gen1-killflash",
+    name: "Sig Romeo5 Gen 1 Killflash ARD",
+    shortName: "Romeo5 Gen 1 Killflash",
+    tag: "Killflash",
+    post: "parts",
+    postLabel: "Post I",
+    price: 1999,
+    shipping: "Free US shipping",
+    seoTitle: "Sig Romeo5 Gen 1 Killflash ARD — Friction-Fit Honeycomb | Sentinel Outfitters",
+    seoDescription: "Friction-fit honeycomb killflash for Sig Romeo5 Gen 1. Does not fit Romeo5 Gen II or XDR. $19.99. Printed in Gulfport, MS. Free US shipping.",
+    lead: "Honeycomb killflash for the Sig Romeo5 Gen 1. Slips on. No extra hardware.",
+    description: [
+      "Honeycomb killflash ARD made for the Sig Romeo5 Gen 1 housing. Friction-fits onto the optic — no extra screws, adapters, or hardware.",
+      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile, lightweight, and easy to take off for cleaning."
+    ],
+    bullets: [
+      "1 killflash ARD for Sig Romeo5 Gen 1",
+      "Friction fit — no tools",
+      "Honeycomb anti-reflection pattern",
+      "Color: Black or Green",
+      "Handmade in the USA. Ships in 1–2 business days"
+    ],
+    fit: "Made for the Sig Romeo5 Gen 1 housing. This does not fit Romeo5 Gen II or XDR. Contact us before ordering if you run a different Romeo.",
+    variants: [
+      { id: "black", name: "Black" },
+      { id: "green", name: "Green" }
+    ],
+    images: ["images/logo.jpg"],
+    photosComingSoon: true
+  },
+  {
+    id: "scope-56mm-killflash",
+    name: "56mm Scope Killflash ARD",
+    shortName: "56mm Scope Killflash",
+    tag: "Killflash",
+    post: "parts",
+    postLabel: "Post I",
+    price: 2499,
+    shipping: "Free US shipping",
+    seoTitle: "56mm Scope Killflash ARD — Friction-Fit Honeycomb | Sentinel Outfitters",
+    seoDescription: "Friction-fit honeycomb killflash for 56mm objective rifle scopes. $24.99. Printed in Gulfport, MS. Free US shipping.",
+    lead: "Friction-fit honeycomb killflash for 56mm objective rifle scopes.",
+    description: [
+      "Honeycomb killflash ARD sized for 56mm objective rifle scopes. Slips onto the objective barrel — no threads, adapters, or extra hardware.",
+      "The honeycomb grid kills sunlight glint off the glass so you stay harder to spot while hunting, scouting, or glassing in the field."
+    ],
+    bullets: [
+      "1 friction-fit 56mm killflash ARD",
+      "Tool-free slip-on install — no threads or permanent mods",
+      "Honeycomb anti-reflection pattern",
+      "Color: Black or Green",
+      "Handmade in the USA. Ships in 1–2 business days"
+    ],
+    fit: "Sized for 56mm outer objective barrels. Message us if your scope is not a 56mm objective or you are unsure of the barrel diameter.",
+    variants: [
+      { id: "black", name: "Black" },
+      { id: "green", name: "Green" }
+    ],
+    images: ["images/logo.jpg"],
+    photosComingSoon: true
+  },
+  {
     id: "keychain-pill-holder",
     name: "Keychain Pill Holder (2-Pack)",
     shortName: "Keychain Pill Holder",

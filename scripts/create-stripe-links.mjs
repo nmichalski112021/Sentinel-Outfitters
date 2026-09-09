@@ -61,6 +61,26 @@ const catalog = [
     amount: 1999
   },
   {
+    key: "sig-romeo5-gen1-killflash:black",
+    name: "Sig Romeo5 Gen 1 Killflash ARD (Black)",
+    amount: 1999
+  },
+  {
+    key: "sig-romeo5-gen1-killflash:green",
+    name: "Sig Romeo5 Gen 1 Killflash ARD (Green)",
+    amount: 1999
+  },
+  {
+    key: "scope-56mm-killflash:black",
+    name: "56mm Scope Killflash ARD (Black)",
+    amount: 2499
+  },
+  {
+    key: "scope-56mm-killflash:green",
+    name: "56mm Scope Killflash ARD (Green)",
+    amount: 2499
+  },
+  {
     key: "keychain-pill-holder",
     name: "Keychain Pill Holder (2-Pack)",
     amount: 1299

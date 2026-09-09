@@ -444,6 +444,12 @@ html:not(.js) .reveal {
   color: var(--bronze-bright);
 }
 
+.post-link.is-soon,
+.post-link.is-soon:hover {
+  color: var(--ivory-dim);
+  cursor: default;
+}
+
 /* ---------- CRAFT / SPEC ---------- */
 .craft {
   background: var(--panel);
@@ -1100,10 +1106,19 @@ footer {
 }
 
 .ship-note,
-.copy {
+.copy,
+.photos-note {
   color: var(--ivory-dim);
   font-size: 14.5px;
   margin-bottom: 16px;
+}
+
+.photos-note {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bronze);
 }
 
 .variant-label,
