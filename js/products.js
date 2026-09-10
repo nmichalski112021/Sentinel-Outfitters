@@ -10,6 +10,7 @@ window.SO_PRODUCTS = [
     shipping: "Free US shipping",
     seoTitle: "Vortex Diamondback 10x50 Binocular Killflash ARD 2-Pack | Sentinel Outfitters",
     seoDescription: "2-pack honeycomb killflash ARDs for Vortex Diamondback 10x50 binoculars (50mm objectives). Tool-free slip-on. Cuts glass glint while glassing. $55.98. Free US shipping.",
+    buyerQuestion: "What killflash fits Vortex Diamondback 10x50 binoculars?",
     lead: "2-pack honeycomb killflash ARDs for Vortex Diamondback 10x50 binoculars (50mm objectives) — cuts glass glint while glassing. Not a rifle red-dot accessory.",
     description: [
       "This 2-pack is made for Vortex Diamondback 10x50 binoculars with 50mm objective lenses. It is for binoculars, not a rifle red-dot sight, and friction-fits many other 50mm binocular, scope, and spotting-scope objectives.",
@@ -144,6 +145,7 @@ window.SO_PRODUCTS = [
     shipping: "Free US shipping",
     seoTitle: "Keychain Pill Holder 2-Pack — Compact EDC Capsules | Sentinel Outfitters",
     seoDescription: "Two screw-top keychain pill holder capsules for pills, vitamins, or small EDC. Compact, ribbed, and easy to carry. $12.99. Free US shipping.",
+    buyerQuestion: "Looking for a compact keychain pill holder for daily carry?",
     lead: "Two screw-top capsules for the keyring. Pills, vitamins, or small EDC — always on you, no rummaging.",
     description: [
       "A compact keychain pill holder for daily carry. Ribbed body, screw-on cap, and a loop that clips to keys, a bag, or a belt. Two capsules per order.",

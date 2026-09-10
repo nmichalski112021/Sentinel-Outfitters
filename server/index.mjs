@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import express from "express";
 import Stripe from "stripe";
 import { lineItemFromCart } from "./catalog.mjs";
+import { getProductById } from "./load-products.mjs";
+import { renderProductPage, renderProductNotFound } from "./render-product-page.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
@@ -289,8 +291,20 @@ app.post("/webhook-self-test", express.json(), async (req, res) => {
 app.use(express.json());
 
 // Clean product URLs for all current + future SKUs: /products/:id
+// SSR unique title/meta/canonical/body so crawlers are not served the shared shop shell.
 app.get("/products/:id", (req, res) => {
-  res.sendFile(resolve(root, "product.html"));
+  const id = String(req.params.id || "");
+  try {
+    const product = getProductById(root, id);
+    if (!product) {
+      res.status(404).type("html").send(renderProductNotFound(root));
+      return;
+    }
+    res.type("html").send(renderProductPage(root, product));
+  } catch (err) {
+    console.error("SSR product render failed:", err && err.message);
+    res.sendFile(resolve(root, "product.html"));
+  }
 });
 
 // Legacy query URLs → path URLs
