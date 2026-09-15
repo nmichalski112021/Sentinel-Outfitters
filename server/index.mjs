@@ -290,16 +290,25 @@ app.post("/webhook-self-test", express.json(), async (req, res) => {
 
 app.use(express.json());
 
+// Canonical product URLs have NO trailing slash.
+// Slash variants must 301 so Google does not treat them as duplicates.
+app.get("/products/:id/", (req, res) => {
+  const id = encodeURIComponent(String(req.params.id || ""));
+  return res.redirect(301, "https://sentinel-outfitters.com/products/" + id);
+});
+
 // Clean product URLs for all current + future SKUs: /products/:id
 // SSR unique title/meta/canonical/body so crawlers are not served the shared shop shell.
 app.get("/products/:id", (req, res) => {
   const id = String(req.params.id || "");
+  const canonicalUrl = "https://sentinel-outfitters.com/products/" + encodeURIComponent(id);
   try {
     const product = getProductById(root, id);
     if (!product) {
       res.status(404).type("html").send(renderProductNotFound(root));
       return;
     }
+    res.setHeader("Link", "<" + canonicalUrl + '>; rel="canonical"');
     res.type("html").send(renderProductPage(root, product));
   } catch (err) {
     console.error("SSR product render failed:", err && err.message);
@@ -307,11 +316,14 @@ app.get("/products/:id", (req, res) => {
   }
 });
 
-// Legacy query URLs → path URLs
+// Legacy query URLs → path URLs (absolute Location)
 app.get("/product.html", (req, res, next) => {
   const id = req.query && req.query.id;
   if (id) {
-    return res.redirect(301, "/products/" + encodeURIComponent(String(id)));
+    return res.redirect(
+      301,
+      "https://sentinel-outfitters.com/products/" + encodeURIComponent(String(id))
+    );
   }
   next();
 });
