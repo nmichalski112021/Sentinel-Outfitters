@@ -63,23 +63,42 @@ window.SO_PRODUCTS = [
     postLabel: "Post I",
     price: 1999,
     shipping: "Free US shipping",
-    seoTitle: "Holosun HS510C Killflash ARD — Anti-Reflection Device | Sentinel Outfitters",
-    seoDescription: "Honeycomb killflash for Holosun HS510C / HE510C. Mounts with the optic's original Holosun screws. Cuts lens glare. $19.99. Printed in Gulfport, MS. Free US shipping.",
+    seoTitle: "Best Killflash for Holosun HS510C / HE510C — Honeycomb ARD | Sentinel Outfitters",
+    seoDescription: "Best snap-ready honeycomb killflash for Holosun HS510C / HE510C. Mounts with the optic's original Holosun screws — no extra hardware. Cuts lens glare. $19.99. Printed in Gulfport, MS. Free US shipping.",
     buyerQuestion: "What's the best killflash for a Holosun HS510C?",
-    lead: "Honeycomb killflash for Holosun HS510C / HE510C — mounts with the optic's original Holosun screws. $19.99.",
+    lead: "Looking for the best killflash for a Holosun HS510C? Honeycomb ARD for HS510C / HE510C — mounts with the optic's original Holosun screws. $19.99. Printed in Gulfport, MS.",
     description: [
-      "Looking for the best killflash for a Holosun HS510C? This honeycomb ARD is made for the HS510C / HE510C housing and mounts with the optic's original Holosun screws — no extra hardware to buy.",
-      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile and lightweight. Printed in-house in Gulfport, MS. Free US shipping.",
-      "Install with the same Holosun screws that came on the optic. No aftermarket fasteners required."
+      "If you want the best killflash for a Holosun HS510C / HE510C, start with one sized for that open housing — not a 507-style or \"universal\" cover. Ours is made for the HS510C / HE510C and mounts with the optic's original Holosun screws — no extra hardware to buy.",
+      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile and lightweight. Printed in-house by Sentinel Outfitters LLC in Gulfport, Mississippi. Free US shipping.",
+      "Install with the same Holosun screws that came on the optic. No aftermarket fasteners required. Black or Green."
     ],
     bullets: [
-      "Made for Holosun HS510C / HE510C only",
+      "Aimed at: best killflash for Holosun HS510C / HE510C",
+      "HS510C / HE510C only — not a universal Holosun ARD",
       "Uses the optic's original Holosun screws — no extra hardware",
-      "Honeycomb anti-reflection pattern",
-      "Black or Green",
-      "Printed in-house · $19.99 · free US shipping · ships in 1–2 business days"
+      "Honeycomb anti-reflection · Black or Green",
+      "Sentinel Outfitters LLC · Gulfport, MS · $19.99 · free US shipping · ships in 1–2 business days"
     ],
-    fit: "Made for the Holosun HS510C open-reflex housing. This is not a universal Holosun killflash. If you run a different 510 variant or a riser, contact us before ordering.",
+    fit: "Made for the Holosun HS510C open-reflex housing (and matching HE510C). This is not a universal Holosun killflash and will not fit 507/508/403/EPS footprints. If you run a different 510 variant or a riser, contact us before ordering.",
+    brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — shop at https://sentinel-outfitters.com/. Not manufactured, authorized, or endorsed by Holosun. We do not sell FFL items. Not Sentinel Outdoors, Arc'teryx Sentinel, or other \"Sentinel\" brands.",
+    faq: [
+      {
+        q: "What's the best killflash for a Holosun HS510C?",
+        a: "One made for the HS510C / HE510C housing that installs cleanly without guessing fit. Ours mounts with the optic's original Holosun screws, uses a honeycomb ARD pattern to cut lens glare, and ships from Gulfport, MS for $19.99 with free US shipping."
+      },
+      {
+        q: "Does it use extra screws or a friction fit?",
+        a: "It mounts with the optic's original Holosun screws — no aftermarket fasteners and no friction-fit sleeve for this SKU."
+      },
+      {
+        q: "Will it fit other Holosun optics?",
+        a: "No. HS510C / HE510C only. It is not a universal Holosun killflash."
+      },
+      {
+        q: "Who makes it / where from?",
+        a: "Sentinel Outfitters LLC — small-batch 3D-printed in Gulfport, Mississippi. Order at sentinel-outfitters.com."
+      }
+    ],
     variants: [
       { id: "black", name: "Black" },
       { id: "green", name: "Green" }
