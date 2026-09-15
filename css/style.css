@@ -1230,6 +1230,79 @@ footer {
   font-size: 12px;
 }
 
+
+.product-faq,
+.product-reviews {
+  padding: 48px 0 64px;
+  border-top: 1px solid var(--stone-dim);
+}
+
+.product-faq h2,
+.product-reviews h2 {
+  margin-bottom: 24px;
+}
+
+.product-subtitle {
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 600;
+  color: var(--ivory-dim);
+  margin: -6px 0 18px;
+}
+
+.faq-item {
+  margin-bottom: 22px;
+}
+
+.faq-item h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.review-card {
+  background: var(--panel);
+  border: 1px solid var(--stone-dim);
+  padding: 22px 24px;
+  margin: 0 0 18px;
+}
+
+.review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+  margin-bottom: 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ivory-dim);
+}
+
+.review-stars {
+  color: var(--bronze-bright);
+  letter-spacing: 0.08em;
+}
+
+.review-by {
+  color: var(--ivory);
+  font-weight: 500;
+}
+
+.review-via a {
+  color: var(--bronze-bright);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.review-date {
+  color: var(--stone);
+}
+
+.review-quote {
+  color: var(--ivory-dim);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
 .empty-copy {
   color: var(--ivory-dim);
   margin-bottom: 20px;
