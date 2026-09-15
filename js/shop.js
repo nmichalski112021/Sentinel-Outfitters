@@ -1,3 +1,28 @@
+
+function relatedProductsHtml(product) {
+  const related = {
+    "holosun-hs510c-killflash": ["diamondback-10x50-killflash"],
+    "diamondback-10x50-killflash": ["holosun-hs510c-killflash"]
+  };
+  const ids = related[product.id] || [];
+  if (!ids.length || !window.SO_PRODUCTS) return "";
+  const links = ids
+    .map((id) => window.SO_getProduct(id))
+    .filter(Boolean)
+    .map((p) => `<li><a href="${productUrl(p.id)}">${p.shortName}</a> — ${p.tag}</li>`)
+    .join("");
+  if (!links) return "";
+  return `<div class="related-skus"><p class="copy"><strong>Also see.</strong></p><ul>${links}</ul></div>`;
+}
+
+function faqHtml(product) {
+  const items = Array.isArray(product.faq) ? product.faq : [];
+  if (!items.length) return "";
+  return `<section class="product-faq"><h2>FAQ</h2>${items
+    .map((item) => `<div class="faq-item"><h3>${item.q}</h3><p class="copy">${item.a}</p></div>`)
+    .join("")}</section>`;
+}
+
 function productUrl(id) {
   return "/products/" + encodeURIComponent(id);
 }
@@ -123,9 +148,11 @@ function renderProduct() {
           ${product.description.map((p) => `<p class="copy">${p}</p>`).join("")}
           ${product.brandNote ? `<p class="copy"><strong>Brand note.</strong> ${product.brandNote}</p>` : ""}
           <p class="copy"><strong>Fit.</strong> ${product.fit}</p>
+          ${relatedProductsHtml(product)}
         </div>
       </div>
-    </section>`;
+    </section>
+    ${faqHtml(product)}`;
 
   let selected = variant;
   root.querySelectorAll(".thumb").forEach((btn) => {
