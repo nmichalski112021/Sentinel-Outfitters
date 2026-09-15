@@ -290,12 +290,19 @@ app.post("/webhook-self-test", express.json(), async (req, res) => {
 
 app.use(express.json());
 
-// Canonical product URLs have NO trailing slash.
-// Slash variants must 301 so Google does not treat them as duplicates.
-app.get("/products/:id/", (req, res) => {
-  const id = encodeURIComponent(String(req.params.id || ""));
-  return res.redirect(301, "https://sentinel-outfitters.com/products/" + id);
+// Prefer NO trailing slash on clean paths (except "/").
+// Must check path.endsWith("/") — Express non-strict routing would make
+// app.get("/products/:id/") also match the non-slash URL and 301 to itself.
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  const path = req.path;
+  if (path.length > 1 && path.endsWith("/")) {
+    const qs = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+    return res.redirect(301, "https://sentinel-outfitters.com" + path.slice(0, -1) + qs);
+  }
+  next();
 });
+
 
 // Clean product URLs for all current + future SKUs: /products/:id
 // SSR unique title/meta/canonical/body so crawlers are not served the shared shop shell.
