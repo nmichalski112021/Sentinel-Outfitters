@@ -80,7 +80,7 @@ window.SO_PRODUCTS = [
       "Sentinel Outfitters LLC · Gulfport, MS · $19.99 · free US shipping · ships in 1–2 business days"
     ],
     fit: "Made for the Holosun HS510C open-reflex housing (and matching HE510C). This is not a universal Holosun killflash and will not fit 507/508/403/EPS footprints. If you run a different 510 variant or a riser, contact us before ordering.",
-    brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — shop at https://sentinel-outfitters.com/. Not manufactured, authorized, or endorsed by Holosun. We do not sell FFL items. Not Sentinel Outdoors, Arc'teryx Sentinel, or other \"Sentinel\" brands.",
+    brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — shop at https://sentinel-outfitters.com/. Not manufactured, authorized, or endorsed by Holosun. We do not sell FFL items.",
     faq: [
       {
         q: "What's the best killflash for a Holosun HS510C?",
