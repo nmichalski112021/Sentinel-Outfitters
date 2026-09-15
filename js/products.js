@@ -48,6 +48,17 @@ window.SO_PRODUCTS = [
       { id: "black", name: "Black" },
       { id: "green", name: "Green" }
     ],
+    reviews: [
+      {
+        name: "Ed",
+        rating: 5,
+        date: "Feb 26, 2026",
+        source: "Etsy",
+        listingId: "4452794461",
+        sourceUrl: "https://www.etsy.com/listing/4452794461",
+        quote: "While the pair I ordered didn't fit my model of Vortex binoculars, Nick went above and beyond to make me a set that did fit, so if you have a set of Vortex Crossfire HD 12/50 binos, he's now got a set of ARDs for them."
+      }
+    ],
     images: [
       "images/products/diamondback-1.jpg",
       "images/products/diamondback-2.jpg",
@@ -198,6 +209,17 @@ window.SO_PRODUCTS = [
     ],
     fit: "Everyday carry size. Not watertight for submersion — keep it on the ring, not in a soak.",
     variants: [],
+    reviews: [
+      {
+        name: "Mark",
+        rating: 5,
+        date: "Jul 21, 2026",
+        source: "Etsy",
+        listingId: "4449226922",
+        sourceUrl: "https://www.etsy.com/listing/4449226922",
+        quote: "I'm generally not someone who writes reviews unless I'm very happy or disappointed in a product and I'm so very HAPPY with this product and the service. I was looking for a pill holder and asked Nick if something like a Tums pill could fit inside this. The answer was no, BUT Nick took the time to redesign the item and made it specifically for my request within a matter of just hours. He truly went above and beyond my high expectations. Nick 3D prints this item out of his house and he enlarged the original pill bottle to accommodate Tums for me and I'm so thrilled with his service. I highly recommend this product and this store. Thank you so much, Nick!"
+      }
+    ],
     images: [
       "images/products/pill-2.jpg",
       "images/products/pill-4.jpg",

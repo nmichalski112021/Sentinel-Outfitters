@@ -18,9 +18,31 @@ function relatedProductsHtml(product) {
 function faqHtml(product) {
   const items = Array.isArray(product.faq) ? product.faq : [];
   if (!items.length) return "";
-  return `<section class="product-faq"><h2>FAQ</h2>${items
+  return `<section class="product-faq"><div class="wrap"><h2>FAQ</h2>${items
     .map((item) => `<div class="faq-item"><h3>${item.q}</h3><p class="copy">${item.a}</p></div>`)
-    .join("")}</section>`;
+    .join("")}</div></section>`;
+}
+
+
+function starsHtml(rating) {
+  const n = Math.max(0, Math.min(5, Number(rating) || 0));
+  return `<span class="review-stars" aria-label="${n} out of 5 stars">${"★".repeat(n)}${"☆".repeat(5 - n)}</span>`;
+}
+
+function reviewsHtml(product) {
+  const items = Array.isArray(product.reviews) ? product.reviews : [];
+  if (!items.length) return "";
+  const cards = items
+    .map((item) => {
+      const sourceUrl = item.sourceUrl || "https://www.etsy.com/shop/SentinelOutfitters";
+      const source = item.source || "Etsy";
+      return `<blockquote class="review-card">
+        <div class="review-meta">${starsHtml(item.rating)} <span class="review-by">${item.name}</span> <span class="review-date">${item.date || ""}</span> <span class="review-via">via <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${source}</a></span></div>
+        <p class="review-quote">${item.quote}</p>
+      </blockquote>`;
+    })
+    .join("");
+  return `<section class="product-reviews"><div class="wrap"><h2>Reviews</h2>${cards}</div></section>`;
 }
 
 function productUrl(id) {
@@ -152,6 +174,7 @@ function renderProduct() {
         </div>
       </div>
     </section>
+    ${reviewsHtml(product)}
     ${faqHtml(product)}`;
 
   let selected = variant;

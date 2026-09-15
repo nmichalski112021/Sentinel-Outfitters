@@ -23,6 +23,25 @@ function renderFaqHtml(product) {
   return `<section class="product-faq"><div class="wrap"><h2>FAQ</h2>${rows}</div></section>`;
 }
 
+
+function renderReviewsHtml(product) {
+  const items = Array.isArray(product.reviews) ? product.reviews : [];
+  if (!items.length) return "";
+  const cards = items
+    .map((item) => {
+      const n = Math.max(0, Math.min(5, Number(item.rating) || 0));
+      const stars = "★".repeat(n) + "☆".repeat(5 - n);
+      const sourceUrl = item.sourceUrl || "https://www.etsy.com/shop/SentinelOutfitters";
+      const source = item.source || "Etsy";
+      return `<blockquote class="review-card">
+        <div class="review-meta"><span class="review-stars" aria-label="${n} out of 5 stars">${stars}</span> <span class="review-by">${escapeHtml(item.name)}</span> <span class="review-date">${escapeHtml(item.date || "")}</span> <span class="review-via">via <a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source)}</a></span></div>
+        <p class="review-quote">${escapeHtml(item.quote)}</p>
+      </blockquote>`;
+    })
+    .join("");
+  return `<section class="product-reviews"><div class="wrap"><h2>Reviews</h2>${cards}</div></section>`;
+}
+
 function faqJsonLd(product) {
   const items = Array.isArray(product.faq) ? product.faq : [];
   if (!items.length) return null;
@@ -116,6 +135,7 @@ function renderProductBody(product) {
         </div>
       </div>
     </section>
+    ${renderReviewsHtml(product)}
     ${renderFaqHtml(product)}`;
 }
 
