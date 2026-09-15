@@ -10,6 +10,33 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+
+function renderFaqHtml(product) {
+  const items = Array.isArray(product.faq) ? product.faq : [];
+  if (!items.length) return "";
+  const rows = items
+    .map(
+      (item) =>
+        `<div class="faq-item"><h3>${escapeHtml(item.q)}</h3><p class="copy">${escapeHtml(item.a)}</p></div>`
+    )
+    .join("");
+  return `<section class="product-faq"><div class="wrap"><h2>FAQ</h2>${rows}</div></section>`;
+}
+
+function faqJsonLd(product) {
+  const items = Array.isArray(product.faq) ? product.faq : [];
+  if (!items.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a }
+    }))
+  };
+}
+
 function formatPrice(cents) {
   return "$" + (Number(cents) / 100).toFixed(2);
 }
@@ -88,7 +115,8 @@ function renderProductBody(product) {
           <p class="copy"><strong>Fit.</strong> ${escapeHtml(product.fit || "")}</p>
         </div>
       </div>
-    </section>`;
+    </section>
+    ${renderFaqHtml(product)}`;
 }
 
 export function renderProductPage(rootDir, product) {
@@ -129,6 +157,11 @@ export function renderProductPage(rootDir, product) {
 `;
   if (!/rel="canonical"/i.test(html)) {
     html = html.replace(/<\/head>/i, headExtras + "</head>");
+  }
+  const faqLd = faqJsonLd(product);
+  if (faqLd) {
+    const faqScript = `  <script id="product-faq-jsonld" type="application/ld+json">${JSON.stringify(faqLd).replace(/</g, "\\u003c")}</script>\n`;
+    html = html.replace(/<\/head>/i, faqScript + "</head>");
   }
   // Replace product-root contents with SSR body (shop.js still hydrates/replaces for interactivity)
   html = html.replace(

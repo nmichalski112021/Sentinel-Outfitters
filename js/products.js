@@ -9,22 +9,41 @@ window.SO_PRODUCTS = [
     price: 5598,
     shipping: "Free US shipping",
     seoTitle: "Vortex Diamondback 10x50 Binocular Killflash ARD 2-Pack | Sentinel Outfitters",
-    seoDescription: "2-pack honeycomb killflash ARDs for Vortex Diamondback 10x50 binoculars (50mm objectives). Tool-free slip-on. Cuts glass glint while glassing. $55.98. Free US shipping.",
+    seoDescription: "Best honeycomb killflash ARD 2-pack for Vortex Diamondback 10x50 binoculars (50mm). Tool-free slip-on. Cuts glass glint while glassing — not a rifle red-dot part. $55.98. Free US shipping.",
     buyerQuestion: "What killflash fits Vortex Diamondback 10x50 binoculars?",
     lead: "2-pack honeycomb killflash ARDs for Vortex Diamondback 10x50 binoculars (50mm objectives) — cuts glass glint while glassing. Not a rifle red-dot accessory.",
     description: [
-      "This 2-pack is made for Vortex Diamondback 10x50 binoculars with 50mm objective lenses. It is for binoculars, not a rifle red-dot sight, and friction-fits many other 50mm binocular, scope, and spotting-scope objectives.",
-      "The honeycomb grid cuts sunlight glint off the binocular glass so you stay harder to spot while hunting, scouting, birding, or glassing in the field.",
-      "This listing is a pair: two ARDs, one for each binocular objective. Choose Black or Green at checkout."
+      "Looking for a killflash for Vortex Diamondback 10x50 binoculars? This listing is a complete pair of honeycomb ARDs sized for those 50mm objective barrels — one for each tube.",
+      "It is for binoculars (and many other 50mm objectives), not a rifle red-dot sight. Friction-fit slip-on install — no threads or permanent mods. Choose Black or Green at checkout.",
+      "The honeycomb grid cuts sunlight glint off the binocular glass so you stay harder to spot while hunting, scouting, birding, or glassing in the field. Printed in-house in Gulfport, MS. Free US shipping."
     ],
     bullets: [
       "2 friction-fit 50mm killflash ARDs for binoculars (a complete pair)",
-      "Tool-free slip-on install — no threads or permanent mods",
-      "Honeycomb anti-reflection pattern",
-      "Lightweight matte plastic; easy on/off for storage and cleaning",
-      "Handmade in the USA. Ships in 1–2 business days"
+      "Made for Vortex Diamondback 10x50 — also fits many 50mm objectives (Diamondback HD, Crossfire, similar)",
+      "Tool-free slip-on — no threads or permanent mods",
+      "Honeycomb anti-reflection pattern; Black or Green",
+      "Printed in Gulfport, MS · $55.98 · free US shipping · ships in 1–2 business days"
     ],
-    fit: "Sized for the Vortex Diamondback 10x50 outer objective barrel. Works on many 50mm objectives (Diamondback HD, Crossfire, and similar). Message us if your optic is not a Diamondback 10x50.",
+    fit: "Sized for the Vortex Diamondback 10x50 outer objective barrel. Works on many 50mm binocular, scope, and spotting-scope objectives. Not for rifle red-dot footprints (HS510C, Romeo5, etc.). Message us if your optic is not a Diamondback 10x50.",
+    brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — binocular accessory only. Not manufactured, authorized, or endorsed by Vortex Optics. We do not sell FFL items.",
+    faq: [
+      {
+        q: "Is this for binoculars or a rifle scope / red dot?",
+        a: "Binoculars (and many 50mm objectives). It is not a Holosun/Sig-style rifle red-dot killflash."
+      },
+      {
+        q: "How many ARDs do I get?",
+        a: "Two — a complete pair, one for each Diamondback 10x50 objective."
+      },
+      {
+        q: "How does it mount?",
+        a: "Friction-fit slip-on over the objective barrel. No threads, no tools, no permanent mods. Pull off for cleaning or low light."
+      },
+      {
+        q: "Will it fit Diamondback HD or Crossfire 50mm?",
+        a: "Often yes on similar 50mm outer barrels. Confirm barrel diameter if you are unsure, or message us before ordering."
+      }
+    ],
     variants: [
       { id: "black", name: "Black" },
       { id: "green", name: "Green" }
