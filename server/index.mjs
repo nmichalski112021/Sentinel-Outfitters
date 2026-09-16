@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import express from "express";
 import Stripe from "stripe";
 import { lineItemFromCart } from "./catalog.mjs";
-import { getProductById } from "./load-products.mjs";
+import { getProductById, loadProducts } from "./load-products.mjs";
 import { renderProductPage, renderProductNotFound } from "./render-product-page.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -304,6 +304,131 @@ app.use((req, res, next) => {
 });
 
 
+app.get("/robots.txt", (req, res) => {
+  res.type("text/plain").send(`User-agent: *
+Allow: /
+Disallow: /cart.html
+Disallow: /success.html
+Disallow: /product.html
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://sentinel-outfitters.com/sitemap.xml
+`);
+});
+
+app.get("/sitemap.xml", (req, res) => {
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const pages = [
+    ["https://sentinel-outfitters.com/", "1.0"],
+    ["https://sentinel-outfitters.com/shop.html", "0.9"],
+    ["https://sentinel-outfitters.com/shop.html?post=parts", "0.8"],
+    ["https://sentinel-outfitters.com/shop.html?post=field", "0.8"],
+    ["https://sentinel-outfitters.com/about.html", "0.7"],
+    ["https://sentinel-outfitters.com/contact.html", "0.5"],
+    ["https://sentinel-outfitters.com/shipping.html", "0.4"],
+    ...loadProducts(root).map((item) => [
+      "https://sentinel-outfitters.com/products/" + encodeURIComponent(item.id),
+      "0.9"
+    ])
+  ];
+  const body = pages
+    .map(
+      ([loc, priority]) =>
+        `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>${priority}</priority></url>`
+    )
+    .join("\n");
+  res.type("application/xml").send(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
+  );
+});
+
+app.get("/llms.txt", (req, res) => {
+  const lines = loadProducts(root)
+    .map((item) => `- ${item.name}: https://sentinel-outfitters.com/products/${encodeURIComponent(item.id)}`)
+    .join("\n");
+  res.type("text/plain").send(`# Sentinel Outfitters
+
+> Small-batch 3D-printed field gear from Sentinel Outfitters LLC in Gulfport, Mississippi.
+
+- Home: https://sentinel-outfitters.com/
+- Shop: https://sentinel-outfitters.com/shop.html
+- About: https://sentinel-outfitters.com/about.html
+- Shipping: https://sentinel-outfitters.com/shipping.html
+- Contact: https://sentinel-outfitters.com/contact.html
+
+## Products
+${lines}
+`);
+});
+
+app.get("/index.html", (req, res) => {
+  const qs = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+  return res.redirect(301, "/" + qs);
+});
+
+const shopVariants = {
+  "": {
+    title: "Shop Killflash ARDs & Field Gear — Sentinel Outfitters",
+    description:
+      "Killflash ARDs for binoculars, red dots, and rifle scopes, plus EDC field gear. Printed in-house in Gulfport, MS. Free US shipping.",
+    canonical: "https://sentinel-outfitters.com/shop.html",
+    h1: "Shop.",
+    lead: "Killflash ARDs and field gear, printed in-house. Checkout on-site with Stripe. Free US shipping."
+  },
+  parts: {
+    title: "Killflash ARDs for Optics — Sentinel Outfitters",
+    description:
+      "Honeycomb killflash ARDs for Holosun HS510C, Sig Romeo5 Gen 1, Vortex Diamondback 10x50 binoculars, and 56mm rifle scopes. Printed in Gulfport, MS.",
+    canonical: "https://sentinel-outfitters.com/shop.html?post=parts",
+    h1: "Killflash ARDs.",
+    lead: "Honeycomb anti-reflection devices for binoculars, red dots, and rifle scopes. Printed to spec in Gulfport, MS."
+  },
+  field: {
+    title: "Field Accessories & EDC — Sentinel Outfitters",
+    description:
+      "Everyday-carry field accessories from Sentinel Outfitters, starting with the keychain pill holder 2-pack. Printed in Gulfport, MS. Free US shipping.",
+    canonical: "https://sentinel-outfitters.com/shop.html?post=field",
+    h1: "Field accessories.",
+    lead: "EDC that stays on you — starting with the keychain pill holder. More posts as they earn a SKU."
+  }
+};
+
+app.get("/shop.html", (req, res) => {
+  const post = String((req.query && req.query.post) || "");
+  if (post && !Object.prototype.hasOwnProperty.call(shopVariants, post)) {
+    return res.redirect(301, "https://sentinel-outfitters.com/shop.html");
+  }
+  const variant = shopVariants[post] || shopVariants[""];
+  let html = readFileSync(resolve(root, "shop.html"), "utf8");
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${variant.title}</title>`);
+  html = html.replace(
+    /<meta name="description" content="[^"]*">/i,
+    `<meta name="description" content="${variant.description.replace(/"/g, "&quot;")}">`
+  );
+  html = html.replace(/\n?\s*<link rel="canonical"[^>]*>/i, "");
+  html = html.replace(
+    "</head>",
+    `  <link rel="canonical" href="${variant.canonical}">\n</head>`
+  );
+  html = html.replace(/<h1>Shop\.<\/h1>/, `<h1>${variant.h1}</h1>`);
+  html = html.replace(
+    /<p>Killflash ARDs and field gear, printed in-house\. Checkout on-site with Stripe\. Free US shipping\.<\/p>/,
+    `<p>${variant.lead}</p>`
+  );
+  res.type("html").send(html);
+});
+
 // Clean product URLs for all current + future SKUs: /products/:id
 // SSR unique title/meta/canonical/body so crawlers are not served the shared shop shell.
 app.get("/products/:id", (req, res) => {
@@ -332,7 +457,7 @@ app.get("/product.html", (req, res, next) => {
       "https://sentinel-outfitters.com/products/" + encodeURIComponent(String(id))
     );
   }
-  next();
+  return res.redirect(301, "https://sentinel-outfitters.com/shop.html");
 });
 
 app.use(express.static(root, { dotfiles: "deny", index: ["index.html"] }));
@@ -399,6 +524,10 @@ app.get("/session-status", async (req, res) => {
   } catch {
     res.status(400).json({ error: "Could not load session" });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).sendFile(resolve(root, "404.html"));
 });
 
 app.listen(port, "0.0.0.0", () => {

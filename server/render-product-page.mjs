@@ -144,23 +144,67 @@ export function renderProductPage(rootDir, product) {
   const seoTitle = product.seoTitle || `${product.shortName} — Sentinel Outfitters`;
   const seoDescription = product.seoDescription || product.lead || "";
   const canonicalUrl = "https://sentinel-outfitters.com" + productPath(product.id);
+  const images = (product.images || []).map((src) =>
+    src.startsWith("http") ? src : "https://sentinel-outfitters.com/" + src.replace(/^\//, "")
+  );
+  const reviews = Array.isArray(product.reviews) ? product.reviews : [];
+  const ratings = reviews.map((item) => Number(item.rating) || 0).filter((n) => n > 0);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: seoDescription,
-    brand: { "@type": "Organization", name: "Sentinel Outfitters" },
-    image: (product.images || []).map((src) =>
-      src.startsWith("http") ? src : "https://sentinel-outfitters.com/" + src.replace(/^\//, "")
-    ),
+    sku: product.id,
+    brand: { "@type": "Brand", name: "Sentinel Outfitters" },
+    image: images.length ? images : ["https://sentinel-outfitters.com/images/logo.jpg"],
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",
-      price: product.price / 100,
+      price: (product.price / 100).toFixed(2),
       availability: "https://schema.org/InStock",
-      url: canonicalUrl
+      itemCondition: "https://schema.org/NewCondition",
+      url: canonicalUrl,
+      seller: { "@type": "Organization", name: "Sentinel Outfitters LLC" },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "US" },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 8, unitCode: "DAY" }
+        }
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "US",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
+        refundType: "https://schema.org/FullRefund"
+      }
     }
   };
+  if (ratings.length) {
+    jsonLd.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: (ratings.reduce((sum, n) => sum + n, 0) / ratings.length).toFixed(1),
+      reviewCount: String(ratings.length),
+      bestRating: "5",
+      worstRating: "1"
+    };
+    jsonLd.review = reviews.map((item) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: item.name },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: String(item.rating),
+        bestRating: "5"
+      },
+      reviewBody: item.quote
+    }));
+  }
 
   let html = template;
   html = html.replace(
@@ -172,7 +216,13 @@ export function renderProductPage(rootDir, product) {
     `<meta name="description" content="${escapeHtml(seoDescription)}">`
   );
   // Insert canonical + JSON-LD before </head>
+  const ogImage = images[0] || "https://sentinel-outfitters.com/images/logo.jpg";
   const headExtras = `  <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="${escapeHtml(seoTitle)}">
+  <meta property="og:description" content="${escapeHtml(seoDescription)}">
+  <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
+  <meta property="og:image" content="${escapeHtml(ogImage)}">
   <script id="product-jsonld" type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>
 `;
   if (!/rel="canonical"/i.test(html)) {
