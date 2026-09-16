@@ -101,6 +101,9 @@ function renderProduct() {
     root.innerHTML = `<section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>That SKU isn’t posted.</h1><p><a class="btn btn-primary" href="shop.html">Back to shop</a></p></div></section>`;
     return;
   }
+  const ssr = root.getAttribute("data-ssr") === "1";
+  const variant = product.variants[0] ? product.variants[0].id : "";
+  if (!ssr) {
   document.title = product.seoTitle || (product.shortName + " — Sentinel Outfitters");
   const description = product.seoDescription || product.lead;
   const canonicalUrl = "https://sentinel-outfitters.com" + productUrl(product.id);
@@ -118,27 +121,6 @@ function renderProduct() {
     document.head.appendChild(canonical);
   }
   canonical.href = canonicalUrl;
-  const oldSchema = document.head.querySelector("#product-jsonld");
-  if (oldSchema) oldSchema.remove();
-  const schema = document.createElement("script");
-  schema.id = "product-jsonld";
-  schema.type = "application/ld+json";
-  schema.textContent = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description,
-    brand: { "@type": "Organization", name: "Sentinel Outfitters" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      price: product.price / 100,
-      availability: "https://schema.org/InStock",
-      url: canonicalUrl
-    }
-  });
-  document.head.appendChild(schema);
-  const variant = product.variants[0] ? product.variants[0].id : "";
   root.innerHTML = `
     <section class="page-hero">
       <div class="wrap">
@@ -176,6 +158,7 @@ function renderProduct() {
     </section>
     ${reviewsHtml(product)}
     ${faqHtml(product)}`;
+  }
 
   let selected = variant;
   root.querySelectorAll(".thumb").forEach((btn) => {
@@ -194,22 +177,29 @@ function renderProduct() {
   });
 
   const status = document.getElementById("buy-status");
-  document.getElementById("add-cart").addEventListener("click", () => {
-    const qty = Number(document.getElementById("qty").value) || 1;
-    soAddToCart({ id: product.id, variant: selected, qty });
-    status.hidden = false;
-    status.textContent = "Added to cart.";
-  });
-  document.getElementById("buy-now").addEventListener("click", async () => {
-    const qty = Number(document.getElementById("qty").value) || 1;
-    const btn = document.getElementById("buy-now");
-    btn.disabled = true;
-    try {
-      await soStartCheckout([{ id: product.id, variant: selected, qty }], status);
-    } catch (err) {
-      btn.disabled = false;
-    }
-  });
+  const addBtn = document.getElementById("add-cart");
+  const buyBtn = document.getElementById("buy-now");
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      const qty = Number(document.getElementById("qty").value) || 1;
+      soAddToCart({ id: product.id, variant: selected, qty });
+      if (status) {
+        status.hidden = false;
+        status.textContent = "Added to cart.";
+      }
+    });
+  }
+  if (buyBtn) {
+    buyBtn.addEventListener("click", async () => {
+      const qty = Number(document.getElementById("qty").value) || 1;
+      buyBtn.disabled = true;
+      try {
+        await soStartCheckout([{ id: product.id, variant: selected, qty }], status);
+      } catch (err) {
+        buyBtn.disabled = false;
+      }
+    });
+  }
 }
 
 function lineLabel(item, product) {

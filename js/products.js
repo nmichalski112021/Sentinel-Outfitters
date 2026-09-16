@@ -145,6 +145,16 @@ window.SO_PRODUCTS = [
       "Handmade in the USA. Ships in 1–2 business days"
     ],
     fit: "Made for the Sig Romeo5 Gen 1 housing. This does not fit Romeo5 Gen II or XDR. Contact us before ordering if you run a different Romeo.",
+    faq: [
+      {
+        q: "Does a Sig Romeo5 Gen 1 need a killflash?",
+        a: "A honeycomb ARD cuts lens glare and downrange flash so the red dot is harder to pick up in the sun. This one friction-fits the Romeo5 Gen 1 housing — no extra screws."
+      },
+      {
+        q: "Will it fit Romeo5 Gen II or XDR?",
+        a: "No. Gen 1 only. Contact us before ordering if you run a different Romeo."
+      }
+    ],
     variants: [
       { id: "black", name: "Black" },
       { id: "green", name: "Green" }
@@ -176,6 +186,16 @@ window.SO_PRODUCTS = [
       "Handmade in the USA. Ships in 1–2 business days"
     ],
     fit: "Sized for 56mm outer objective barrels. Message us if your scope is not a 56mm objective or you are unsure of the barrel diameter.",
+    faq: [
+      {
+        q: "How do I cut glint on a 56mm rifle scope?",
+        a: "A honeycomb killflash ARD over the objective kills sunlight glint off the glass. This one is sized for 56mm outer objective barrels and slips on — no threads."
+      },
+      {
+        q: "Is this a threaded sunshade?",
+        a: "No. It is a friction-fit honeycomb ARD. No threads, adapters, or extra hardware."
+      }
+    ],
     variants: [
       { id: "black", name: "Black" },
       { id: "green", name: "Green" }
@@ -208,6 +228,16 @@ window.SO_PRODUCTS = [
       "Ships in 1–2 business days"
     ],
     fit: "Everyday carry size. Not watertight for submersion — keep it on the ring, not in a soak.",
+    faq: [
+      {
+        q: "How many capsules do I get?",
+        a: "Two screw-top capsules per order."
+      },
+      {
+        q: "Is it waterproof?",
+        a: "No. It is not watertight for submersion — keep it on the ring, not in a soak."
+      }
+    ],
     variants: [],
     reviews: [
       {
