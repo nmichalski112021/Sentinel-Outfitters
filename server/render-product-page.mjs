@@ -3,13 +3,12 @@ import { resolve } from "node:path";
 
 function escapeHtml(value) {
   return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/&/g, "&")
+    .replace(/</g, "<")
+    .replace(/>/g, ">")
+    .replace(/"/g, """)
     .replace(/'/g, "&#39;");
 }
-
 
 function renderFaqHtml(product) {
   const items = Array.isArray(product.faq) ? product.faq : [];
@@ -22,7 +21,6 @@ function renderFaqHtml(product) {
     .join("");
   return `<section class="product-faq"><div class="wrap"><h2>FAQ</h2>${rows}</div></section>`;
 }
-
 
 function renderReviewsHtml(product) {
   const items = Array.isArray(product.reviews) ? product.reviews : [];
@@ -65,10 +63,7 @@ function productPath(id) {
 }
 
 function renderProductBody(product) {
-  const title = product.buyerQuestion || product.name;
-  const subtitle = product.buyerQuestion
-    ? `<h2 class="product-subtitle">${escapeHtml(product.name)}</h2>`
-    : "";
+  const title = product.name;
   const hero = product.images && product.images[0] ? product.images[0] : "images/logo.jpg";
   const thumbs =
     product.photosComingSoon || !product.images || product.images.length < 2
@@ -106,7 +101,6 @@ function renderProductBody(product) {
       <div class="wrap">
         <div class="eyebrow">${escapeHtml(product.postLabel)} · ${escapeHtml(product.tag)}</div>
         <h1>${escapeHtml(title)}</h1>
-        ${subtitle}
         <p>${escapeHtml(product.lead)}</p>
       </div>
     </section>
@@ -132,6 +126,7 @@ function renderProductBody(product) {
           ${description}
           ${brandNote}
           <p class="copy"><strong>Fit.</strong> ${escapeHtml(product.fit || "")}</p>
+          <p class="copy">See the full <a href="/killflash.html">killflash ARD lineup</a> if you need a different housing.</p>
         </div>
       </div>
     </section>
@@ -215,7 +210,6 @@ export function renderProductPage(rootDir, product) {
     /<meta name="description" content="[^"]*">/i,
     `<meta name="description" content="${escapeHtml(seoDescription)}">`
   );
-  // Insert canonical + JSON-LD before </head>
   const ogImage = images[0] || "https://sentinel-outfitters.com/images/logo.jpg";
   const headExtras = `  <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
   <meta property="og:type" content="product">
@@ -233,7 +227,6 @@ export function renderProductPage(rootDir, product) {
     const faqScript = `  <script id="product-faq-jsonld" type="application/ld+json">${JSON.stringify(faqLd).replace(/</g, "\\u003c")}</script>\n`;
     html = html.replace(/<\/head>/i, faqScript + "</head>");
   }
-  // Replace product-root contents with SSR body (shop.js still hydrates/replaces for interactivity)
   html = html.replace(
     /<div id="product-root">[\s\S]*?<\/div>\s*<\/main>/i,
     `<div id="product-root" data-ssr="1">${renderProductBody(product)}</div>
