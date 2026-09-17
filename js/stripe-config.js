@@ -1,5 +1,5 @@
 window.SO_STRIPE = {
-  checkoutApiUrl: "https://sentinel-outfitters.onrender.com",
+  checkoutApiUrl: "https://sentinel-outfitters.com",
   paymentLinks: {
   "diamondback-10x50-killflash:black": "https://buy.stripe.com/aFa6oG27M8x62TNb5h67S05",
   "diamondback-10x50-killflash:green": "https://buy.stripe.com/aFacN43bQfZyeCveht67S06",
