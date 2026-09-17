@@ -2,12 +2,14 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
-    .replace(/"/g, """)
-    .replace(/'/g, "&#39;");
+  const map = {
+    "&": String.fromCharCode(38) + "amp;",
+    "<": String.fromCharCode(38) + "lt;",
+    ">": String.fromCharCode(38) + "gt;",
+    '"': String.fromCharCode(38) + "quot;",
+    "'": String.fromCharCode(38) + "#39;"
+  };
+  return String(value ?? "").replace(/[&<>"']/g, (ch) => map[ch]);
 }
 
 function renderFaqHtml(product) {
@@ -28,7 +30,7 @@ function renderReviewsHtml(product) {
   const cards = items
     .map((item) => {
       const n = Math.max(0, Math.min(5, Number(item.rating) || 0));
-      const stars = "★".repeat(n) + "☆".repeat(5 - n);
+      const stars = "\u2605".repeat(n) + "\u2606".repeat(5 - n);
       const sourceUrl = item.sourceUrl || "https://www.etsy.com/shop/SentinelOutfitters";
       const source = item.source || "Etsy";
       return `<blockquote class="review-card">
@@ -99,7 +101,7 @@ function renderProductBody(product) {
   return `
     <section class="page-hero">
       <div class="wrap">
-        <div class="eyebrow">${escapeHtml(product.postLabel)} · ${escapeHtml(product.tag)}</div>
+        <div class="eyebrow">${escapeHtml(product.postLabel)} \u00b7 ${escapeHtml(product.tag)}</div>
         <h1>${escapeHtml(title)}</h1>
         <p>${escapeHtml(product.lead)}</p>
       </div>
@@ -136,7 +138,7 @@ function renderProductBody(product) {
 
 export function renderProductPage(rootDir, product) {
   const template = readFileSync(resolve(rootDir, "product.html"), "utf8");
-  const seoTitle = product.seoTitle || `${product.shortName} — Sentinel Outfitters`;
+  const seoTitle = product.seoTitle || `${product.shortName} \u2014 Sentinel Outfitters`;
   const seoDescription = product.seoDescription || product.lead || "";
   const canonicalUrl = "https://sentinel-outfitters.com" + productPath(product.id);
   const images = (product.images || []).map((src) =>
@@ -237,9 +239,9 @@ export function renderProductPage(rootDir, product) {
 
 export function renderProductNotFound(rootDir) {
   const template = readFileSync(resolve(rootDir, "product.html"), "utf8");
-  const body = `<section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>That SKU isn’t posted.</h1><p><a class="btn btn-primary" href="shop.html">Back to shop</a></p></div></section>`;
+  const body = `<section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>That SKU is not posted.</h1><p><a class="btn btn-primary" href="shop.html">Back to shop</a></p></div></section>`;
   return template
-    .replace(/<title>[\s\S]*?<\/title>/i, "<title>Product not found — Sentinel Outfitters</title>")
+    .replace(/<title>[\s\S]*?<\/title>/i, "<title>Product not found - Sentinel Outfitters</title>")
     .replace(
       /<div id="product-root">[\s\S]*?<\/div>\s*<\/main>/i,
       `<div id="product-root">${body}</div>
