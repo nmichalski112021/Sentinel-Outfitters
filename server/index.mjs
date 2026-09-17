@@ -195,10 +195,19 @@ function securityHeaders(req, res, next) {
 app.use(securityHeaders);
 
 // Keep the Render service URL out of search results and make the custom domain canonical.
+// Skip Stripe/API POST endpoints — a 301 drops the body and breaks webhook signature verify.
 app.use((req, res, next) => {
   const host = String(req.get("host") || "").split(":")[0].toLowerCase();
   if (host === "sentinel-outfitters.onrender.com" || host.endsWith(".onrender.com")) {
-    return res.redirect(301, "https://sentinel-outfitters.com" + req.url);
+    const path = String(req.path || "");
+    const skip =
+      path === "/webhook" ||
+      path === "/webhook-self-test" ||
+      path === "/create-checkout-session" ||
+      path === "/session-status";
+    if (!skip) {
+      return res.redirect(301, "https://sentinel-outfitters.com" + req.url);
+    }
   }
   next();
 });
