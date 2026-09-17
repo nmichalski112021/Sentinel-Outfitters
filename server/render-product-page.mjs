@@ -64,6 +64,33 @@ function productPath(id) {
   return "/products/" + encodeURIComponent(id);
 }
 
+function merchantReturnPolicy() {
+  return {
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: "US",
+    returnPolicyCountry: "US",
+    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+    merchantReturnDays: 14,
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/FreeReturn",
+    refundType: "https://schema.org/FullRefund",
+    merchantReturnLink: "https://sentinel-outfitters.com/shipping.html"
+  };
+}
+
+function shippingDetails() {
+  return {
+    "@type": "OfferShippingDetails",
+    shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+    shippingDestination: { "@type": "DefinedRegion", addressCountry: "US" },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
+      transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 8, unitCode: "DAY" }
+    }
+  };
+}
+
 function renderProductBody(product) {
   const title = product.name;
   const hero = product.images && product.images[0] ? product.images[0] : "images/logo.jpg";
@@ -138,7 +165,7 @@ function renderProductBody(product) {
 
 export function renderProductPage(rootDir, product) {
   const template = readFileSync(resolve(rootDir, "product.html"), "utf8");
-  const seoTitle = product.seoTitle || `${product.shortName} \u2014 Sentinel Outfitters`;
+  const seoTitle = product.seoTitle || `${product.shortName} - Sentinel Outfitters`;
   const seoDescription = product.seoDescription || product.lead || "";
   const canonicalUrl = "https://sentinel-outfitters.com" + productPath(product.id);
   const images = (product.images || []).map((src) =>
@@ -152,7 +179,12 @@ export function renderProductPage(rootDir, product) {
     name: product.name,
     description: seoDescription,
     sku: product.id,
-    brand: { "@type": "Brand", name: "Sentinel Outfitters" },
+    mpn: product.id,
+    brand: {
+      "@type": "Brand",
+      name: "Sentinel Outfitters",
+      url: "https://sentinel-outfitters.com/"
+    },
     image: images.length ? images : ["https://sentinel-outfitters.com/images/logo.jpg"],
     offers: {
       "@type": "Offer",
@@ -161,26 +193,13 @@ export function renderProductPage(rootDir, product) {
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       url: canonicalUrl,
-      seller: { "@type": "Organization", name: "Sentinel Outfitters LLC" },
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
-        shippingDestination: { "@type": "DefinedRegion", addressCountry: "US" },
-        deliveryTime: {
-          "@type": "ShippingDeliveryTime",
-          handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
-          transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 8, unitCode: "DAY" }
-        }
+      seller: {
+        "@type": "Organization",
+        name: "Sentinel Outfitters LLC",
+        url: "https://sentinel-outfitters.com/"
       },
-      hasMerchantReturnPolicy: {
-        "@type": "MerchantReturnPolicy",
-        applicableCountry: "US",
-        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
-        merchantReturnDays: 14,
-        returnMethod: "https://schema.org/ReturnByMail",
-        returnFees: "https://schema.org/FreeReturn",
-        refundType: "https://schema.org/FullRefund"
-      }
+      shippingDetails: shippingDetails(),
+      hasMerchantReturnPolicy: merchantReturnPolicy()
     }
   };
   if (ratings.length) {
@@ -194,6 +213,7 @@ export function renderProductPage(rootDir, product) {
     jsonLd.review = reviews.map((item) => ({
       "@type": "Review",
       author: { "@type": "Person", name: item.name },
+      datePublished: item.date || undefined,
       reviewRating: {
         "@type": "Rating",
         ratingValue: String(item.rating),
