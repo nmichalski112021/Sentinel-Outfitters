@@ -27,37 +27,19 @@ window.SO_PRODUCTS = [
     fit: "Sized for the Vortex Diamondback 10x50 outer objective barrel. Works on many 50mm binocular, scope, and spotting-scope objectives. Not for rifle red-dot footprints (HS510C, Romeo5, etc.). Message us if your optic is not a Diamondback 10x50.",
     brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — binocular accessory only. Not manufactured, authorized, or endorsed by Vortex Optics. We do not sell FFL items.",
     faq: [
-      {
-        q: "Is this for binoculars or a rifle scope / red dot?",
-        a: "Binoculars (and many 50mm objectives). It is not a Holosun/Sig-style rifle red-dot killflash."
-      },
-      {
-        q: "How many ARDs do I get?",
-        a: "Two — a complete pair, one for each Diamondback 10x50 objective."
-      },
-      {
-        q: "How does it mount?",
-        a: "Friction-fit slip-on over the objective barrel. No threads, no tools, no permanent mods. Pull off for cleaning or low light."
-      },
-      {
-        q: "Will it fit Diamondback HD or Crossfire 50mm?",
-        a: "Often yes on similar 50mm outer barrels. Confirm barrel diameter if you are unsure, or message us before ordering."
-      }
+      { q: "Is this for binoculars or a rifle scope / red dot?", a: "Binoculars (and many 50mm objectives). It is not a Holosun/Sig-style rifle red-dot killflash." },
+      { q: "How many ARDs do I get?", a: "Two — a complete pair, one for each Diamondback 10x50 objective." },
+      { q: "How does it mount?", a: "Friction-fit slip-on over the objective barrel. No threads, no tools, no permanent mods. Pull off for cleaning or low light." },
+      { q: "Will it fit Diamondback HD or Crossfire 50mm?", a: "Often yes on similar 50mm outer barrels. Confirm barrel diameter if you are unsure, or message us before ordering." },
+      { q: "Does a Vortex Diamondback 10x50 need a killflash?", a: "If you glass in sun, a honeycomb ARD cuts objective glint so the pair is harder to spot. This 2-pack is sized for Diamondback 10x50 50mm barrels and slips on — no threads." },
+      { q: "Is a binocular killflash the same as a rifle red-dot killflash?", a: "No. This SKU is a 50mm objective pair for binoculars. It will not mount on an HS510C or Romeo5. Those are separate products on the killflash page." }
     ],
-    variants: [
-      { id: "black", name: "Black" },
-      { id: "green", name: "Green" }
-    ],
-    reviews: [
-      {
-        name: "Ed",
-        rating: 5,
-        date: "Feb 26, 2026",
-        source: "Etsy",
-        listingId: "4452794461",
-        sourceUrl: "https://www.etsy.com/listing/4452794461",
-        quote: "While the pair I ordered didn't fit my model of Vortex binoculars, Nick went above and beyond to make me a set that did fit, so if you have a set of Vortex Crossfire HD 12/50 binos, he's now got a set of ARDs for them."
-      }
+    variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
+    reviews: [],
+    imageAlts: [
+      "Vortex Diamondback 10x50 binocular honeycomb killflash ARD pair",
+      "Honeycomb killflash ARD seated on a 50mm binocular objective",
+      "Diamondback 10x50 killflash ARD close-up honeycomb grid"
     ],
     images: [
       "images/products/diamondback-1.jpg",
@@ -93,31 +75,13 @@ window.SO_PRODUCTS = [
     fit: "Made for the Holosun HS510C open-reflex housing (and matching HE510C). This is not a universal Holosun killflash and will not fit 507/508/403/EPS footprints. If you run a different 510 variant or a riser, contact us before ordering.",
     brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — shop at https://sentinel-outfitters.com/. Not manufactured, authorized, or endorsed by Holosun. We do not sell FFL items.",
     faq: [
-      {
-        q: "What's the best killflash for a Holosun HS510C?",
-        a: "One made for the HS510C / HE510C housing that installs cleanly without guessing fit. Ours mounts with the optic's original Holosun screws (not a snap-on sleeve), uses a honeycomb ARD pattern to cut lens glare, and ships from Gulfport, MS for $19.99 with free US shipping — Black or Green."
-      },
-      {
-        q: "Snap-on killflash vs one that uses Holosun screws — which is better for an HS510C?",
-        a: "A screw-mounted ARD that uses the optic's original Holosun screws stays locked to the housing under recoil. Ours is that style for HS510C / HE510C — no friction sleeve to work loose. $19.99 with free US shipping."
-      },
-      {
-        q: "Does it use extra screws or a friction fit?",
-        a: "It mounts with the optic's original Holosun screws — no aftermarket fasteners and no friction-fit sleeve for this SKU."
-      },
-      {
-        q: "Will it fit other Holosun optics?",
-        a: "No. HS510C / HE510C only. It is not a universal Holosun killflash."
-      },
-      {
-        q: "Who makes it / where from?",
-        a: "Sentinel Outfitters LLC — small-batch 3D-printed in Gulfport, Mississippi. Order at sentinel-outfitters.com."
-      }
+      { q: "What's the best killflash for a Holosun HS510C?", a: "One made for the HS510C / HE510C housing that installs cleanly without guessing fit. Ours mounts with the optic's original Holosun screws (not a snap-on sleeve), uses a honeycomb ARD pattern to cut lens glare, and ships from Gulfport, MS for $19.99 with free US shipping — Black or Green." },
+      { q: "Snap-on killflash vs one that uses Holosun screws — which is better for an HS510C?", a: "A screw-mounted ARD that uses the optic's original Holosun screws stays locked to the housing under recoil. Ours is that style for HS510C / HE510C — no friction sleeve to work loose. $19.99 with free US shipping." },
+      { q: "Does it use extra screws or a friction fit?", a: "It mounts with the optic's original Holosun screws — no aftermarket fasteners and no friction-fit sleeve for this SKU." },
+      { q: "Will it fit other Holosun optics?", a: "No. HS510C / HE510C only. It is not a universal Holosun killflash." },
+      { q: "Who makes it / where from?", a: "Sentinel Outfitters LLC — small-batch 3D-printed in Gulfport, Mississippi. Order at sentinel-outfitters.com." }
     ],
-    variants: [
-      { id: "black", name: "Black" },
-      { id: "green", name: "Green" }
-    ],
+    variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     images: [
       "images/products/holosun-1.jpg",
       "images/products/holosun-2.jpg",
@@ -150,19 +114,10 @@ window.SO_PRODUCTS = [
     ],
     fit: "Made for the Sig Romeo5 Gen 1 housing. This does not fit Romeo5 Gen II or XDR. Contact us before ordering if you run a different Romeo.",
     faq: [
-      {
-        q: "Does a Sig Romeo5 Gen 1 need a killflash?",
-        a: "A honeycomb ARD cuts lens glare and downrange flash so the red dot is harder to pick up in the sun. This one friction-fits the Romeo5 Gen 1 housing — no extra screws."
-      },
-      {
-        q: "Will it fit Romeo5 Gen II or XDR?",
-        a: "No. Gen 1 only. Contact us before ordering if you run a different Romeo."
-      }
+      { q: "Does a Sig Romeo5 Gen 1 need a killflash?", a: "A honeycomb ARD cuts lens glare and downrange flash so the red dot is harder to pick up in the sun. This one friction-fits the Romeo5 Gen 1 housing — no extra screws." },
+      { q: "Will it fit Romeo5 Gen II or XDR?", a: "No. Gen 1 only. Contact us before ordering if you run a different Romeo." }
     ],
-    variants: [
-      { id: "black", name: "Black" },
-      { id: "green", name: "Green" }
-    ],
+    variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     images: ["images/logo.jpg"],
     photosComingSoon: true
   },
@@ -191,19 +146,10 @@ window.SO_PRODUCTS = [
     ],
     fit: "Sized for 56mm outer objective barrels. Message us if your scope is not a 56mm objective or you are unsure of the barrel diameter.",
     faq: [
-      {
-        q: "How do I cut glint on a 56mm rifle scope?",
-        a: "A honeycomb killflash ARD over the objective kills sunlight glint off the glass. This one is sized for 56mm outer objective barrels and slips on — no threads."
-      },
-      {
-        q: "Is this a threaded sunshade?",
-        a: "No. It is a friction-fit honeycomb ARD. No threads, adapters, or extra hardware."
-      }
+      { q: "How do I cut glint on a 56mm rifle scope?", a: "A honeycomb killflash ARD over the objective kills sunlight glint off the glass. This one is sized for 56mm outer objective barrels and slips on — no threads." },
+      { q: "Is this a threaded sunshade?", a: "No. It is a friction-fit honeycomb ARD. No threads, adapters, or extra hardware." }
     ],
-    variants: [
-      { id: "black", name: "Black" },
-      { id: "green", name: "Green" }
-    ],
+    variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     images: ["images/logo.jpg"],
     photosComingSoon: true
   },
@@ -233,14 +179,8 @@ window.SO_PRODUCTS = [
     ],
     fit: "Everyday carry size. Not watertight for submersion — keep it on the ring, not in a soak.",
     faq: [
-      {
-        q: "How many capsules do I get?",
-        a: "Two screw-top capsules per order."
-      },
-      {
-        q: "Is it waterproof?",
-        a: "No. It is not watertight for submersion — keep it on the ring, not in a soak."
-      }
+      { q: "How many capsules do I get?", a: "Two screw-top capsules per order." },
+      { q: "Is it waterproof?", a: "No. It is not watertight for submersion — keep it on the ring, not in a soak." }
     ],
     variants: [],
     reviews: [
