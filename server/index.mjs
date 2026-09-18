@@ -340,9 +340,8 @@ app.get("/sitemap.xml", (req, res) => {
   const lastmod = new Date().toISOString().slice(0, 10);
   const pages = [
     ["https://sentinel-outfitters.com/", "1.0"],
+    ["https://sentinel-outfitters.com/killflash.html", "0.95"],
     ["https://sentinel-outfitters.com/shop.html", "0.9"],
-    ["https://sentinel-outfitters.com/shop.html?post=parts", "0.8"],
-    ["https://sentinel-outfitters.com/shop.html?post=field", "0.8"],
     ["https://sentinel-outfitters.com/about.html", "0.7"],
     ["https://sentinel-outfitters.com/contact.html", "0.5"],
     ["https://sentinel-outfitters.com/shipping.html", "0.4"],
