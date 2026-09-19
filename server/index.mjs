@@ -474,7 +474,7 @@ app.post("/create-checkout-session", async (req, res) => {
   try {
     const items = Array.isArray(req.body && req.body.items) ? req.body.items : [];
     if (!items.length) return res.status(400).json({ error: "Cart is empty" });
-    const lineItems = items.map(lineItemFromCart);
+    const lineItems = items.map((item) => lineItemFromCart(item, root));
     const payload = {
       mode: "payment",
       line_items: lineItems,
