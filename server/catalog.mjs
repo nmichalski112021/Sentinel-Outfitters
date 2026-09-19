@@ -1,42 +1,29 @@
-export const CATALOG = {
-  "diamondback-10x50-killflash": {
-    name: "Vortex Diamondback 10x50 Killflash ARD 2-Pack",
-    price: 5598,
-    variants: { black: "Black", green: "Green" }
-  },
-  "holosun-hs510c-killflash": {
-    name: "Holosun HS510C Killflash ARD",
-    price: 1999,
-    variants: { black: "Black", green: "Green" }
-  },
-  "sig-romeo5-gen1-killflash": {
-    name: "Sig Romeo5 Gen 1 Killflash ARD",
-    price: 1999,
-    variants: { black: "Black", green: "Green" }
-  },
-  "scope-56mm-killflash": {
-    name: "56mm Scope Killflash ARD",
-    price: 2499,
-    variants: { black: "Black", green: "Green" }
-  },
-  "keychain-pill-holder": {
-    name: "Keychain Pill Holder (2-Pack)",
-    price: 1299,
-    variants: {}
-  }
-};
+import { getProductById } from "./load-products.mjs";
 
-export function lineItemFromCart(item) {
-  const product = CATALOG[item.id];
+/**
+ * Build a Stripe Checkout line_item from a cart row using js/products.js
+ * (via load-products) so charged prices match the shop UI.
+ */
+export function lineItemFromCart(item, rootDir) {
+  const product = getProductById(rootDir, item.id);
   if (!product) throw new Error("Unknown product: " + item.id);
+
   const qty = Math.min(20, Math.max(1, Number(item.qty) || 1));
   const variantId = item.variant || "";
-  if (Object.keys(product.variants).length) {
-    if (!product.variants[variantId]) throw new Error("Unknown variant for " + item.id);
+  const variants = Array.isArray(product.variants) ? product.variants : [];
+  const variantMap = Object.fromEntries(
+    variants.map((v) => [v.id, v.name || v.id])
+  );
+
+  if (variants.length) {
+    if (!variantMap[variantId]) throw new Error("Unknown variant for " + item.id);
   }
-  const label = variantId && product.variants[variantId]
-    ? product.name + " (" + product.variants[variantId] + ")"
-    : product.name;
+
+  const label =
+    variantId && variantMap[variantId]
+      ? product.name + " (" + variantMap[variantId] + ")"
+      : product.name;
+
   return {
     quantity: qty,
     price_data: {
