@@ -214,11 +214,29 @@ app.use((req, res, next) => {
 
 app.use(blockPrivatePaths);
 
+function isAllowedCorsOrigin(origin) {
+  if (!origin) return false;
+  if (
+    origin === "https://sentinel-outfitters.com" ||
+    origin === "https://www.sentinel-outfitters.com"
+  ) {
+    return true;
+  }
+  // Local shop/dev pages calling this API
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+}
+
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.get("Origin");
+  if (isAllowedCorsOrigin(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  if (req.method === "OPTIONS") return res.sendStatus(204);
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(isAllowedCorsOrigin(origin) ? 204 : 403);
+  }
   next();
 });
 
