@@ -389,6 +389,7 @@ app.get("/llms.txt", (req, res) => {
 
 - Home: https://sentinel-outfitters.com/
 - Shop: https://sentinel-outfitters.com/shop.html
+- Killflash: https://sentinel-outfitters.com/killflash.html
 - About: https://sentinel-outfitters.com/about.html
 - Shipping: https://sentinel-outfitters.com/shipping.html
 - Contact: https://sentinel-outfitters.com/contact.html
