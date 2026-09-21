@@ -6,13 +6,15 @@
  *   $env:SITE_URL="https://YOUR_USERNAME.github.io/YOUR_REPO"
  *   node scripts/create-stripe-links.mjs
  *
- * Writes public Payment Link URLs into js/stripe-config.js.
- * Never put the secret key in the website files.
+ * Catalog comes from js/products.js via server/load-products.mjs
+ * (same source as checkout). Writes public Payment Link URLs into
+ * js/stripe-config.js. Never put the secret key in website files.
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadProducts } from "../server/load-products.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -24,7 +26,7 @@ function loadEnv() {
       if (!match || process.env[match[1]]) continue;
       process.env[match[1]] = match[2].replace(/^["']|["']$/g, "").trim();
     }
-  } catch (err) {
+  } catch {
     /* no .env file */
   }
 }
@@ -39,53 +41,43 @@ if (!secret || !secret.startsWith("sk_")) {
   process.exit(1);
 }
 
-const catalog = [
-  {
-    key: "diamondback-10x50-killflash:black",
-    name: "Vortex Diamondback 10x50 Killflash ARD 2-Pack (Black)",
-    amount: 5598
-  },
-  {
-    key: "diamondback-10x50-killflash:green",
-    name: "Vortex Diamondback 10x50 Killflash ARD 2-Pack (Green)",
-    amount: 5598
-  },
-  {
-    key: "holosun-hs510c-killflash:black",
-    name: "Holosun HS510C Killflash ARD (Black)",
-    amount: 1999
-  },
-  {
-    key: "holosun-hs510c-killflash:green",
-    name: "Holosun HS510C Killflash ARD (Green)",
-    amount: 1999
-  },
-  {
-    key: "sig-romeo5-gen1-killflash:black",
-    name: "Sig Romeo5 Gen 1 Killflash ARD (Black)",
-    amount: 1999
-  },
-  {
-    key: "sig-romeo5-gen1-killflash:green",
-    name: "Sig Romeo5 Gen 1 Killflash ARD (Green)",
-    amount: 1999
-  },
-  {
-    key: "scope-56mm-killflash:black",
-    name: "56mm Scope Killflash ARD (Black)",
-    amount: 2499
-  },
-  {
-    key: "scope-56mm-killflash:green",
-    name: "56mm Scope Killflash ARD (Green)",
-    amount: 2499
-  },
-  {
-    key: "keychain-pill-holder",
-    name: "Keychain Pill Holder (2-Pack)",
-    amount: 1299
+/** Expand js/products.js into Stripe Payment Link rows (id or id:variant). */
+function catalogFromProducts(products) {
+  const rows = [];
+  for (const product of products) {
+    if (!product || !product.id) continue;
+    const amount = Number(product.price);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      throw new Error("Invalid price for product: " + product.id);
+    }
+    const variants = Array.isArray(product.variants) ? product.variants : [];
+    if (variants.length) {
+      for (const variant of variants) {
+        const variantId = variant.id || variant;
+        const variantName = variant.name || variantId;
+        rows.push({
+          key: product.id + ":" + variantId,
+          name: product.name + " (" + variantName + ")",
+          amount
+        });
+      }
+    } else {
+      rows.push({
+        key: product.id,
+        name: product.name,
+        amount
+      });
+    }
   }
-];
+  return rows;
+}
+
+const catalog = catalogFromProducts(loadProducts(root));
+if (!catalog.length) {
+  console.error("No products loaded from js/products.js");
+  process.exit(1);
+}
+console.log("Loaded " + catalog.length + " Payment Link SKUs from js/products.js");
 
 async function stripe(path, params) {
   const body = new URLSearchParams();
@@ -154,9 +146,13 @@ try {
   /* no existing config */
 }
 if (!existingCheckoutApiUrl) {
-  console.warn("Warning: existing checkoutApiUrl not found; preserving empty string. Set it manually in js/stripe-config.js after this run.");
+  console.warn(
+    "Warning: existing checkoutApiUrl not found; preserving empty string. Set it manually in js/stripe-config.js after this run."
+  );
 }
-console.warn("Note: this script creates new Stripe products/prices/links each run (not idempotent). Prefer one-shot use.");
+console.warn(
+  "Note: this script creates new Stripe products/prices/links each run (not idempotent). Prefer one-shot use."
+);
 
 const file = `window.SO_STRIPE = {
   checkoutApiUrl: ${JSON.stringify(existingCheckoutApiUrl)},
