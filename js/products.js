@@ -58,7 +58,7 @@ window.SO_PRODUCTS = [
     price: 1999,
     shipping: "Free US shipping",
     seoTitle: "Best Killflash for Holosun HS510C / HE510C — Honeycomb ARD | Sentinel Outfitters",
-    seoDescription: "Best killflash for Holosun HS510C / HE510C — honeycomb ARD that mounts with the optic's original Holosun screws (not a snap-on sleeve). $19.99, free US shipping, Black or Green. Printed in Gulfport, MS.",
+    seoDescription: "Factory Holosun killflash ARD alternative for HS510C / HE510C — honeycomb that mounts with the optic’s original Holosun screws (not a clip-on sleeve). $19.99, free US shipping, Black or Green. Printed in Gulfport, MS.",
     buyerQuestion: "What's the best killflash for a Holosun HS510C?",
     lead: "Looking for the best killflash for a Holosun HS510C? Honeycomb ARD for HS510C / HE510C — mounts with the optic's original Holosun screws (not a friction/snap-on cover). $19.99 · Black or Green · free US shipping · printed in Gulfport, MS.",
     description: [
