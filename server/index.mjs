@@ -87,11 +87,17 @@ function blockPrivatePaths(req, res, next) {
     path.startsWith("/data/") ||
     path === "/server" ||
     path.startsWith("/server/") ||
+    path === "/scripts" ||
+    path.startsWith("/scripts/") ||
+    path === "/docs" ||
+    path.startsWith("/docs/") ||
     path === "/.env" ||
     path.startsWith("/.env.") ||
     path === "/package.json" ||
     path === "/package-lock.json" ||
     path === "/render.yaml" ||
+    path === "/readme.md" ||
+    path === "/skills-lock.json" ||
     path.startsWith("/node_modules/")
   ) {
     return res.status(404).end();
