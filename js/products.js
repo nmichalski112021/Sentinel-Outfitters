@@ -67,7 +67,6 @@ window.SO_PRODUCTS = [
       "Install with the same Holosun screws that came on the optic. No aftermarket fasteners required. Black or Green."
     ],
     bullets: [
-      "Aimed at: best killflash for Holosun HS510C / HE510C",
       "HS510C / HE510C only — not a universal Holosun ARD",
       "Original Holosun screws — secure mount, not a snap-on sleeve",
       "Honeycomb anti-reflection · Black or Green",
