@@ -39,7 +39,6 @@ The shop HTML can live on GitHub Pages. Checkout Sessions and webhooks need this
 3. Build: `npm install`. Start: `npm start`.
 4. Add environment variables (do not commit them):
    - `STRIPE_SECRET_KEY` â€” live secret or restricted key
-   - `STRIPE_PUBLISHABLE_KEY` â€” `pk_live_...`
    - `SITE_URL` â€” `https://your-service.onrender.com` (or your GitHub Pages URL if the HTML stays there)
    - `STRIPE_WEBHOOK_SECRET` â€” from Stripe after you create the webhook (add it on the second deploy)
 5. Deploy. Copy the `https://....onrender.com` URL.
