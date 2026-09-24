@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { loadProducts } from "./load-products.mjs";
 
 function escapeHtml(value) {
   const map = {
@@ -91,7 +92,24 @@ function shippingDetails() {
   };
 }
 
-function renderProductBody(product) {
+
+function relatedProductsHtml(product, allProducts) {
+  const tag = product && product.tag;
+  if (!tag) return "";
+  const others = (allProducts || [])
+    .filter((p) => p && p.id && p.id !== product.id && p.tag === tag)
+    .slice(0, 4);
+  if (!others.length) return "";
+  const links = others
+    .map(
+      (p) =>
+        `<li><a href="${productPath(p.id)}">${escapeHtml(p.shortName)}</a> \u2014 ${escapeHtml(p.tag)}</li>`
+    )
+    .join("");
+  return `<div class="related-skus"><p class="copy"><strong>Also see.</strong></p><ul>${links}</ul></div>`;
+}
+
+function renderProductBody(product, allProducts) {
   const title = product.name;
   const hero = product.images && product.images[0] ? product.images[0] : "images/logo.jpg";
   const thumbs =
@@ -155,6 +173,7 @@ function renderProductBody(product) {
           ${description}
           ${brandNote}
           <p class="copy"><strong>Fit.</strong> ${escapeHtml(product.fit || "")}</p>
+          ${relatedProductsHtml(product, allProducts)}
           <p class="copy">See the full <a href="/killflash.html">killflash ARD lineup</a> if you need a different housing.</p>
         </div>
       </div>
@@ -251,7 +270,7 @@ export function renderProductPage(rootDir, product) {
   }
   html = html.replace(
     /<div id="product-root">[\s\S]*?<\/div>\s*<\/main>/i,
-    `<div id="product-root" data-ssr="1">${renderProductBody(product)}</div>
+    `<div id="product-root" data-ssr="1">${renderProductBody(product, loadProducts(rootDir))}</div>
   </main>`
   );
   return html;

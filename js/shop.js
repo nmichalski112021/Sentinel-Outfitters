@@ -1,14 +1,9 @@
 
 function relatedProductsHtml(product) {
-  const related = {
-    "holosun-hs510c-killflash": ["diamondback-10x50-killflash"],
-    "diamondback-10x50-killflash": ["holosun-hs510c-killflash"]
-  };
-  const ids = related[product.id] || [];
-  if (!ids.length || !window.SO_PRODUCTS) return "";
-  const links = ids
-    .map((id) => window.SO_getProduct(id))
-    .filter(Boolean)
+  if (!window.SO_PRODUCTS || !product || !product.tag) return "";
+  const links = window.SO_PRODUCTS
+    .filter((p) => p && p.id && p.id !== product.id && p.tag === product.tag)
+    .slice(0, 4)
     .map((p) => `<li><a href="${productUrl(p.id)}">${p.shortName}</a> — ${p.tag}</li>`)
     .join("");
   if (!links) return "";
