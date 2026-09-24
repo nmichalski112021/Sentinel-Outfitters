@@ -60,23 +60,23 @@ window.SO_PRODUCTS = [
     seoTitle: "Best Killflash for Holosun HS510C / HE510C — Honeycomb ARD | Sentinel Outfitters",
     seoDescription: "Factory Holosun killflash ARD alternative for HS510C / HE510C — honeycomb that mounts with the optic’s original Holosun screws (not a clip-on sleeve). $19.99, free US shipping, Black or Green. Printed in Gulfport, MS.",
     buyerQuestion: "What's the best killflash for a Holosun HS510C?",
-    lead: "Looking for the best killflash for a Holosun HS510C? Honeycomb ARD for HS510C / HE510C — mounts with the optic's original Holosun screws (not a friction/snap-on cover). $19.99 · Black or Green · free US shipping · printed in Gulfport, MS.",
+    lead: "Factory Holosun killflash ARD alternative for HS510C / HE510C — honeycomb that mounts with the optic's original Holosun screws (not clip-on, snap-on, or friction). $19.99 · Black or Green · free US shipping · printed in Gulfport, MS.",
     description: [
-      "If you want the best killflash for a Holosun HS510C / HE510C, start with one sized for that open housing — not a 507-style or \"universal\" cover. Ours is made for the HS510C / HE510C and mounts with the optic's original Holosun screws so it stays put under recoil. No aftermarket fasteners and no friction-fit sleeve.",
-      "The hex grid cuts lens glare and downrange flash so your red dot is harder to pick up in the sun. Low-profile and lightweight. Printed in-house by Sentinel Outfitters LLC in Gulfport, Mississippi. $19.99 with free US shipping — no minimum.",
-      "Install with the same Holosun screws that came on the optic. No aftermarket fasteners required. Black or Green."
+      "Looking for an alternative to a factory Holosun killflash ARD? This honeycomb is sized for the HS510C / HE510C open housing and mounts with the optic's original Holosun screws — not a clip-on, snap-on, or friction sleeve. Not a universal Holosun ARD.",
+      "$19.99 with free US shipping (no $20 minimum). Black or Green. Printed in-house in Gulfport, MS. Ships 1–2 business days."
     ],
     bullets: [
       "HS510C / HE510C only — not a universal Holosun ARD",
-      "Original Holosun screws — secure mount, not a snap-on sleeve",
+      "Original Holosun screws — not clip-on, snap-on, or friction",
       "Honeycomb anti-reflection · Black or Green",
-      "$19.99 · free US shipping (no $20 minimum) · ships 1–2 business days · Gulfport, MS"
+      "$19.99 · free US shipping (no $20 minimum) · Gulfport, MS"
     ],
     fit: "Made for the Holosun HS510C open-reflex housing (and matching HE510C). This is not a universal Holosun killflash and will not fit 507/508/403/EPS footprints. If you run a different 510 variant or a riser, contact us before ordering.",
     brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — shop at https://sentinel-outfitters.com/. Not manufactured, authorized, or endorsed by Holosun. We do not sell FFL items.",
     faq: [
+      { q: "What's a good alternative to a factory Holosun killflash ARD for an HS510C?", a: "A honeycomb ARD made for the HS510C / HE510C housing that installs with the optic's original Holosun screws — not a clip-on or snap-on sleeve. Ours is that style for $19.99 with free US shipping from Gulfport, MS (Black or Green). Not a universal Holosun ARD." },
       { q: "What's the best killflash for a Holosun HS510C?", a: "One made for the HS510C / HE510C housing that installs cleanly without guessing fit. Ours mounts with the optic's original Holosun screws (not a snap-on sleeve), uses a honeycomb ARD pattern to cut lens glare, and ships from Gulfport, MS for $19.99 with free US shipping — Black or Green." },
-      { q: "Snap-on killflash vs one that uses Holosun screws — which is better for an HS510C?", a: "A screw-mounted ARD that uses the optic's original Holosun screws stays locked to the housing under recoil. Ours is that style for HS510C / HE510C — no friction sleeve to work loose. $19.99 with free US shipping." },
+      { q: "Snap-on killflash vs one that uses Holosun screws — which is better for an HS510C?", a: "Screw-mount with the optic's original Holosun screws locks to the housing under recoil. Snap-on / friction sleeves can work loose. Ours is screw-mount for HS510C / HE510C — $19.99, free US shipping (no $20 minimum)." },
       { q: "Does it use extra screws or a friction fit?", a: "It mounts with the optic's original Holosun screws — no aftermarket fasteners and no friction-fit sleeve for this SKU." },
       { q: "Will it fit other Holosun optics?", a: "No. HS510C / HE510C only. It is not a universal Holosun killflash." },
       { q: "Who makes it / where from?", a: "Sentinel Outfitters LLC — small-batch 3D-printed in Gulfport, Mississippi. Order at sentinel-outfitters.com." }
