@@ -454,11 +454,15 @@ app.get("/shop.html", (req, res) => {
   );
   // Swap hero copy by structure (first <h1> in .page-hero and the <p> right after it),
   // not exact wording, so shop.html copy edits don't silently break variants.
+  // The lead's trailing link (e.g. "Compare killflash SKUs") is kept from shop.html.
   // Default page ("") has no h1/lead: its body copy comes straight from shop.html.
   if (variant.h1 && variant.lead) {
     html = html.replace(
-      /(<section class="page-hero">[\s\S]*?<h1[^>]*>)[\s\S]*?(<\/h1>\s*<p[^>]*>)[\s\S]*?(<\/p>)/,
-      (_, h1Open, mid, pClose) => `${h1Open}${variant.h1}${mid}${variant.lead}${pClose}`
+      /(<section class="page-hero">[\s\S]*?<h1[^>]*>)[\s\S]*?(<\/h1>\s*<p[^>]*>)([\s\S]*?)(<\/p>)/,
+      (_, h1Open, mid, lead, pClose) => {
+        const link = (lead.match(/\s*<a\b[^>]*>[\s\S]*?<\/a>[^<]*$/) || [""])[0];
+        return `${h1Open}${variant.h1}${mid}${variant.lead}${link}${pClose}`;
+      }
     );
   }
   res.type("html").send(html);
