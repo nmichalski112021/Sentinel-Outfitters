@@ -1,4 +1,4 @@
-﻿# Sentinel Outfitters
+# Sentinel Outfitters
 
 Website for **Sentinel Outfitters LLC**. Checkout uses Stripe Checkout Sessions. Paid orders are confirmed by the `checkout.session.completed` webhook.
 
@@ -28,25 +28,23 @@ Pay with test card `4242 4242 4242 4242`. Never put the Stripe secret key in HTM
 3. After payment, Stripe sends `checkout.session.completed`. The server records the order in `data/orders.jsonl` (blocked from public HTTP; override with `ORDERS_PATH` for a persistent disk).
 4. The success page is only a receipt. Fulfillment is the webhook.
 
-## GitHub Pages
+## Hosting (Render)
 
-The shop HTML can live on GitHub Pages. Checkout Sessions and webhooks need this Node server on a public HTTPS host (GitHub Pages cannot run `npm start`).
-
-## Public Node host (Render)
+Live HTML and checkout share this Node server on Render behind `https://sentinel-outfitters.com` (no separate static host).
 
 1. Open [render.com](https://render.com) and sign in with GitHub.
-2. **New â†’ Web Service** â†’ this repo (`Sentinel-Outfitters`).
+2. **New → Web Service** → this repo (`Sentinel-Outfitters`).
 3. Build: `npm install`. Start: `npm start`.
 4. Add environment variables (do not commit them):
-   - `STRIPE_SECRET_KEY` â€” live secret or restricted key
-   - `SITE_URL` â€” `https://your-service.onrender.com` (or your GitHub Pages URL if the HTML stays there)
-   - `STRIPE_WEBHOOK_SECRET` â€” from Stripe after you create the webhook (add it on the second deploy)
-5. Deploy. Copy the `https://....onrender.com` URL.
-6. In Stripe live mode: Developers â†’ Webhooks â†’ Add endpoint  
+   - `STRIPE_SECRET_KEY` — live secret or restricted key
+   - `SITE_URL` — `https://sentinel-outfitters.com` (or the `*.onrender.com` URL before the custom domain is attached)
+   - `STRIPE_WEBHOOK_SECRET` — from Stripe after you create the webhook (add it on the second deploy)
+5. Deploy. Copy the service URL.
+6. In Stripe live mode: Developers → Webhooks → Add endpoint  
    `https://YOUR-SERVICE.onrender.com/webhook`  
    Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`.
 7. Paste the `whsec_...` signing secret into Render as `STRIPE_WEBHOOK_SECRET` and redeploy.
-8. Set `checkoutApiUrl` in `js/stripe-config.js` to that `https://....onrender.com` URL and push.
+8. Set `checkoutApiUrl` in `js/stripe-config.js` to `https://sentinel-outfitters.com` (same origin as the shop) and push.
 
 Render free/starter instances sleep. Stripe retries failed webhooks; for reliable live orders, use a paid instance that stays up.
 
@@ -63,3 +61,4 @@ Render free/starter instances sleep. Stripe retries failed webhooks; for reliabl
 | `contact.html` | Inquiries |
 | `shipping.html` | Shipping, returns, privacy, terms |
 | `404.html` | Not-found page |
+| `killflash.html` | Killflash ARD lineup hub |
