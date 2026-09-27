@@ -3,7 +3,7 @@
  *
  * Usage (PowerShell):
  *   $env:STRIPE_SECRET_KEY="sk_live_..."
- *   $env:SITE_URL="https://YOUR_USERNAME.github.io/YOUR_REPO"
+ *   $env:SITE_URL="https://sentinel-outfitters.com"
  *   node scripts/create-stripe-links.mjs
  *
  * Catalog comes from js/products.js via server/load-products.mjs
