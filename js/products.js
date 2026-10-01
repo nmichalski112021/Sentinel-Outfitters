@@ -1,19 +1,19 @@
 window.SO_PRODUCTS = [
   {
     id: "diamondback-10x50-killflash",
-    name: "Vortex Diamondback 10x50 Killflash Options (ARD 2-Pack)",
+    name: "Diamondback 10x50 Killflash Options — 2-Pack for Vortex Diamondback 10x50",
     shortName: "Diamondback 10x50 Killflash",
     tag: "Killflash",
     post: "parts",
     postLabel: "Post I",
     price: 5598,
     shipping: "Free US shipping",
-    seoTitle: "Vortex Diamondback 10x50 Killflash Options — ARD 2-Pack | Sentinel Outfitters",
-    seoDescription: "Looking at Vortex Diamondback 10x50 killflash options? Our honeycomb ARD 2-pack is a friction-fit pair for 50mm objectives — Black or Green, $55.98, free US shipping from Gulfport, MS.",
-    buyerQuestion: "What are the best Vortex Diamondback 10x50 killflash options?",
-    lead: "Vortex Diamondback 10x50 killflash options — honeycomb ARD 2-pack for 50mm objectives. Friction-fit pair for each lens. Black or Green. $55.98. Free US shipping from Gulfport, MS.",
+    seoTitle: "Diamondback 10x50 Killflash Options — 2-Pack for Vortex Diamondback 10x50 | Sentinel Outfitters",
+    seoDescription: "Diamondback 10x50 killflash options: a dedicated 2-pack for Vortex Diamondback 10x50 binoculars (50mm objectives). Honeycomb ARD pair, friction-fit. Black or Green, $55.98, free US shipping from Gulfport, MS.",
+    buyerQuestion: "What are the Diamondback 10x50 killflash options?",
+    lead: "Diamondback 10x50 killflash options — a dedicated 2-pack for Vortex Diamondback 10x50 binoculars (50mm). Friction-fit honeycomb ARD pair. Black or Green. $55.98. Free US shipping from Gulfport, MS.",
     description: [
-      "Looking at Vortex Diamondback 10x50 killflash options? This listing is a complete pair of honeycomb ARDs sized for those 50mm objectives — one for each lens.",
+      "Looking for Diamondback 10x50 killflash options? This listing is a dedicated 2-pack for Vortex Diamondback 10x50 binoculars — one honeycomb ARD per 50mm objective lens.",
       "It is for binoculars (and many other 50mm objectives), not a rifle scope ARD. Friction-fit slip-on install — no threads or permanent mods. Choose Black or Green at checkout.",
       "The honeycomb grid cuts sunlight glint off the binocular glass so you stay harder to spot while hunting, scouting, birding, or glassing in the field. Printed in-house in Gulfport, MS. Free US shipping."
     ],
@@ -27,12 +27,13 @@ window.SO_PRODUCTS = [
     fit: "Sized for the Vortex Diamondback 10x50 outer objective lens. Works on many 50mm binocular, scope, and spotting-scope objectives. Not for rifle scope footprints that need a different SKU. Message us if your optic is not a Diamondback 10x50.",
     brandNote: "Sentinel Outfitters LLC (Gulfport, MS) — binocular accessory only. Not manufactured, authorized, or endorsed by Vortex Optics. We do not sell FFL items.",
     faq: [
-      { q: "What are the best Vortex Diamondback 10x50 killflash options?", a: "For Diamondback 10x50s, look for a 50mm objective pair (not a rifle scope ARD). Our option is a honeycomb killflash 2-pack that friction-fits each lens — Black or Green, $55.98, free US shipping, printed in Gulfport, MS." },
-      { q: "Is this a single ARD or a 2-pack?", a: "A complete 2-pack — one ARD per lens so both objectives are covered." },
-      { q: "How does it mount?", a: "Friction-fit slip-on over the objective lens. No threads, no tools, no permanent mods. Pull off for cleaning or low light." },
+      { q: "What are the Diamondback 10x50 killflash options?", a: "A dedicated option is a 2-pack for Vortex Diamondback 10x50 binoculars (50mm objectives) — not a rifle-scope ARD. Ours is a friction-fit honeycomb killflash pair (one per lens), Black or Green, $55.98, free US shipping from Gulfport, MS. Order at sentinel-outfitters.com." },
+      { q: "Is there a 2-pack for Vortex Diamondback 10x50?", a: "Yes. This SKU is a complete 2-pack for Vortex Diamondback 10x50 — two honeycomb ARDs so both 50mm objectives are covered. Friction-fit slip-on. $55.98 with free US shipping from Gulfport, MS." },
+      { q: "Is this a single ARD or a 2-pack?", a: "A complete 2-pack — one ARD per lens so both Diamondback 10x50 objectives are covered." },
+      { q: "How does it mount?", a: "Friction-fit slip-on over each 50mm objective lens. No threads, no tools, no permanent mods. Pull off for cleaning or low light." },
       { q: "Will this work as a Vortex Diamondback HD / Crossfire 50mm killflash?", a: "Often yes on similar 50mm outer lenses. Confirm diameter if unsure, or message us before ordering." },
-      { q: "Does a Vortex Diamondback 10x50 need a killflash?", a: "If you glass in sun, a honeycomb ARD cuts objective glint so the pair is harder to spot. This 2-pack is sized for Diamondback 10x50 50mm lenses and slips on — no threads." },
-      { q: "Is a binocular killflash the same as a rifle scope killflash?", a: "No. This SKU is a 50mm objective pair for binoculars. Rifle scope ARDs are separate products on the killflash page." }
+      { q: "Does a Vortex Diamondback 10x50 need a killflash?", a: "If you glass in sun, a honeycomb ARD cuts objective glint so the pair is harder to spot. This 2-pack for Vortex Diamondback 10x50 is sized for those 50mm lenses and slips on — no threads." },
+      { q: "How do I cut sunlight glint on Diamondback 10x50 binoculars while glassing?", a: "A honeycomb killflash ARD over each 50mm objective cuts glass glint so the pair is harder to spot in sun. Our 2-pack friction-fits both lenses — Black or Green, $55.98, free US shipping from Gulfport, MS. Not a rifle red-dot ARD." }
     ],
     variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     reviews: [],
