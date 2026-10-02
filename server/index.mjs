@@ -415,9 +415,7 @@ const shopVariants = {
     title: "Shop Killflash ARDs & Field Gear — Sentinel Outfitters",
     description:
       "Killflash ARDs for binoculars, red dots, and rifle scopes, plus EDC field gear. Printed in-house in Gulfport, MS. Free US shipping.",
-    canonical: "https://sentinel-outfitters.com/shop.html",
-    h1: "Shop.",
-    lead: "Killflash ARDs and field gear, printed in-house. Checkout on-site with Stripe. Free US shipping."
+    canonical: "https://sentinel-outfitters.com/shop.html"
   },
   parts: {
     title: "Killflash ARDs for Optics — Sentinel Outfitters",
@@ -454,11 +452,19 @@ app.get("/shop.html", (req, res) => {
     "</head>",
     `  <link rel="canonical" href="${variant.canonical}">\n</head>`
   );
-  html = html.replace(/<h1>Shop\.<\/h1>/, `<h1>${variant.h1}</h1>`);
-  html = html.replace(
-    /<p>Killflash ARDs and field gear, printed in-house\. Checkout on-site with Stripe\. Free US shipping\.<\/p>/,
-    `<p>${variant.lead}</p>`
-  );
+  // Swap hero copy by structure (first <h1> in .page-hero and the <p> right after it),
+  // not exact wording, so shop.html copy edits don't silently break variants.
+  // The lead's trailing link (e.g. "Compare killflash SKUs") is kept from shop.html.
+  // Default page ("") has no h1/lead: its body copy comes straight from shop.html.
+  if (variant.h1 && variant.lead) {
+    html = html.replace(
+      /(<section class="page-hero">[\s\S]*?<h1[^>]*>)[\s\S]*?(<\/h1>\s*<p[^>]*>)([\s\S]*?)(<\/p>)/,
+      (_, h1Open, mid, lead, pClose) => {
+        const link = (lead.match(/\s*<a\b[^>]*>[\s\S]*?<\/a>[^<]*$/) || [""])[0];
+        return `${h1Open}${variant.h1}${mid}${variant.lead}${link}${pClose}`;
+      }
+    );
+  }
   res.type("html").send(html);
 });
 
