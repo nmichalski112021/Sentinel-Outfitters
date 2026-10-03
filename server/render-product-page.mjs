@@ -174,7 +174,7 @@ function renderProductBody(product, allProducts) {
           ${brandNote}
           <p class="copy"><strong>Fit.</strong> ${escapeHtml(product.fit || "")}</p>
           ${relatedProductsHtml(product, allProducts)}
-          <p class="copy">See the full <a href="/killflash.html">killflash ARD lineup</a> if you need a different housing.</p>
+          ${product.tag === "Killflash" ? `<p class="copy">See the full <a href="/killflash.html">killflash ARD lineup</a> if you need a different housing.</p>` : ""}
         </div>
       </div>
     </section>
