@@ -37,11 +37,6 @@ window.SO_PRODUCTS = [
     ],
     variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     reviews: [],
-    imageAlts: [
-      "Vortex Diamondback 10x50 binocular honeycomb killflash ARD pair",
-      "Honeycomb killflash ARD seated on a 50mm binocular objective lens",
-      "Diamondback 10x50 killflash ARD close-up honeycomb grid"
-    ],
     images: [
       "images/products/diamondback-1.jpg",
       "images/products/diamondback-2.jpg",
@@ -190,7 +185,6 @@ window.SO_PRODUCTS = [
         rating: 5,
         date: "Jul 21, 2026",
         source: "Etsy",
-        listingId: "4449226922",
         sourceUrl: "https://www.etsy.com/listing/4449226922",
         quote: "I'm generally not someone who writes reviews unless I'm very happy or disappointed in a product and I'm so very HAPPY with this product and the service. I was looking for a pill holder and asked Nick if something like a Tums pill could fit inside this. The answer was no, BUT Nick took the time to redesign the item and made it specifically for my request within a matter of just hours. He truly went above and beyond my high expectations. Nick 3D prints this item out of his house and he enlarged the original pill bottle to accommodate Tums for me and I'm so thrilled with his service. I highly recommend this product and this store. Thank you so much, Nick!"
       }
