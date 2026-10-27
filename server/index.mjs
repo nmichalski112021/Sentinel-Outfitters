@@ -369,6 +369,7 @@ app.get("/sitemap.xml", (req, res) => {
   const pages = [
     ["https://sentinel-outfitters.com/", "1.0"],
     ["https://sentinel-outfitters.com/killflash.html", "0.95"],
+    ["https://sentinel-outfitters.com/glare-guide.html", "0.85"],
     ["https://sentinel-outfitters.com/shop.html", "0.9"],
     ["https://sentinel-outfitters.com/about.html", "0.7"],
     ["https://sentinel-outfitters.com/contact.html", "0.5"],
@@ -400,6 +401,7 @@ app.get("/llms.txt", (req, res) => {
 - Home: https://sentinel-outfitters.com/
 - Shop: https://sentinel-outfitters.com/shop.html
 - Killflash: https://sentinel-outfitters.com/killflash.html
+- Glare guide: https://sentinel-outfitters.com/glare-guide.html
 - About: https://sentinel-outfitters.com/about.html
 - Shipping: https://sentinel-outfitters.com/shipping.html
 - Contact: https://sentinel-outfitters.com/contact.html
