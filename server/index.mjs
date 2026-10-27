@@ -210,7 +210,8 @@ app.use((req, res, next) => {
       path === "/webhook" ||
       path === "/webhook-self-test" ||
       path === "/create-checkout-session" ||
-      path === "/session-status";
+      path === "/session-status" ||
+      path === "/healthz";
     if (!skip) {
       return res.redirect(301, "https://sentinel-outfitters.com" + req.url);
     }
@@ -336,6 +337,9 @@ app.use((req, res, next) => {
   next();
 });
 
+
+// Health check for Render zero-downtime deploys (keeps 5xx / fallback robots.txt away from Googlebot).
+app.get("/healthz", (req, res) => res.status(200).type("text/plain").send("ok"));
 
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain").send(`User-agent: *
@@ -561,6 +565,12 @@ app.get("/session-status", async (req, res) => {
 
 app.use((req, res) => {
   res.status(404).sendFile(resolve(root, "404.html"));
+});
+
+process.on("unhandledRejection", (err) => console.error("unhandledRejection", err));
+process.on("uncaughtException", (err) => {
+  console.error("uncaughtException", err);
+  process.exit(1);
 });
 
 app.listen(port, "0.0.0.0", () => {
