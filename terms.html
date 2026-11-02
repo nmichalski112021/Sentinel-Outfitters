@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — Sentinel Outfitters</title>
+  <meta name="description" content="Terms of sale and use for sentinel-outfitters.com and Sentinel Outfitters LLC.">
+  <meta name="theme-color" content="#17140F">
+  <link rel="icon" href="images/logo.jpg" type="image/jpeg">
+  <link rel="canonical" href="https://sentinel-outfitters.com/terms">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="nav-brand" href="/">
+        <img src="images/logo.jpg" alt="Sentinel Outfitters mark">
+        <span>Sentinel Outfitters</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="shop.html">Shop</a>
+        <a href="killflash.html">Killflash</a>
+        <a href="about.html">About</a>
+        <a href="cart.html">Cart <span class="nav-cart-count" data-cart-count hidden>0</span></a>
+        <a href="/#watch">Join</a>
+        <a href="shop.html" class="nav-cta nav-cta-mobile">Shop Now</a>
+      </nav>
+      <a href="shop.html" class="nav-cta">Shop Now</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="eyebrow">Company</div>
+        <h1>Terms of service.</h1>
+        <p>The terms that apply when you shop with us.</p>
+      </div>
+    </section>
+    <section>
+      <div class="wrap prose reveal">
+        <p><em>Last updated November 2, 2026.</em></p>
+        <p>These terms apply when you use sentinel-outfitters.com or buy from Sentinel Outfitters LLC, a Mississippi limited liability company based in Gulfport, Mississippi. By placing an order, you agree to them.</p>
+        <h2>Who can buy</h2>
+        <p>You must be 18 or older and ship to a US address.</p>
+        <h2>What we sell</h2>
+        <p>We sell 3D-printed accessories only: optic accessories such as honeycomb anti-reflection covers, and everyday-carry items. We do not sell firearms, receivers, frames, or any item regulated under 18 U.S.C. or the Gun Control Act. Nothing on this site requires an FFL to purchase. You're responsible for making sure an item is legal where you live and use it.</p>
+        <h2>Product fit and descriptions</h2>
+        <p>Each optic accessory is made for the specific model named on its page. Other optics, even with the same nominal size, can differ in outside diameter and may not fit. Measure before you order and contact us if you're unsure. Because parts are 3D printed in small batches, small variations in color and surface texture are normal.</p>
+        <h2>Trademarks</h2>
+        <p>Brand and model names such as Vortex, Diamondback, Holosun, and Sig Sauer are used only to describe what our parts fit. They are trademarks of their respective owners. Sentinel Outfitters is not affiliated with or endorsed by those companies.</p>
+        <h2>Prices and payment</h2>
+        <p>Prices are in US dollars and include free US shipping. Payment is processed securely by Stripe at checkout. If we listed a wrong price or can't fill an order, we'll contact you and refund any payment in full. <!-- NICK: confirm sales tax handling: checkout currently does not add tax (no automatic_tax in the Stripe session) --></p>
+        <h2>Shipping, returns, and refunds</h2>
+        <p>See our <a href="shipping.html">shipping policy</a> and <a href="/returns">returns &amp; refunds policy</a>.</p>
+        <h2>Limitation of liability</h2>
+        <p>To the extent the law allows, our total liability for any claim about a product is limited to the amount you paid for it. Nothing in these terms limits rights you have under consumer protection law that can't be waived.</p>
+        <h2>Governing law</h2>
+        <p>These terms are governed by the laws of the State of Mississippi. <!-- NICK: confirm --></p>
+        <h2>Changes</h2>
+        <p>We may update these terms. The date at the top shows the latest version, which applies to orders placed after that date.</p>
+        <h2>Contact</h2>
+        <p>Sentinel Outfitters LLC<br>
+          <span data-requires="BUSINESS_ADDRESS">{{BUSINESS_ADDRESS}}<br></span>
+          <span data-requires="BUSINESS_PHONE">Phone: <a href="{{BUSINESS_PHONE_TEL}}">{{BUSINESS_PHONE}}</a><br></span>
+          Email: <a href="mailto:{{BUSINESS_EMAIL}}">{{BUSINESS_EMAIL}}</a></p>
+      </div>
+    </section>
+  </main>
+  <!-- @include partials/footer.html -->
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

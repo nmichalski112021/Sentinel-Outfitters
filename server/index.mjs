@@ -6,6 +6,7 @@ import Stripe from "stripe";
 import { lineItemFromCart } from "./catalog.mjs";
 import { getProductById, loadProducts } from "./load-products.mjs";
 import { renderProductPage, renderProductNotFound } from "./render-product-page.mjs";
+import { applySiteChrome, readPage, unfilledBusinessTokens } from "./site-chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
@@ -91,6 +92,8 @@ function blockPrivatePaths(req, res, next) {
     path.startsWith("/scripts/") ||
     path === "/docs" ||
     path.startsWith("/docs/") ||
+    path === "/partials" ||
+    path.startsWith("/partials/") ||
     path === "/.env" ||
     path.startsWith("/.env.") ||
     path === "/package.json" ||
@@ -215,6 +218,20 @@ app.use((req, res, next) => {
     if (!skip) {
       return res.redirect(301, "https://sentinel-outfitters.com" + req.url);
     }
+  }
+  next();
+});
+
+// Belt-and-braces http -> https for the custom domain. Render's edge already
+// 301s plain HTTP; this covers any proxy (e.g. Cloudflare orange-cloud with
+// "Flexible" SSL) that forwards http requests to the app.
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  if (req.path === "/healthz") return next();
+  const host = String(req.get("host") || "").split(":")[0].toLowerCase();
+  const proto = String(req.get("x-forwarded-proto") || "").split(",")[0].trim().toLowerCase();
+  if (proto === "http" && (host === "sentinel-outfitters.com" || host === "www.sentinel-outfitters.com")) {
+    return res.redirect(301, "https://" + host + req.originalUrl);
   }
   next();
 });
@@ -374,7 +391,10 @@ app.get("/sitemap.xml", (req, res) => {
     ["https://sentinel-outfitters.com/about.html", "0.7"],
     ["https://sentinel-outfitters.com/contact.html", "0.5"],
     ["https://sentinel-outfitters.com/shipping.html", "0.4"],
-    ...loadProducts(root).map((item) => [
+    ["https://sentinel-outfitters.com/returns", "0.4"],
+    ["https://sentinel-outfitters.com/privacy", "0.3"],
+    ["https://sentinel-outfitters.com/terms", "0.3"],
+    ...loadProducts(root).filter((item) => !item.hidden).map((item) => [
       "https://sentinel-outfitters.com/products/" + encodeURIComponent(item.id),
       "0.9"
     ])
@@ -392,6 +412,7 @@ app.get("/sitemap.xml", (req, res) => {
 
 app.get("/llms.txt", (req, res) => {
   const lines = loadProducts(root)
+    .filter((item) => !item.hidden)
     .map((item) => `- ${item.name}: https://sentinel-outfitters.com/products/${encodeURIComponent(item.id)}`)
     .join("\n");
   res.type("text/plain").send(`# Sentinel Outfitters
@@ -404,6 +425,9 @@ app.get("/llms.txt", (req, res) => {
 - Glare guide: https://sentinel-outfitters.com/glare-guide.html
 - About: https://sentinel-outfitters.com/about.html
 - Shipping: https://sentinel-outfitters.com/shipping.html
+- Returns: https://sentinel-outfitters.com/returns
+- Privacy: https://sentinel-outfitters.com/privacy
+- Terms: https://sentinel-outfitters.com/terms
 - Contact: https://sentinel-outfitters.com/contact.html
 
 ## Products
@@ -420,7 +444,7 @@ const shopVariants = {
   "": {
     title: "Shop Killflash ARDs & Field Gear — Sentinel Outfitters",
     description:
-      "Killflash ARDs for binoculars, red dots, and rifle scopes, plus EDC field gear. Printed in-house in Gulfport, MS. Free US shipping.",
+      "Sentinel Outfitters killflash ARDs for binoculars and red dots, plus EDC field gear. 3D printed in Gulfport, MS. Free US shipping.",
     canonical: "https://sentinel-outfitters.com/shop.html",
     h1: "Shop.",
     lead: "Killflash ARDs and field gear, printed in-house. Checkout on-site with Stripe. Free US shipping."
@@ -428,10 +452,10 @@ const shopVariants = {
   parts: {
     title: "Killflash ARDs for Optics — Sentinel Outfitters",
     description:
-      "Honeycomb killflash ARDs for Holosun HS510C, Sig Romeo5 Gen 1, Vortex Diamondback 10x50 binoculars, and 56mm rifle scopes. Printed in Gulfport, MS.",
+      "Sentinel Outfitters honeycomb killflash ARDs made to fit the Vortex Diamondback 10x50 binocular and the Holosun HS510C. 3D printed in Gulfport, MS. Not affiliated with or endorsed by Vortex Optics or Holosun.",
     canonical: "https://sentinel-outfitters.com/shop.html?post=parts",
     h1: "Killflash ARDs.",
-    lead: "Honeycomb anti-reflection devices for binoculars, red dots, and rifle scopes. Printed to spec in Gulfport, MS."
+    lead: "Honeycomb anti-reflection devices for binoculars and red dots. 3D printed in Gulfport, MS."
   },
   field: {
     title: "Field Accessories & EDC — Sentinel Outfitters",
@@ -449,7 +473,7 @@ app.get("/shop.html", (req, res) => {
     return res.redirect(301, "https://sentinel-outfitters.com/shop.html");
   }
   const variant = shopVariants[post] || shopVariants[""];
-  let html = readFileSync(resolve(root, "shop.html"), "utf8");
+  let html = readPage(root, "shop.html");
   html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${variant.title}</title>`);
   html = html.replace(
     /<meta name="description" content="[^"]*">/i,
@@ -476,14 +500,15 @@ app.get("/products/:id", (req, res) => {
   try {
     const product = getProductById(root, id);
     if (!product) {
-      res.status(404).type("html").send(renderProductNotFound(root));
+      res.status(404).type("html").send(applySiteChrome(root, renderProductNotFound(root)));
       return;
     }
     res.setHeader("Link", "<" + canonicalUrl + '>; rel="canonical"');
-    res.type("html").send(renderProductPage(root, product));
+    if (product.hidden) res.setHeader("X-Robots-Tag", "noindex, follow");
+    res.type("html").send(applySiteChrome(root, renderProductPage(root, product)));
   } catch (err) {
     console.error("SSR product render failed:", err && err.message);
-    res.sendFile(resolve(root, "product.html"));
+    res.type("html").send(readPage(root, "product.html"));
   }
 });
 
@@ -497,6 +522,33 @@ app.get("/product.html", (req, res, next) => {
     );
   }
   return res.redirect(301, "https://sentinel-outfitters.com/shop.html");
+});
+
+// Policy pages on clean URLs, plus redirects from the old/guessable paths.
+const policyPages = { "/returns": "returns.html", "/privacy": "privacy.html", "/terms": "terms.html" };
+for (const [path, file] of Object.entries(policyPages)) {
+  app.get(path, (req, res) => res.type("html").send(readPage(root, file)));
+}
+const policyRedirects = {
+  "/refund": "/returns",
+  "/refund.html": "/returns",
+  "/refunds": "/returns",
+  "/returns.html": "/returns",
+  "/privacy.html": "/privacy",
+  "/terms.html": "/terms"
+};
+for (const [from, to] of Object.entries(policyRedirects)) {
+  app.get(from, (req, res) => res.redirect(301, "https://sentinel-outfitters.com" + to));
+}
+
+// Every static HTML page gets the shared footer + business details injected.
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  let file = null;
+  if (req.path === "/") file = "index.html";
+  else if (/^\/[a-z0-9\-]+\.html$/i.test(req.path)) file = req.path.slice(1);
+  if (!file || !existsSync(resolve(root, file))) return next();
+  res.type("html").send(readPage(root, file));
 });
 
 app.use(express.static(root, { dotfiles: "deny", index: ["index.html"] }));
@@ -566,7 +618,7 @@ app.get("/session-status", async (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).sendFile(resolve(root, "404.html"));
+  res.status(404).type("html").send(readPage(root, "404.html"));
 });
 
 process.on("unhandledRejection", (err) => console.error("unhandledRejection", err));
@@ -576,6 +628,10 @@ process.on("uncaughtException", (err) => {
 });
 
 app.listen(port, "0.0.0.0", () => {
+  const missing = unfilledBusinessTokens();
+  if (missing.length) {
+    console.warn("WARNING: business contact placeholders not filled in server/business-info.mjs: " + missing.join(", ") + " (hidden on pages until set)");
+  }
   console.log("Sentinel Outfitters checkout on " + siteUrl);
   console.log("Orders log:", ordersFile);
   if (!webhookSecret) {
