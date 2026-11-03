@@ -19,7 +19,7 @@ export const BUSINESS = {
   BUSINESS_ADDRESS: "20046 Tournament Cove S, Gulfport, MS 39503",
   // Phone as it should be displayed, e.g. "(228) 555-0100".
   BUSINESS_PHONE: "(901) 245-8015",
-  BUSINESS_EMAIL: "info@sentinel-outfitters.com",
+  BUSINESS_EMAIL: "sentineloutfittersllc@gmail.com",
   etsyShop: "https://sentineloutfitters.etsy.com",
   etsyReviews: "https://sentineloutfitters.etsy.com#reviews"
 };
