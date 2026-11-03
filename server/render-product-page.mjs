@@ -65,6 +65,9 @@ function productPath(id) {
   return "/products/" + encodeURIComponent(id);
 }
 
+// Must match returns.html. NICK: confirm — the page only accepts returns for
+// damaged, defective, or wrong items within 14 days of delivery (we cover return
+// shipping). If you decide to accept change-of-mind returns, update returns.html too.
 function merchantReturnPolicy() {
   return {
     "@type": "MerchantReturnPolicy",
@@ -74,8 +77,9 @@ function merchantReturnPolicy() {
     merchantReturnDays: 14,
     returnMethod: "https://schema.org/ReturnByMail",
     returnFees: "https://schema.org/FreeReturn",
+    itemDefectReturnFees: "https://schema.org/FreeReturn",
     refundType: "https://schema.org/FullRefund",
-    merchantReturnLink: "https://sentinel-outfitters.com/shipping.html"
+    merchantReturnLink: "https://sentinel-outfitters.com/returns"
   };
 }
 
@@ -97,7 +101,7 @@ function relatedProductsHtml(product, allProducts) {
   const tag = product && product.tag;
   if (!tag) return "";
   const others = (allProducts || [])
-    .filter((p) => p && p.id && p.id !== product.id && p.tag === tag)
+    .filter((p) => p && p.id && !p.hidden && p.id !== product.id && p.tag === tag)
     .slice(0, 4);
   if (!others.length) return "";
   const links = others
@@ -113,7 +117,7 @@ function renderProductBody(product, allProducts) {
   const title = product.name;
   const hero = product.images && product.images[0] ? product.images[0] : "images/logo.jpg";
   const thumbs =
-    product.photosComingSoon || !product.images || product.images.length < 2
+    !product.images || product.images.length < 2
       ? ""
       : `<div class="thumbs">${product.images
           .map(
@@ -137,10 +141,7 @@ function renderProductBody(product, allProducts) {
     .map((p) => `<p class="copy">${escapeHtml(p)}</p>`)
     .join("");
   const brandNote = product.brandNote
-    ? `<p class="copy"><strong>Brand note.</strong> ${escapeHtml(product.brandNote)}</p>`
-    : "";
-  const photosNote = product.photosComingSoon
-    ? `<p class="photos-note">Photos coming soon. Printed and shipping.</p>`
+    ? `<p class="copy brand-note">${escapeHtml(product.brandNote)}</p>`
     : "";
 
   return `
@@ -160,7 +161,6 @@ function renderProductBody(product, allProducts) {
         <div class="buy-box">
           <p class="price">${escapeHtml(formatPrice(product.price))}</p>
           <p class="ship-note">${escapeHtml(product.shipping || "")}</p>
-          ${photosNote}
           ${variants}
           <label class="qty-label" for="qty">Qty</label>
           <input id="qty" class="qty" type="number" min="1" max="20" value="1">
@@ -192,6 +192,8 @@ export function renderProductPage(rootDir, product) {
   );
   const reviews = Array.isArray(product.reviews) ? product.reviews : [];
   const ratings = reviews.map((item) => Number(item.rating) || 0).filter((n) => n > 0);
+  // Product/Offer markup only for items that should appear in Google Shopping.
+  const emitProductLd = !product.hidden && product.merchantListing !== false && images.length > 0;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -258,12 +260,11 @@ export function renderProductPage(rootDir, product) {
   <meta property="og:description" content="${escapeHtml(seoDescription)}">
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
   <meta property="og:image" content="${escapeHtml(ogImage)}">
-  <script id="product-jsonld" type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>
-`;
+${emitProductLd ? `  <script id="product-jsonld" type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>\n` : ""}${product.hidden ? `  <meta name="robots" content="noindex, follow">\n` : ""}`;
   if (!/rel="canonical"/i.test(html)) {
     html = html.replace(/<\/head>/i, headExtras + "</head>");
   }
-  const faqLd = faqJsonLd(product);
+  const faqLd = product.hidden ? null : faqJsonLd(product);
   if (faqLd) {
     const faqScript = `  <script id="product-faq-jsonld" type="application/ld+json">${JSON.stringify(faqLd).replace(/</g, "\\u003c")}</script>\n`;
     html = html.replace(/<\/head>/i, faqScript + "</head>");

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Sentinel Outfitters</title>
+  <meta name="description" content="What information Sentinel Outfitters LLC collects, how we use your email, and the services (Stripe, FormSubmit) that process it.">
+  <meta name="theme-color" content="#17140F">
+  <link rel="icon" href="images/logo.jpg" type="image/jpeg">
+  <link rel="canonical" href="https://sentinel-outfitters.com/privacy">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="nav-brand" href="/">
+        <img src="images/logo.jpg" alt="Sentinel Outfitters mark">
+        <span>Sentinel Outfitters</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="shop.html">Shop</a>
+        <a href="killflash.html">Killflash</a>
+        <a href="about.html">About</a>
+        <a href="cart.html">Cart <span class="nav-cart-count" data-cart-count hidden>0</span></a>
+        <a href="/#watch">Join</a>
+        <a href="shop.html" class="nav-cta nav-cta-mobile">Shop Now</a>
+      </nav>
+      <a href="shop.html" class="nav-cta">Shop Now</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="eyebrow">Company</div>
+        <h1>Privacy policy.</h1>
+        <p>What we collect, why, and who sees it.</p>
+      </div>
+    </section>
+    <section>
+      <div class="wrap prose reveal">
+        <p><em>Last updated November 2, 2026.</em></p>
+        <p>This policy explains what information Sentinel Outfitters LLC ("we") collects on sentinel-outfitters.com, how we use it, and who we share it with. We do not sell your personal information.</p>
+        <h2>What we collect</h2>
+        <ul>
+          <li><strong>Orders:</strong> your name, email, shipping address, and the items you buy. Payment card details are entered on Stripe's checkout page and never reach our servers.</li>
+          <li><strong>Contact and sign-up forms:</strong> your name, email, and anything you type in the message.</li>
+          <li><strong>Cart:</strong> your cart is stored in your own browser (local storage) so it survives a page reload. It is not sent to us until you check out.</li>
+          <li><strong>Server logs:</strong> our host keeps standard request logs (IP address, browser type, pages requested) for security and troubleshooting.</li>
+        </ul>
+        <p>We do not use advertising cookies or third-party analytics trackers on this site. <!-- NICK: confirm no analytics/ad pixels are installed or planned --></p>
+        <h2>Who we share it with</h2>
+        <ul>
+          <li><strong>Stripe</strong> processes payments. When you check out you're sent to Stripe Checkout, and Stripe handles your card and billing details under the <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Stripe Privacy Policy</a>.</li>
+          <li><strong>FormSubmit</strong> (formsubmit.co) delivers our contact form and email sign-up form to our inbox. What you enter in those forms passes through FormSubmit under its own privacy terms.</li>
+          <li><strong>USPS</strong> gets your name and shipping address so it can deliver your order.</li>
+          <li><strong>Render</strong> hosts this website and keeps the server logs described above.</li>
+        </ul>
+        <p>We may also share information if the law requires it.</p>
+        <h2>How we use your email</h2>
+        <ul>
+          <li>To send order confirmations, shipping and tracking updates, and replies about your order, return, or question.</li>
+          <li>If you join our email list, to send occasional news about new products and restocks. Every message includes a way to unsubscribe, or you can email us to be removed.</li>
+        </ul>
+        <p>We do not add you to the marketing list just because you placed an order or sent a message.</p>
+        <h2>How long we keep it</h2>
+        <p>We keep order records as long as we need them for taxes, accounting, and warranty or return questions. You can ask us to delete your contact-form messages or email-list sign-up at any time. <!-- NICK: confirm retention --></p>
+        <h2>Your choices</h2>
+        <p>Email us to see, correct, or delete the personal information we hold about you, or to unsubscribe. We'll respond within 30 days.</p>
+        <h2>Children</h2>
+        <p>This site is for adults. You must be 18 or older to buy from us, and we don't knowingly collect information from children.</p>
+        <h2>Contact</h2>
+        <p>Sentinel Outfitters LLC<br>
+          <span data-requires="BUSINESS_ADDRESS">{{BUSINESS_ADDRESS}}<br></span>
+          <span data-requires="BUSINESS_PHONE">Phone: <a href="{{BUSINESS_PHONE_TEL}}">{{BUSINESS_PHONE}}</a><br></span>
+          Email: <a href="mailto:{{BUSINESS_EMAIL}}">{{BUSINESS_EMAIL}}</a></p>
+      </div>
+    </section>
+  </main>
+  <!-- @include partials/footer.html -->
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

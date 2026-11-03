@@ -59,7 +59,12 @@ Render free/starter instances sleep. Stripe retries failed webhooks; for reliabl
 | `product.html` | Product |
 | `cart.html` | Cart |
 | `success.html` | Post-checkout receipt |
-| `about.html` | Craft and QC |
+| `about.html` | Who we are, contact, how we make it |
 | `contact.html` | Inquiries |
-| `shipping.html` | Shipping, returns, privacy, terms |
+| `shipping.html` | Shipping policy |
+| `returns.html` | Returns & refunds (served at `/returns`) |
+| `privacy.html` | Privacy policy (served at `/privacy`) |
+| `terms.html` | Terms of service (served at `/terms`) |
+| `partials/footer.html` | Shared footer, included server-side |
+| `server/business-info.mjs` | Business address / phone / email, the one place to edit |
 | `404.html` | Not-found page |
