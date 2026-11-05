@@ -814,6 +814,49 @@ footer {
   margin-bottom: 16px;
 }
 
+.fit-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 24px;
+  font-size: 15px;
+}
+
+.fit-table th,
+.fit-table td {
+  border: 1px solid var(--stone-dim);
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.fit-table th {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  background: var(--panel);
+}
+
+.fit-table td {
+  color: var(--ivory-dim);
+  background: var(--obsidian);
+}
+
+.fit-table a {
+  color: var(--bronze-bright);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .fit-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 .contact-layout {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
