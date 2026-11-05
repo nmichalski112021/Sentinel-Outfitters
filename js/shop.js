@@ -2,7 +2,7 @@
 function relatedProductsHtml(product) {
   if (!window.SO_PRODUCTS || !product || !product.tag) return "";
   const links = window.SO_PRODUCTS
-    .filter((p) => p && p.id && p.id !== product.id && p.tag === product.tag)
+    .filter((p) => p && p.id && !p.hidden && p.id !== product.id && p.tag === product.tag)
     .slice(0, 4)
     .map((p) => `<li><a href="${productUrl(p.id)}">${p.shortName}</a> — ${p.tag}</li>`)
     .join("");
@@ -71,14 +71,14 @@ function renderShop() {
   if (!grid) return;
   const params = new URLSearchParams(location.search);
   const post = params.get("post");
-  const list = window.SO_PRODUCTS.filter((item) => !post || item.post === post);
+  const list = window.SO_PRODUCTS.filter((item) => !item.hidden && (!post || item.post === post));
   grid.innerHTML = list.map(productCard).join("") || "<p class='empty-copy'>Nothing posted here yet.</p>";
 }
 
 function renderHomeShop() {
   const grid = document.getElementById("home-shop-grid");
   if (!grid) return;
-  grid.innerHTML = window.SO_PRODUCTS.map(productCard).join("");
+  grid.innerHTML = window.SO_PRODUCTS.filter((item) => !item.hidden).map(productCard).join("");
 }
 
 function renderProduct() {
@@ -128,13 +128,12 @@ function renderProduct() {
     <section>
       <div class="wrap product-layout">
         <div class="gallery">
-          <img id="product-hero" src="${product.images[0]}" alt="${product.shortName}">
-          ${product.photosComingSoon || product.images.length < 2 ? "" : `<div class="thumbs">${product.images.map((src, i) => `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${src}"><img src="${src}" alt=""></button>`).join("")}</div>`}
+          <img id="product-hero" src="${product.images[0] || "images/logo.jpg"}" alt="${product.shortName}">
+          ${product.images.length < 2 ? "" : `<div class="thumbs">${product.images.map((src, i) => `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${src}"><img src="${src}" alt=""></button>`).join("")}</div>`}
         </div>
         <div class="buy-box">
           <p class="price">${window.SO_formatPrice(product.price)}</p>
           <p class="ship-note">${product.shipping}</p>
-          ${product.photosComingSoon ? `<p class="photos-note">Photos coming soon. Printed and shipping.</p>` : ""}
           ${product.variants.length ? `<div class="variant-label">Color</div><div class="variants" id="variants">${product.variants.map((item, i) => `<button type="button" class="variant${i === 0 ? " is-on" : ""}" data-variant="${item.id}">${item.name}</button>`).join("")}</div>` : ""}
           <label class="qty-label" for="qty">Qty</label>
           <input id="qty" class="qty" type="number" min="1" max="20" value="1">
@@ -145,7 +144,7 @@ function renderProduct() {
           <p class="form-status" id="buy-status" hidden></p>
           <ul class="spec-list">${product.bullets.map((item) => `<li>${item}</li>`).join("")}</ul>
           ${product.description.map((p) => `<p class="copy">${p}</p>`).join("")}
-          ${product.brandNote ? `<p class="copy"><strong>Brand note.</strong> ${product.brandNote}</p>` : ""}
+          ${product.brandNote ? `<p class="copy brand-note">${product.brandNote}</p>` : ""}
           <p class="copy"><strong>Fit.</strong> ${product.fit}</p>
           ${relatedProductsHtml(product)}
         </div>
