@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { loadProducts } from "./load-products.mjs";
+import { IMAGE_DIMS } from "./image-dims.mjs";
 
 function escapeHtml(value) {
   const map = {
@@ -18,12 +19,21 @@ function webpOf(src) {
   return String(src || "").replace(/\.jpe?g$/i, ".webp");
 }
 
-function pictureImg(src, alt, attrs = "") {
+function dimAttrs(src) {
+  const d = IMAGE_DIMS[src] || IMAGE_DIMS[String(src || "").replace(/^\//, "")];
+  if (!d) return "";
+  return ` width="${d.w}" height="${d.h}"`;
+}
+
+function pictureImg(src, alt, attrs = "", { lazy = false } = {}) {
   const safeSrc = escapeHtml(src);
   const safeAlt = escapeHtml(alt || "");
   const webp = escapeHtml(webpOf(src));
+  // Below-fold only: lazy + intrinsic size. Above-fold hero/logo skip both.
+  const lazyAttr = lazy ? ' loading="lazy" decoding="async"' : "";
+  const dims = lazy ? dimAttrs(src) : "";
   const extra = attrs ? " " + attrs : "";
-  return `<picture><source type="image/webp" srcset="${webp}"><img src="${safeSrc}" alt="${safeAlt}"${extra}></picture>`;
+  return `<picture><source type="image/webp" srcset="${webp}"><img src="${safeSrc}" alt="${safeAlt}"${dims}${lazyAttr}${extra}></picture>`;
 }
 
 function trustChipsHtml() {
@@ -180,7 +190,7 @@ function renderProductBody(product, allProducts) {
       : `<div class="thumbs">${product.images
           .map(
             (src, i) =>
-              `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${escapeHtml(src)}" data-webp="${escapeHtml(webpOf(src))}">${pictureImg(src, "", "")}</button>`
+              `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${escapeHtml(src)}" data-webp="${escapeHtml(webpOf(src))}">${pictureImg(src, "", "", { lazy: true })}</button>`
           )
           .join("")}</div>`;
   const variants =

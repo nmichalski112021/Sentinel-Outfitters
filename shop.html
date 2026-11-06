@@ -60,7 +60,10 @@
         <div class="shop-grid" id="shop-grid">
           <article class="product-card">
             <a href="/products/diamondback-10x50-killflash">
-              <div class="product-thumb" data-tag="Killflash"><img src="images/products/diamondback-1.jpg" alt="Killflash ARD 2-Pack – fits Diamondback 10x50"></div>
+              <div class="product-thumb" data-tag="Killflash"><picture>
+                  <source type="image/webp" srcset="images/products/diamondback-1.webp">
+                  <img src="images/products/diamondback-1.jpg" alt="Killflash ARD 2-Pack – fits Diamondback 10x50" width="1200" height="1500" loading="lazy" decoding="async">
+                </picture></div>
             </a>
             <div class="product-info">
               <h4><a href="/products/diamondback-10x50-killflash">Killflash ARD 2-Pack – fits Diamondback 10x50</a></h4>
@@ -70,7 +73,10 @@
           </article>
           <article class="product-card">
             <a href="/products/holosun-hs510c-killflash">
-              <div class="product-thumb" data-tag="Killflash"><img src="images/products/holosun-1.jpg" alt="Honeycomb ARD – fits Holosun HS510C"></div>
+              <div class="product-thumb" data-tag="Killflash"><picture>
+                  <source type="image/webp" srcset="images/products/holosun-1.webp">
+                  <img src="images/products/holosun-1.jpg" alt="Honeycomb ARD – fits Holosun HS510C" width="1200" height="1599" loading="lazy" decoding="async">
+                </picture></div>
             </a>
             <div class="product-info">
               <h4><a href="/products/holosun-hs510c-killflash">Honeycomb ARD – fits Holosun HS510C</a></h4>
@@ -80,7 +86,10 @@
           </article>
           <article class="product-card">
             <a href="/products/keychain-pill-holder">
-              <div class="product-thumb" data-tag="EDC"><img src="images/products/pill-2.jpg" alt="Keychain Pill Holder (2-Pack)"></div>
+              <div class="product-thumb" data-tag="EDC"><picture>
+                  <source type="image/webp" srcset="images/products/pill-2.webp">
+                  <img src="images/products/pill-2.jpg" alt="Keychain Pill Holder (2-Pack)" width="1200" height="1200" loading="lazy" decoding="async">
+                </picture></div>
             </a>
             <div class="product-info">
               <h4><a href="/products/keychain-pill-holder">Keychain Pill Holder (2-Pack)</a></h4>
@@ -94,6 +103,7 @@
   </main>
   <!-- @include partials/footer.html -->
   <script src="js/products.js"></script>
+  <script src="js/image-dims.js"></script>
   <script src="js/stripe-config.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/shop.js"></script>
