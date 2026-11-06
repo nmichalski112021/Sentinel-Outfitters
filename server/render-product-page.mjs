@@ -13,6 +13,38 @@ function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => map[ch]);
 }
 
+
+function webpOf(src) {
+  return String(src || "").replace(/\.jpe?g$/i, ".webp");
+}
+
+function pictureImg(src, alt, attrs = "") {
+  const safeSrc = escapeHtml(src);
+  const safeAlt = escapeHtml(alt || "");
+  const webp = escapeHtml(webpOf(src));
+  const extra = attrs ? " " + attrs : "";
+  return `<picture><source type="image/webp" srcset="${webp}"><img src="${safeSrc}" alt="${safeAlt}"${extra}></picture>`;
+}
+
+function trustChipsHtml() {
+  return `<ul class="trust-chips" aria-label="Purchase details">
+    <li>Free US shipping</li>
+    <li>Ships in 1–2 business days</li>
+    <li><a href="/returns">Easy returns</a></li>
+    <li>Printed in Gulfport, MS</li>
+  </ul>`;
+}
+
+function etsyProofHtml(product) {
+  const items = Array.isArray(product.reviews) ? product.reviews : [];
+  if (items.length) return "";
+  const rating = product.etsyShopRating;
+  const count = product.etsyShopReviewCount;
+  if (!rating) return "";
+  const countBit = count ? ` from ${escapeHtml(String(count))} shop reviews` : "";
+  return `<p class="etsy-proof"><span class="review-stars" aria-hidden="true">★★★★★</span> <a href="https://www.etsy.com/shop/SentinelOutfitters" target="_blank" rel="noopener noreferrer">${escapeHtml(rating)}-star rated on Etsy</a>${countBit}.</p>`;
+}
+
 function renderFaqHtml(product) {
   const items = Array.isArray(product.faq) ? product.faq : [];
   if (!items.length) return "";
@@ -140,14 +172,15 @@ function relatedProductsHtml(product, allProducts) {
 
 function renderProductBody(product, allProducts) {
   const title = product.name;
-  const hero = product.images && product.images[0] ? product.images[0] : "images/logo.jpg";
+  const shortTitle = product.shortName || title;
+  const hero = product.images && product.images[0] ? product.images[0] : "images/logo.png";
   const thumbs =
     !product.images || product.images.length < 2
       ? ""
       : `<div class="thumbs">${product.images
           .map(
             (src, i) =>
-              `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${escapeHtml(src)}"><img src="${escapeHtml(src)}" alt=""></button>`
+              `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${escapeHtml(src)}" data-webp="${escapeHtml(webpOf(src))}">${pictureImg(src, "", "")}</button>`
           )
           .join("")}</div>`;
   const variants =
@@ -168,28 +201,34 @@ function renderProductBody(product, allProducts) {
   const brandNote = product.brandNote
     ? `<p class="copy brand-note">${escapeHtml(product.brandNote)}</p>`
     : "";
+  const priceLabel = escapeHtml(formatPrice(product.price));
 
   return `
     <section class="page-hero">
       <div class="wrap">
         <div class="eyebrow">${escapeHtml(product.postLabel)} \u00b7 ${escapeHtml(product.tag)}</div>
-        <h1>${escapeHtml(title)}</h1>
+        <h1>
+          <span class="h1-full">${escapeHtml(title)}</span>
+          <span class="h1-short">${escapeHtml(shortTitle)}</span>
+        </h1>
         <p>${escapeHtml(product.lead)}</p>
       </div>
     </section>
     <section>
       <div class="wrap product-layout">
         <div class="gallery">
-          <img id="product-hero" src="${escapeHtml(hero)}" alt="${escapeHtml(product.shortName)}">
+          ${pictureImg(hero, product.shortName, 'id="product-hero"')}
           ${thumbs}
         </div>
         <div class="buy-box">
-          <p class="price">${escapeHtml(formatPrice(product.price))}</p>
+          <p class="price">${priceLabel}</p>
+          ${trustChipsHtml()}
+          ${etsyProofHtml(product)}
           <p class="ship-note">${escapeHtml(product.shipping || "")}</p>
           ${variants}
           <label class="qty-label" for="qty">Qty</label>
           <input id="qty" class="qty" type="number" min="1" max="20" value="1">
-          <div class="buy-actions">
+          <div class="buy-actions" id="buy-actions">
             <button type="button" class="btn btn-ghost" id="add-cart">Add to cart</button>
             <button type="button" class="btn btn-primary" id="buy-now">Continue to checkout</button>
           </div>
@@ -205,7 +244,12 @@ function renderProductBody(product, allProducts) {
       </div>
     </section>
     ${renderReviewsHtml(product)}
-    ${renderFaqHtml(product)}`;
+    ${renderFaqHtml(product)}
+    <div class="sticky-buy" id="sticky-buy" hidden>
+      <span class="sticky-buy-price">${priceLabel}</span>
+      <button type="button" class="btn btn-ghost" id="sticky-add-cart">Add to cart</button>
+      <button type="button" class="btn btn-primary" id="sticky-buy-now">Checkout</button>
+    </div>`;
 }
 
 export function renderProductPage(rootDir, product) {
@@ -216,8 +260,6 @@ export function renderProductPage(rootDir, product) {
   const images = (product.images || []).map((src) =>
     src.startsWith("http") ? src : "https://sentinel-outfitters.com/" + src.replace(/^\//, "")
   );
-  const reviews = Array.isArray(product.reviews) ? product.reviews : [];
-  const ratings = reviews.map((item) => Number(item.rating) || 0).filter((n) => n > 0);
   // Product/Offer markup only for items that should appear in Google Shopping.
   const emitProductLd = !product.hidden && product.merchantListing !== false && images.length > 0;
   const jsonLd = {
@@ -249,26 +291,7 @@ export function renderProductPage(rootDir, product) {
       hasMerchantReturnPolicy: merchantReturnPolicy()
     }
   };
-  if (ratings.length) {
-    jsonLd.aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: (ratings.reduce((sum, n) => sum + n, 0) / ratings.length).toFixed(1),
-      reviewCount: String(ratings.length),
-      bestRating: "5",
-      worstRating: "1"
-    };
-    jsonLd.review = reviews.map((item) => ({
-      "@type": "Review",
-      author: { "@type": "Person", name: item.name },
-      datePublished: item.date || undefined,
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: String(item.rating),
-        bestRating: "5"
-      },
-      reviewBody: item.quote
-    }));
-  }
+  // No AggregateRating / Review schema (Merchant Center / rich-result policy).
 
   let html = template;
   html = html.replace(
