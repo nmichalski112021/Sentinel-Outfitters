@@ -1,4 +1,27 @@
 
+
+function strongLead(text) {
+  const raw = String(text ?? "");
+  const idx = raw.indexOf(". ");
+  if (idx < 0) return raw;
+  return `<strong>${raw.slice(0, idx + 1)}</strong> ${raw.slice(idx + 2)}`;
+}
+
+function renderCompareHtml(product) {
+  if (!product || !product.compareTitle) return "";
+  const points = Array.isArray(product.comparePoints) ? product.comparePoints : [];
+  const items = points.map((point) => `<li>${strongLead(point)}</li>`).join("");
+  const close = product.compareClose
+    ? `<p class="copy">${strongLead(product.compareClose)} For the shared fit table across our housings, see the <a href="/glare-guide.html#fit-guide">optic glare fit guide</a>.</p>`
+    : "";
+  return `<div class="product-compare" id="choose-hs510c-killflash">
+  <h2>${product.compareTitle}</h2>
+  <p class="copy">${product.compareLead || ""}</p>
+  <ul class="spec-list">${items}</ul>
+  ${close}
+</div>`;
+}
+
 function relatedProductsHtml(product) {
   if (!window.SO_PRODUCTS || !product || !product.tag) return "";
   const links = window.SO_PRODUCTS
@@ -146,7 +169,9 @@ function renderProduct() {
           ${product.description.map((p) => `<p class="copy">${p}</p>`).join("")}
           ${product.brandNote ? `<p class="copy brand-note">${product.brandNote}</p>` : ""}
           <p class="copy"><strong>Fit.</strong> ${product.fit}</p>
+          ${renderCompareHtml(product)}
           ${relatedProductsHtml(product)}
+          ${product.tag === "Killflash" ? `<p class="copy">See the full <a href="/killflash.html">killflash ARD lineup</a> if you need a different housing. Not sure which housing or mount style fits? Check the <a href="/glare-guide.html#fit-guide">optic glare fit guide</a>.</p>` : ""}
         </div>
       </div>
     </section>
