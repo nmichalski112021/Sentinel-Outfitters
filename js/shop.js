@@ -78,10 +78,20 @@ function webpOf(src) {
   return String(src || "").replace(/\.jpe?g$/i, ".webp");
 }
 
-function pictureHtml(src, alt, attrs) {
+function dimAttrs(src) {
+  const map = window.SO_IMAGE_DIMS || {};
+  const d = map[src] || map[String(src || "").replace(/^\//, "")];
+  if (!d) return "";
+  return ` width="${d.w}" height="${d.h}"`;
+}
+
+function pictureHtml(src, alt, attrs, opts) {
+  const lazy = opts && opts.lazy;
   const webp = webpOf(src);
+  const lazyAttr = lazy ? ' loading="lazy" decoding="async"' : "";
+  const dims = lazy ? dimAttrs(src) : "";
   const extra = attrs ? " " + attrs : "";
-  return `<picture><source type="image/webp" srcset="${webp}"><img src="${src}" alt="${alt || ""}"${extra}></picture>`;
+  return `<picture><source type="image/webp" srcset="${webp}"><img src="${src}" alt="${alt || ""}"${dims}${lazyAttr}${extra}></picture>`;
 }
 
 function trustChipsHtml() {
@@ -152,7 +162,7 @@ function productCard(product) {
   const variantAttr = variant ? ` data-variant="${variant}"` : "";
   return `<article class="product-card">
     <a href="${productUrl(product.id)}">
-      <div class="product-thumb" data-tag="${product.tag}">${pictureHtml(img, product.shortName)}</div>
+      <div class="product-thumb" data-tag="${product.tag}">${pictureHtml(img, product.shortName, "", { lazy: true })}</div>
     </a>
     <div class="product-info">
       <h4><a href="${productUrl(product.id)}">${product.shortName}</a></h4>
@@ -228,7 +238,7 @@ function renderProduct() {
       <div class="wrap product-layout">
         <div class="gallery">
           ${pictureHtml(product.images[0] || "images/logo.png", product.shortName, 'id="product-hero"')}
-          ${product.images.length < 2 ? "" : `<div class="thumbs">${product.images.map((src, i) => `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${src}" data-webp="${webpOf(src)}">${pictureHtml(src, "")}</button>`).join("")}</div>`}
+          ${product.images.length < 2 ? "" : `<div class="thumbs">${product.images.map((src, i) => `<button type="button" class="thumb${i === 0 ? " is-on" : ""}" data-src="${src}" data-webp="${webpOf(src)}">${pictureHtml(src, "", "", { lazy: true })}</button>`).join("")}</div>`}
         </div>
         <div class="buy-box">
           <p class="price">${window.SO_formatPrice(product.price)}</p>
