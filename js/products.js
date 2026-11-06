@@ -67,7 +67,6 @@ window.SO_PRODUCTS = [
     postLabel: "Post I",
     price: 1999,
     shipping: "Free US shipping via USPS Ground Advantage · ships in 1–2 business days · 2–8 days in transit",
-    merchantListing: false,
     seoTitle: "Sentinel Outfitters Honeycomb ARD – fits Holosun HS510C",
     seoDescription: "A honeycomb anti-reflection insert made to fit the Holosun HS510C / HE510C housing. Installs with the optic's original screws. $19.99, Black or Green, free US shipping. Not affiliated with or endorsed by Holosun.",
     lead: "A honeycomb anti-reflection insert made to fit the Holosun HS510C / HE510C. Installs with the optic's original screws. $19.99 · Black or Green · free US shipping.",
