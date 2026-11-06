@@ -39,7 +39,18 @@ window.SO_PRODUCTS = [
       { q: "How do I cut sunlight glint on Diamondback 10x50 binoculars while glassing?", a: "A honeycomb killflash ARD over each 50mm objective cuts glass glint so the pair is harder to spot in sun. Our 2-pack friction-fits both lenses — Black or Green, $55.98, free US shipping from Gulfport, MS. Not a rifle red-dot ARD." }
     ],
     variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
-    reviews: [],
+    etsyShopRating: "5.0",
+    etsyShopReviewCount: 2,
+    reviews: [
+      {
+        name: "Ed",
+        rating: 5,
+        date: "Feb 26, 2026",
+        source: "Etsy",
+        sourceUrl: "https://www.etsy.com/shop/SentinelOutfitters",
+        quote: "While the pair I ordered didn't fit my model of Vortex binoculars, Nick went above and beyond to make me a set that did fit, so if you have a set of Vortex Crossfire HD 12/50 binos, he's now got a set of ARDs for them."
+      }
+    ],
     images: [
       "images/products/diamondback-1.jpg",
       "images/products/diamondback-2.jpg",
@@ -90,6 +101,9 @@ window.SO_PRODUCTS = [
       { q: "Will it fit other Holosun optics?", a: "No. It is made for the HS510C / HE510C only." }
     ],
     variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
+    reviews: [],
+    etsyShopRating: "5.0",
+    etsyShopReviewCount: 2,
     images: [
       "images/products/holosun-1.jpg",
       "images/products/holosun-2.jpg",
@@ -197,9 +211,9 @@ window.SO_PRODUCTS = [
       {
         name: "Mark",
         rating: 5,
-        date: "Jul 21, 2026",
+        date: "Aug 21, 2026",
         source: "Etsy",
-        sourceUrl: "https://www.etsy.com/listing/4449226922",
+        sourceUrl: "https://www.etsy.com/shop/SentinelOutfitters",
         quote: "I'm generally not someone who writes reviews unless I'm very happy or disappointed in a product and I'm so very HAPPY with this product and the service. I was looking for a pill holder and asked Nick if something like a Tums pill could fit inside this. The answer was no, BUT Nick took the time to redesign the item and made it specifically for my request within a matter of just hours. He truly went above and beyond my high expectations. Nick 3D prints this item out of his house and he enlarged the original pill bottle to accommodate Tums for me and I'm so thrilled with his service. I highly recommend this product and this store. Thank you so much, Nick!"
       }
     ],

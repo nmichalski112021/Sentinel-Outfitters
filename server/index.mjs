@@ -531,6 +531,9 @@ app.get("/product.html", (req, res, next) => {
 });
 
 // Policy pages on clean URLs, plus redirects from the old/guessable paths.
+// Extensionless content aliases (serve HTML, same pattern as /returns).
+app.get("/glare-guide", (req, res) => res.type("html").send(readPage(root, "glare-guide.html")));
+
 const policyPages = { "/returns": "returns.html", "/privacy": "privacy.html", "/terms": "terms.html" };
 for (const [path, file] of Object.entries(policyPages)) {
   app.get(path, (req, res) => res.type("html").send(readPage(root, file)));
