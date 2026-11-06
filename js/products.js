@@ -67,6 +67,19 @@ window.SO_PRODUCTS = [
       "$19.99 · free US shipping via USPS Ground Advantage · ships in 1–2 business days"
     ],
     fit: "Made for the Holosun HS510C open-reflex housing and the matching HE510C. It will not fit 507/508/403/EPS footprints. If you run a different 510 variant or a riser, contact us before ordering.",
+    compareTitle: "How to choose a killflash for a Holosun HS510C",
+    compareLead:
+      "If you are looking for the best killflash for a Holosun HS510C, or an alternative to a factory Holosun killflash ARD, compare the housing, how it stays on, and what the honeycomb costs you in the sight picture — then check price and shipping.",
+    comparePoints: [
+      "Fit and retention. Match the exact optic model. An HS510C / HE510C open housing is not the same as a 507, 508, 403, or EPS footprint. Retention styles also differ: some ARDs clip or friction-fit; others install with the optic's screws. Ours is sized for the HS510C / HE510C only and installs with the optic's original screws — there is no clip-on or friction sleeve on this part.",
+      "Material and make. Ours is small-batch 3D printed and checked by Sentinel Outfitters in Gulfport, MS. Pick a maker who states where the part is printed and who will answer fit questions before you order.",
+      "Honeycomb depth vs brightness. Deeper cells block glare from more angles but cost more light and field of view; shallower cells keep more of the view but let more angled light through. Expect a little brightness loss, most noticeable at dawn and dusk, and a possible faint honeycomb at the edges of the sight picture until you focus on the target. Pull the ARD off when you do not need it.",
+      "Sight picture. Look through the optic after install and confirm the reticle is clear and centered. If a riser or aftermarket shroud changes the front of the housing, contact us before ordering.",
+      "Price. This SKU is $19.99 in Black or Green.",
+      "Made in / shipping. Printed in Gulfport, MS. Free US shipping via USPS Ground Advantage — ships in 1–2 business days, usually 2–8 days in transit."
+    ],
+    compareClose:
+      "Where this Sentinel ARD fits that list. Model-specific screw-mount for the HS510C / HE510C, $19.99, free US shipping, printed in Gulfport, MS. It is not a universal Holosun ARD.",
     brandNote: "Holosun is a trademark of its owner. Sentinel Outfitters is not affiliated with or endorsed by Holosun.",
     faq: [
       { q: "How does it attach?", a: "It installs with the optic's original screws. There is no clip-on or friction sleeve on this part." },
