@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
@@ -444,11 +445,6 @@ html:not(.js) .reveal {
   color: var(--bronze-bright);
 }
 
-.post-link.is-soon,
-.post-link.is-soon:hover {
-  color: var(--ivory-dim);
-  cursor: default;
-}
 
 /* ---------- CRAFT / SPEC ---------- */
 .craft {
@@ -1038,8 +1034,7 @@ footer {
   justify-content: center;
 }
 
-.shop-grid,
-.product-grid {
+.shop-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
@@ -1149,20 +1144,12 @@ footer {
 }
 
 .ship-note,
-.copy,
-.photos-note {
+.copy {
   color: var(--ivory-dim);
   font-size: 14.5px;
   margin-bottom: 16px;
 }
 
-.photos-note {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--bronze);
-}
 
 .variant-label,
 .qty-label {
@@ -1260,19 +1247,6 @@ footer {
   letter-spacing: 0.06em;
 }
 
-.stripe-missing {
-  border: 1px solid var(--bronze);
-  padding: 18px 20px;
-  color: var(--ivory-dim);
-  font-size: 14.5px;
-}
-
-.stripe-missing code {
-  color: var(--bronze-bright);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 12px;
-}
-
 
 .product-faq,
 .product-reviews {
@@ -1353,7 +1327,6 @@ footer {
 
 @media (max-width: 900px) {
   .shop-grid,
-  .product-grid,
   .product-layout {
     grid-template-columns: 1fr;
   }
@@ -1362,9 +1335,6 @@ footer {
     grid-template-columns: 72px 1fr;
   }
 
-  .cart-pay {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
