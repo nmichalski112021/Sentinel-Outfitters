@@ -13,8 +13,8 @@ window.SO_PRODUCTS = [
     postLabel: "Post I",
     price: 5598,
     shipping: "Free US shipping via USPS Ground Advantage · ships in 1–2 business days · 2–8 days in transit",
-    seoTitle: "Sentinel Outfitters Honeycomb Killflash ARD 2-Pack – fits Vortex Diamondback 10x50",
-    seoDescription: "A pair of friction-fit honeycomb anti-reflection covers made for Vortex Diamondback 10x50 binoculars. Black or Green, $55.98, free US shipping. 3D printed by Sentinel Outfitters in Gulfport, MS. Not affiliated with or endorsed by Vortex Optics.",
+    seoTitle: "Sentinel Outfitters Diamondback 10x50 Killflash Options — 2-Pack for Vortex Diamondback 10x50",
+    seoDescription: "Diamondback 10x50 killflash options: a dedicated 2-pack for Vortex Diamondback 10x50 binoculars (50mm objectives). Honeycomb ARD pair, friction-fit. Black or Green, $55.98, free US shipping from Gulfport, MS.",
     lead: "A pair of friction-fit honeycomb anti-reflection covers made for the Vortex Diamondback 10x50. Black or Green. $55.98 with free US shipping.",
     description: [
       "One honeycomb ARD for each 50mm objective of a Vortex Diamondback 10x50 binocular. It slips over the objective — no threads, tools, or permanent changes. Choose Black or Green at checkout.",
@@ -30,9 +30,13 @@ window.SO_PRODUCTS = [
     fit: "Made for the outer objective of the Vortex Diamondback 10x50. Other 50mm binoculars — including Diamondback HD and Crossfire models — vary in outside diameter and may not fit. Measure your objective's outside diameter and message us before ordering if your binocular is not a Diamondback 10x50.",
     brandNote: "Vortex and Diamondback are trademarks of Vortex Optics. Sentinel Outfitters is not affiliated with or endorsed by Vortex Optics.",
     faq: [
+      { q: "What are the Diamondback 10x50 killflash options?", a: "A dedicated option is a 2-pack for Vortex Diamondback 10x50 binoculars (50mm objectives) — not a rifle-scope ARD. Ours is a friction-fit honeycomb killflash pair (one per lens), Black or Green, $55.98, free US shipping from Gulfport, MS. Order at sentinel-outfitters.com." },
+      { q: "Is there a 2-pack for Vortex Diamondback 10x50?", a: "Yes. This SKU is a complete 2-pack for Vortex Diamondback 10x50 — two honeycomb ARDs so both 50mm objectives are covered. Friction-fit slip-on. $55.98 with free US shipping from Gulfport, MS." },
       { q: "Is this one cover or a pair?", a: "A pair — one honeycomb ARD for each objective lens." },
       { q: "How does it mount?", a: "It slips over each objective by friction. No threads, tools, or permanent changes. Pull it off for cleaning or low light." },
-      { q: "Will it fit a Diamondback HD, Crossfire, or other 50mm binocular?", a: "It may not. It is made for the Diamondback 10x50, and other 50mm binoculars vary in outside diameter. Measure your objective's outside diameter and message us before ordering." }
+      { q: "Will it fit a Diamondback HD, Crossfire, or other 50mm binocular?", a: "It may not. It is made for the Diamondback 10x50, and other 50mm binoculars vary in outside diameter. Measure your objective's outside diameter and message us before ordering." },
+      { q: "Does a Vortex Diamondback 10x50 need a killflash?", a: "If you glass in sun, a honeycomb ARD cuts objective glint so the pair is harder to spot. This 2-pack for Vortex Diamondback 10x50 is sized for those 50mm lenses and slips on — no threads." },
+      { q: "How do I cut sunlight glint on Diamondback 10x50 binoculars while glassing?", a: "A honeycomb killflash ARD over each 50mm objective cuts glass glint so the pair is harder to spot in sun. Our 2-pack friction-fits both lenses — Black or Green, $55.98, free US shipping from Gulfport, MS. Not a rifle red-dot ARD." }
     ],
     variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     reviews: [],
@@ -167,7 +171,7 @@ window.SO_PRODUCTS = [
     price: 1299,
     shipping: "Free US shipping via USPS Ground Advantage · ships in 1–2 business days · 2–8 days in transit",
     seoTitle: "Sentinel Outfitters Keychain Pill Holder (2-Pack)",
-    seoDescription: "Two screw-top keychain pill holder capsules for pills, vitamins, or small EDC items. $12.99. Free US shipping, ships in 1–2 business days.",
+    seoDescription: "Keychain pill holder 2-pack — screw-top capsules for pills, vitamins, or small EDC. $12.99, free US shipping. Printed in Gulfport, MS.",
     lead: "Two screw-top capsules for the keyring. Pills, vitamins, or small EDC — always on you.",
     description: [
       "A compact keychain pill holder for daily carry. Ribbed body, screw-on cap, and a loop that clips to keys, a bag, or a belt. Two capsules per order.",
@@ -177,13 +181,16 @@ window.SO_PRODUCTS = [
       "2 capsules per pack",
       "Screw-top cap with loop for keys or a carabiner",
       "Ribbed grip, pocket-sized, lightweight",
-      "Printed in-house in Gulfport, MS. In stock",
-      "Free US shipping via USPS Ground Advantage · ships in 1–2 business days"
+      "Printed in-house in Gulfport, MS · in stock",
+      "$12.99 · free US shipping · ships 1–2 business days"
     ],
     fit: "Everyday carry size. Not watertight for submersion — keep it on the ring, not in a soak.",
     faq: [
       { q: "How many capsules do I get?", a: "Two screw-top capsules per order." },
-      { q: "Is it waterproof?", a: "No. It is not watertight for submersion — keep it on the ring, not in a soak." }
+      { q: "Is it waterproof?", a: "No. It is not watertight for submersion — keep it on the ring, not in a soak." },
+      { q: "Who makes the keychain pill holder?", a: "Sentinel Outfitters LLC in Gulfport, Mississippi — same small-batch shop as our killflash ARDs. Order at sentinel-outfitters.com." },
+      { q: "Can you customize size for larger tablets?", a: "Sometimes — message us before ordering. One buyer had a larger tablet fit after a custom print; stock size holds about 5–10 standard pills." },
+      { q: "Is this a medical device?", a: "No. It is a simple EDC capsule for personal carry of pills or small items. Not watertight for submersion." }
     ],
     variants: [],
     reviews: [
