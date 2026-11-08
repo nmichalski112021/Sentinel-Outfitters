@@ -46,21 +46,6 @@ function soClearCart() {
   soWriteCart([]);
 }
 
-function soApiBase() {
-  const configured = (window.SO_STRIPE && window.SO_STRIPE.checkoutApiUrl) || "";
-  const local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  if (configured) {
-    const isLocalhostApi = /localhost|127\.0\.0\.1/i.test(configured);
-    if (!isLocalhostApi || local) return configured.replace(/\/$/, "");
-  }
-  if (location.protocol === "http:" || location.protocol === "https:") return location.origin;
-  return "http://localhost:4242";
-}
-
-function soCheckoutEndpoint() {
-  return soApiBase() + "/create-checkout-session";
-}
-
 function soPaymentLinkForItems(items) {
   // Payment Links only support a single SKU here. Never fall back for multi-item carts.
   if (!items || items.length !== 1) return "";
@@ -86,24 +71,19 @@ async function soStartCheckout(items, statusEl) {
     statusEl.textContent = message;
   }
   say("Opening checkout…");
-  const apiBase = soApiBase();
-  const local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  const useApi = local || /^https:\/\//i.test(apiBase);
-  if (useApi) {
-    try {
-      const res = await fetch(soCheckoutEndpoint(), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items })
-      });
-      const data = await res.json().catch(() => ({}));
-      if (data.url) {
-        window.location.assign(data.url);
-        return;
-      }
-    } catch (err) {
-      /* fall through to Payment Links */
+  try {
+    const res = await fetch("/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (data.url) {
+      window.location.assign(data.url);
+      return;
     }
+  } catch (err) {
+    /* fall through to Payment Links */
   }
   if (items.length === 1) {
     const href = soPaymentLinkForItems(items);

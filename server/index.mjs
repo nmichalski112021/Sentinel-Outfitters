@@ -198,7 +198,7 @@ function securityHeaders(req, res, next) {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       "img-src 'self' data:",
-      "connect-src 'self' https://sentinel-outfitters.com https://sentinel-outfitters.onrender.com",
+      "connect-src 'self'",
       "form-action 'self' https://formsubmit.co",
       "upgrade-insecure-requests"
     ].join("; ")
@@ -242,32 +242,6 @@ app.use((req, res, next) => {
 });
 
 app.use(blockPrivatePaths);
-
-function isAllowedCorsOrigin(origin) {
-  if (!origin) return false;
-  if (
-    origin === "https://sentinel-outfitters.com" ||
-    origin === "https://www.sentinel-outfitters.com"
-  ) {
-    return true;
-  }
-  // Local shop/dev pages calling this API
-  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
-}
-
-app.use((req, res, next) => {
-  const origin = req.get("Origin");
-  if (isAllowedCorsOrigin(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Vary", "Origin");
-  }
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(isAllowedCorsOrigin(origin) ? 204 : 403);
-  }
-  next();
-});
 
 app.post("/webhook", express.raw({ type: "application/json" }), async (req, res) => {
   if (!webhookSecret) {

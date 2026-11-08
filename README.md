@@ -44,7 +44,6 @@ Live HTML and checkout share this Node server on Render behind `https://sentinel
    `https://YOUR-SERVICE.onrender.com/webhook`  
    Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`.
 7. Paste the `whsec_...` signing secret into Render as `STRIPE_WEBHOOK_SECRET` and redeploy.
-8. Set `checkoutApiUrl` in `js/stripe-config.js` to `https://sentinel-outfitters.com` (same origin as the shop) and push.
 
 Render free/starter instances sleep. Stripe retries failed webhooks; for reliable live orders, use a paid instance that stays up.
 

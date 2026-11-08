@@ -137,27 +137,13 @@ for (const item of catalog) {
   console.log(item.key, link.url);
 }
 
-let existingCheckoutApiUrl = "";
-try {
-  const existing = readFileSync(resolve(root, "js", "stripe-config.js"), "utf8");
-  const match = existing.match(/checkoutApiUrl:\s*("([^"]*)"|'([^']*)')/);
-  if (match) existingCheckoutApiUrl = match[2] || match[3] || "";
-} catch {
-  /* no existing config */
-}
-if (!existingCheckoutApiUrl) {
-  console.warn(
-    "Warning: existing checkoutApiUrl not found; preserving empty string. Set it manually in js/stripe-config.js after this run."
-  );
-}
 console.warn(
   "Note: this script creates new Stripe products/prices/links each run (not idempotent). Prefer one-shot use."
 );
 
 const file = `window.SO_STRIPE = {
-  checkoutApiUrl: ${JSON.stringify(existingCheckoutApiUrl)},
   paymentLinks: ${JSON.stringify(links, null, 2)}
 };
 `;
 writeFileSync(resolve(root, "js", "stripe-config.js"), file);
-console.log("Wrote js/stripe-config.js (preserved checkoutApiUrl)");
+console.log("Wrote js/stripe-config.js");

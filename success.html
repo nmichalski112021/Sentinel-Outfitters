@@ -42,7 +42,6 @@
     </section>
   </main>
   <!-- @include partials/footer.html -->
-  <script src="js/stripe-config.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
@@ -51,10 +50,7 @@
       const copy = document.getElementById("success-copy");
       if (!id) return;
       try {
-        const base = typeof soApiBase === "function"
-          ? soApiBase()
-          : ((window.SO_STRIPE && window.SO_STRIPE.checkoutApiUrl) || location.origin);
-        const res = await fetch(base.replace(/\/$/, "") + "/session-status?session_id=" + encodeURIComponent(id));
+        const res = await fetch("/session-status?session_id=" + encodeURIComponent(id));
         const data = await res.json();
         if (data.payment_status === "paid") {
           soClearCart();
