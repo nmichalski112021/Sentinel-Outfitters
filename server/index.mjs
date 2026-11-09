@@ -6,7 +6,7 @@ import Stripe from "stripe";
 import { lineItemFromCart } from "./catalog.mjs";
 import { getProductById, loadProducts } from "./load-products.mjs";
 import { renderProductPage, renderProductNotFound } from "./render-product-page.mjs";
-import { applySiteChrome, readPage, unfilledBusinessTokens } from "./site-chrome.mjs";
+import { applySiteChrome, readPage } from "./site-chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
@@ -637,10 +637,6 @@ process.on("uncaughtException", (err) => {
 });
 
 app.listen(port, "0.0.0.0", () => {
-  const missing = unfilledBusinessTokens();
-  if (missing.length) {
-    console.warn("WARNING: business contact placeholders not filled in server/business-info.mjs: " + missing.join(", ") + " (hidden on pages until set)");
-  }
   console.log("Sentinel Outfitters checkout on " + siteUrl);
   console.log("Orders log:", ordersFile);
   if (!webhookSecret) {
