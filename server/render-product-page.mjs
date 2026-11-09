@@ -347,3 +347,38 @@ export function renderProductNotFound(rootDir) {
   </main>`
     );
 }
+
+// Served with HTTP 503 when the server-side product render throws. There is no
+// client-side renderer to fall back to, so show a real error page instead of the
+// empty product shell. Uses absolute links because the URL lives under /products/.
+export const PRODUCT_UNAVAILABLE_FALLBACK_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Product temporarily unavailable - Sentinel Outfitters</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main id="main">
+    <section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>We couldn't load this product.</h1><p>Something went wrong on our end. Please try again in a minute.</p><p><a class="btn btn-primary" href="/shop.html">Back to shop</a> <a class="btn btn-ghost" href="/contact.html">Contact us</a></p></div></section>
+  </main>
+</body>
+</html>
+`;
+
+export function renderProductUnavailable(rootDir) {
+  const template = readFileSync(resolve(rootDir, "product.html"), "utf8");
+  const body = `<section class="page-hero"><div class="wrap"><div class="eyebrow">Shop</div><h1>We couldn't load this product.</h1><p>Something went wrong on our end. Please try again in a minute, or browse the shop. If it keeps happening, let us know.</p><p><a class="btn btn-primary" href="/shop.html">Back to shop</a> <a class="btn btn-ghost" href="/contact.html">Contact us</a></p></div></section>`;
+  const html = template
+    .replace(/<title>[\s\S]*?<\/title>/i, "<title>Product temporarily unavailable - Sentinel Outfitters</title>")
+    .replace(/<\/head>/i, `  <meta name="robots" content="noindex">\n</head>`)
+    .replace(
+      /<div id="product-root">[\s\S]*?<\/div>\s*<\/main>/i,
+      `<div id="product-root">${body}</div>
+  </main>`
+    );
+  if (!html.includes("We couldn't load this product.")) throw new Error("product.html template changed");
+  return html;
+}
