@@ -198,7 +198,7 @@ function securityHeaders(req, res, next) {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       "img-src 'self' data:",
-      "connect-src 'self' https://sentinel-outfitters.com https://sentinel-outfitters.onrender.com",
+      "connect-src 'self'",
       "form-action 'self' https://formsubmit.co",
       "upgrade-insecure-requests"
     ].join("; ")
@@ -207,6 +207,25 @@ function securityHeaders(req, res, next) {
 }
 
 app.use(securityHeaders);
+
+// One canonical host: www.sentinel-outfitters.com -> apex, path + query kept.
+// GET/HEAD get a 301; other methods get a 308 so the method and body survive.
+// Health checks and the Stripe/API endpoints are served directly on www so a
+// webhook or checkout call that still targets www never depends on a redirect.
+const WWW_HOST = "www.sentinel-outfitters.com";
+const WWW_REDIRECT_EXEMPT = new Set([
+  "/healthz",
+  "/webhook",
+  "/webhook-self-test",
+  "/create-checkout-session",
+  "/session-status"
+]);
+app.use((req, res, next) => {
+  const host = String(req.get("host") || "").split(":")[0].toLowerCase();
+  if (host !== WWW_HOST || WWW_REDIRECT_EXEMPT.has(req.path)) return next();
+  const status = req.method === "GET" || req.method === "HEAD" ? 301 : 308;
+  return res.redirect(status, "https://sentinel-outfitters.com" + req.originalUrl);
+});
 
 // Keep the Render service URL out of search results and make the custom domain canonical.
 // Skip Stripe/API POST endpoints — a 301 drops the body and breaks webhook signature verify.
@@ -242,32 +261,6 @@ app.use((req, res, next) => {
 });
 
 app.use(blockPrivatePaths);
-
-function isAllowedCorsOrigin(origin) {
-  if (!origin) return false;
-  if (
-    origin === "https://sentinel-outfitters.com" ||
-    origin === "https://www.sentinel-outfitters.com"
-  ) {
-    return true;
-  }
-  // Local shop/dev pages calling this API
-  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
-}
-
-app.use((req, res, next) => {
-  const origin = req.get("Origin");
-  if (isAllowedCorsOrigin(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Vary", "Origin");
-  }
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(isAllowedCorsOrigin(origin) ? 204 : 403);
-  }
-  next();
-});
 
 app.post("/webhook", express.raw({ type: "application/json" }), async (req, res) => {
   if (!webhookSecret) {
