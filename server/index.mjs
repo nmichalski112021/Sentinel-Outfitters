@@ -5,7 +5,12 @@ import express from "express";
 import Stripe from "stripe";
 import { lineItemFromCart } from "./catalog.mjs";
 import { getProductById, loadProducts } from "./load-products.mjs";
-import { renderProductPage, renderProductNotFound } from "./render-product-page.mjs";
+import {
+  renderProductPage,
+  renderProductNotFound,
+  renderProductUnavailable,
+  PRODUCT_UNAVAILABLE_FALLBACK_HTML
+} from "./render-product-page.mjs";
 import { applySiteChrome, readPage } from "./site-chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -513,8 +518,20 @@ app.get("/products/:id", (req, res) => {
     if (product.hidden) res.setHeader("X-Robots-Tag", "noindex, follow");
     res.type("html").send(applySiteChrome(root, renderProductPage(root, product)));
   } catch (err) {
-    console.error("SSR product render failed:", err && err.message);
-    res.type("html").send(readPage(root, "product.html"));
+    console.error("SSR product render failed:", err);
+    // No client-side renderer exists, so never send the empty product shell with 200.
+    let html;
+    try {
+      html = applySiteChrome(root, renderProductUnavailable(root));
+    } catch (pageErr) {
+      console.error("SSR product error page failed:", pageErr);
+      html = PRODUCT_UNAVAILABLE_FALLBACK_HTML;
+    }
+    res.removeHeader("Link");
+    res.setHeader("X-Robots-Tag", "noindex");
+    res.setHeader("Retry-After", "120");
+    res.setHeader("Cache-Control", "no-store");
+    res.status(503).type("html").send(html);
   }
 });
 

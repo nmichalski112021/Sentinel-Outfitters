@@ -1264,13 +1264,6 @@ footer {
   margin-bottom: 24px;
 }
 
-.product-subtitle {
-  font-size: clamp(20px, 2.4vw, 28px);
-  font-weight: 600;
-  color: var(--ivory-dim);
-  margin: -6px 0 18px;
-}
-
 .faq-item {
   margin-bottom: 22px;
 }
