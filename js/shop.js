@@ -22,33 +22,10 @@ function pictureHtml(src, alt, attrs, opts) {
   return `<picture><source type="image/webp" srcset="${webp}"><img src="${src}" alt="${alt || ""}"${dims}${lazyAttr}${extra}></picture>`;
 }
 
-function wireStickyBuy(product, getSelected, status) {
+function wireStickyBar() {
   const bar = document.getElementById("sticky-buy");
   const actions = document.getElementById("buy-actions");
   if (!bar || !actions) return;
-  const stickyAdd = document.getElementById("sticky-add-cart");
-  const stickyBuy = document.getElementById("sticky-buy-now");
-  if (stickyAdd) {
-    stickyAdd.addEventListener("click", () => {
-      const qty = Number(document.getElementById("qty").value) || 1;
-      soAddToCart({ id: product.id, variant: getSelected(), qty });
-      if (status) {
-        status.hidden = false;
-        status.textContent = "Added to cart.";
-      }
-    });
-  }
-  if (stickyBuy) {
-    stickyBuy.addEventListener("click", async () => {
-      const qty = Number(document.getElementById("qty").value) || 1;
-      stickyBuy.disabled = true;
-      try {
-        await soStartCheckout([{ id: product.id, variant: getSelected(), qty }], status);
-      } catch (err) {
-        stickyBuy.disabled = false;
-      }
-    });
-  }
   const mq = window.matchMedia("(max-width: 900px)");
   function sync() {
     if (!mq.matches) {
@@ -128,30 +105,34 @@ function renderProduct() {
   });
 
   const status = document.getElementById("buy-status");
-  const addBtn = document.getElementById("add-cart");
-  const buyBtn = document.getElementById("buy-now");
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      const qty = Number(document.getElementById("qty").value) || 1;
-      soAddToCart({ id: product.id, variant: selected, qty });
+  function selectedLine() {
+    const qty = Number(document.getElementById("qty").value) || 1;
+    return { id: product.id, variant: selected, qty };
+  }
+  ["add-cart", "sticky-add-cart"].forEach((id) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      soAddToCart(selectedLine());
       if (status) {
         status.hidden = false;
         status.textContent = "Added to cart.";
       }
     });
-  }
-  if (buyBtn) {
-    buyBtn.addEventListener("click", async () => {
-      const qty = Number(document.getElementById("qty").value) || 1;
-      buyBtn.disabled = true;
+  });
+  ["buy-now", "sticky-buy-now"].forEach((id) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
       try {
-        await soStartCheckout([{ id: product.id, variant: selected, qty }], status);
+        await soStartCheckout([selectedLine()], status);
       } catch (err) {
-        buyBtn.disabled = false;
+        btn.disabled = false;
       }
     });
-  }
-  wireStickyBuy(product, () => selected, status);
+  });
+  wireStickyBar();
 }
 
 function lineLabel(item, product) {
