@@ -41,7 +41,7 @@ Live HTML and checkout share this Node server on Render behind `https://sentinel
    - `STRIPE_WEBHOOK_SECRET` — from Stripe after you create the webhook (add it on the second deploy)
 5. Deploy. Copy the service URL.
 6. In Stripe live mode: Developers → Webhooks → Add endpoint  
-   `https://YOUR-SERVICE.onrender.com/webhook`  
+   `https://sentinel-outfitters.com/webhook` (the apex; Stripe does not follow redirects)  
    Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`.
 7. Paste the `whsec_...` signing secret into Render as `STRIPE_WEBHOOK_SECRET` and redeploy.
 
