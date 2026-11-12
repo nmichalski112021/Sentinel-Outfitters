@@ -97,7 +97,8 @@ window.SO_PRODUCTS = [
     brandNote: "Holosun is a trademark of its owner. Sentinel Outfitters is not affiliated with or endorsed by Holosun.",
     faq: [
       { q: "How does it attach?", a: "It installs with the optic's original screws. There is no clip-on or friction sleeve on this part." },
-      { q: "Will it fit other Holosun optics?", a: "No. It is made for the HS510C / HE510C only." }
+      { q: "Will it fit other Holosun optics?", a: "No. It is made for the HS510C / HE510C only." },
+      { q: "Screw-mount vs snap-on: which HS510C killflash should you pick?", a: "Snap-on and other tool-free covers are quick on and off, but they can loosen or get knocked off. Our HS510C killflash ARD is screw-mounted with the optic's original screws for a secure hold under recoil and holster or bag wear. It uses a honeycomb ARD to cut lens glare, is small-batch 3D printed in-house in Gulfport, MS, and ships free in the US for $19.99." }
     ],
     variants: [ { id: "black", name: "Black" }, { id: "green", name: "Green" } ],
     reviews: [],
