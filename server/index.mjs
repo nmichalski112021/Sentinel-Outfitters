@@ -208,12 +208,11 @@ function securityHeaders(req, res, next) {
 
 app.use(securityHeaders);
 
-// One canonical host: www.sentinel-outfitters.com -> apex, path + query kept.
+// One canonical host: www and *.onrender.com redirect to the apex, path + query kept.
 // GET/HEAD get a 301; other methods get a 308 so the method and body survive.
-// Health checks and the Stripe/API endpoints are served directly on www so a
-// webhook or checkout call that still targets www never depends on a redirect.
-const WWW_HOST = "www.sentinel-outfitters.com";
-const WWW_REDIRECT_EXEMPT = new Set([
+// Health checks and the Stripe/API endpoints are served on every host so a
+// webhook or checkout call never depends on a redirect.
+const CANONICAL_HOST_EXEMPT = new Set([
   "/healthz",
   "/webhook",
   "/webhook-self-test",
@@ -222,28 +221,10 @@ const WWW_REDIRECT_EXEMPT = new Set([
 ]);
 app.use((req, res, next) => {
   const host = String(req.get("host") || "").split(":")[0].toLowerCase();
-  if (host !== WWW_HOST || WWW_REDIRECT_EXEMPT.has(req.path)) return next();
+  const isAlias = host === "www.sentinel-outfitters.com" || host.endsWith(".onrender.com");
+  if (!isAlias || CANONICAL_HOST_EXEMPT.has(req.path)) return next();
   const status = req.method === "GET" || req.method === "HEAD" ? 301 : 308;
   return res.redirect(status, "https://sentinel-outfitters.com" + req.originalUrl);
-});
-
-// Keep the Render service URL out of search results and make the custom domain canonical.
-// Skip Stripe/API POST endpoints — a 301 drops the body and breaks webhook signature verify.
-app.use((req, res, next) => {
-  const host = String(req.get("host") || "").split(":")[0].toLowerCase();
-  if (host === "sentinel-outfitters.onrender.com" || host.endsWith(".onrender.com")) {
-    const path = String(req.path || "");
-    const skip =
-      path === "/webhook" ||
-      path === "/webhook-self-test" ||
-      path === "/create-checkout-session" ||
-      path === "/session-status" ||
-      path === "/healthz";
-    if (!skip) {
-      return res.redirect(301, "https://sentinel-outfitters.com" + req.url);
-    }
-  }
-  next();
 });
 
 // Belt-and-braces http -> https for the custom domain. Render's edge already
